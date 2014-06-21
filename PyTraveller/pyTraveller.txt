@@ -1,0 +1,144 @@
+'''
+Created on Aug 19, 2013
+@author: rmadruga
+A simple Python Program to generate Traveller characters, in accordance with the Mongoose Traveller rules.
+'''
+print('Sample Code Example')
+import random
+import collections
+
+# Character Attributes as a Tuple
+# First Number is the Attribute Score
+# Second Number is the Dice Modifier
+charAbilities = collections.namedtuple("abilityScore", "ability score diceMod")
+characterAttributes = {'Str':[0,0],
+                       'Dex':[0,0],
+                       'End':[0,0],
+                       'Int':[0,0],
+                       'Edu':[0,0],
+                       'Soc':[0,0]}
+
+print(characterAttributes)
+
+charAttribs = [0,0,0,0,0,0]
+counter = 0
+
+# Function to return the Dice Modifier for the Attribute Score
+# Pass an Integer (X) and the function returns an Integer Dice Modifier 
+# -3 to 3 as a possible range of values
+def diceMod(x):
+    mod = 0
+    score = x
+    if score <= 0 :
+        mod = -3
+    elif score >= 1 and score <= 2:
+        mod = -2
+    elif score >= 3 and score <= 5:
+        mod = -1
+    elif score >= 6 and score <= 8:
+        mod = 0
+    elif score >= 9 and score <=11:
+        mod = 1
+    elif score >= 12 and score <= 14:
+        mod = 2
+    elif score >= 15:
+        mod = 3
+    return mod
+
+# Determine Attributes for the Player Character
+# Rolls each of the Tuple Attribute Scores and assigns the base Dice Modifier
+# Currently assumes NO DICE ROLL MODIFIERS
+while counter < 6: 
+    attrib = random.randint(1,6) + random.randint(1,6)
+    charAttribs[counter] = attrib
+    if counter == 0:
+        characterAttributes['Str'][0] = attrib
+        characterAttributes['Str'][1] = diceMod(attrib)
+    elif counter == 1:
+        characterAttributes['Dex'][0] = attrib
+        characterAttributes['Dex'][1] = diceMod(attrib)
+    elif counter == 2:
+        characterAttributes['End'][0] = attrib
+        characterAttributes['End'][1] = diceMod(attrib)
+    elif counter == 3:
+        characterAttributes['Int'][0] = attrib
+        characterAttributes['Int'][1] = diceMod(attrib)
+    elif counter == 4:
+        characterAttributes['Edu'][0] = attrib
+        characterAttributes['Edu'][1] = diceMod(attrib)
+    elif counter == 5:
+        characterAttributes['Soc'][0] = attrib
+        characterAttributes['Soc'][1] = diceMod(attrib)
+    print(characterAttributes)
+    #print(modifier)
+    
+    counter += 1
+print()    
+print(charAttribs)
+print(characterAttributes)
+
+## Define Skills and Background Skills
+charSkils = collections.namedtuple("skillName","available background skillLevel skillSpecialty")
+characterSkils = {'Admin':['N','Y',0,0],
+                  'Advocate':['N','Y',0,0],
+                  'Animals':['N','Y',0,0,['Riding','Veterinary','Training','Farming']],
+                  'Athletics':['N','Y',0,0,['Coordination','Endurance','Strength','Flying']]
+                  }
+
+# Determine Background Skills
+# Need to determine the Homeworlds for each player...
+homeworldTrait1 = random.randint(1,14)
+homeworldTrait2 = random.randint(1,14) 
+
+def homeWorld(x):
+    if x == 1:
+        homeWorld = 'Agricultural'
+    elif x == 2:
+        homeWorld = 'Asteroid'
+    elif x == 3:
+        homeWorld = 'Desert'
+    elif x == 4:
+        homeWorld = 'Fluid Oceans'
+    elif x == 5:
+        homeWorld = 'Garden'
+    elif x == 6:
+        homeWorld = 'High Technology'
+    elif x == 7:
+        homeWorld = 'High Population'
+    elif x == 8:
+        homeWorld = 'Ice-Capped'
+    elif x == 9:
+        homeWorld = 'Industrial'
+    elif x == 10:
+        homeWorld = 'Low Technology'
+    elif x == 11:
+        homeWorld = 'Poor'
+    elif x == 12:
+        homeWorld = 'Rich'
+    elif x == 13:
+        homeWorld = 'Water World'
+    elif x == 14:
+        homeWorld = 'Vacuum'
+
+    
+    return homeWorld
+
+homeworldCounter = 0
+
+while homeworldTrait1 == homeworldTrait2:
+       homeworldTrait2 = random.randint(1,14)  
+
+print("Homeworld Traits")
+print("Roll: ", homeworldTrait1, "; Homeworld Description: ", homeWorld(homeworldTrait1))
+print("Roll: ", homeworldTrait2, "; Homeworld Description: ", homeWorld(homeworldTrait2))
+
+print()
+print("Homeworld Traits: " )
+print(str(homeworldTrait1), str(homeworldTrait2))
+print()
+
+# Determine Homeworld Traits and Skills...
+# Function for Homeworlds to assign Background Skills
+
+score = diceMod(counter)
+print(score)
