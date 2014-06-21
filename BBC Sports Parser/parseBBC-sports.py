@@ -7,6 +7,7 @@ A simple Python Program to scrape the BBC Sports website for content.
 '''
 # Import Libraries needed for Scraping the various web pages
 from bs4 import BeautifulSoup
+import csv
 import urllib2
 import datetime
 
@@ -63,6 +64,8 @@ with open('WorlCup-MatchResults.html', "w") as f:
 # Update Date for Matches
 divUpdateDate = gameSoup.find_all("h2", {"class":"table-header"})
 print divUpdateDate
+for i in divUpdateDate:
+	print i.get_text(strip=True)
 
 # Posts when Matches were last updated on Page
 tableGameResults = divMatchResults.find_all("table", {"class":"table-stats"})
@@ -80,26 +83,27 @@ with open('MatchDetails-output.txt', "w") as f:
 	f.close()
 
 for i in divMatchDetails:
-	# print str(i)
+	# Parse out Home Team and Score
 	divHomeTeam = i.find("span", {"class":"team-home teams"})
 	divAwayTeam = i.find("span", {"class":"team-away teams"})
 	divPaddedScore = i.find("span", {"class":"score"})
 	divScore = divPaddedScore.get_text(strip=True)
-	divMatchOutput = ds + '|' + ts + '|' + divHomeTeam.get_text(strip=True) +'|' + divScore[0] + '|' + divAwayTeam.get_text(strip=True) + '|' + divScore[2] + '\n'
-	# urlMatchLink = i.find("a", {"class":"report"})
-	# Test File Output with this statement
-	# print divMatchOutput
-	# print str(len(divHomeTeam.get_text(strip=True)))
-	# print ts
 	
-	with open('MatchDetails-output.txt', "a") as f:
-		f.write(divMatchOutput)
-		f.close()	
-	# print divScore
-	# <tr class="report" id="match-row-EFBO731784">
-	# <a class="report" href="/sport/football/25285162">
+	# Open the file
+	csvFile = open('MatchDetails-output.txt', "a")
+	
+	# Concatenate Line for writing to CSV File
+	divMatchOutput = [ds, ts, divHomeTeam.get_text(strip=True), divScore[0], divAwayTeam.get_text(strip=True), divScore[2]] 
 
+	# Create writer object
+	writer = csv.writer(csvFile, delimiter='|')
+	writer.writerow(divMatchOutput)
+	
+# Parse out Match Result Game URLs
 urlList = divMatchResults.find_all('a', {'class': 'report'})
 for i in urlList:
-	print i
+	#Partial URL for Match Results
+	stringURL = i.get("href")
 
+	# Full URL for BBC Site
+	href = "http://www.bbc.com" + stringURL
