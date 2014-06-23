@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jun 20, 2014
-Version 0.12.a
+Modified on Jun 23, 2014
+Version 0.12.b
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -32,7 +32,7 @@ website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/s
 # Open World Cup Results 
 gameWeb = urllib2.urlopen(website[2])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.12.a'
+parseVersion = 'WorldCup v0.12.b'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
@@ -56,11 +56,20 @@ with open('WorldCup-Results.html', "w") as f:
 	f.write(divResults.prettify())
 	f.close()
 
-divMatchResults = gameSoup.find("div", {"class":"fixtures-table full-table-medium"})
+divMatchResults = gameSoup.find_all("div", {"class":"fixtures-table full-table-medium"})
 # print divMatchResults
-with open('WorlCup-MatchResults.html', "w") as f:
-	f.write(divMatchResults.prettify())
-	f.close()
+for i in divMatchResults:
+	# 
+	resultsHomeTeam = i.find_all("span", {"class":"team-home teams"})
+	resultsAwayTeam = i.find_all("span", {"class":"team-away teams"})
+	resultsPaddedScore = i.find_all("span", {"class":"score"})
+	resultsGameDay = i.find_all("h2", {"class":"table-header"})
+	print resultsGameDay
+
+	# Output the HTML to a local file
+	with open('WorlCup-MatchResults.html', "w") as f:
+		f.write(i.prettify())
+		f.close()
 
 # Update Date for Matches
 divUpdateDate = gameSoup.find_all("h2", {"class":"table-header"})
@@ -68,7 +77,7 @@ divUpdateDate = gameSoup.find_all("h2", {"class":"table-header"})
 # 	print i.get_text(strip=True)
 
 # Posts when Matches were last updated on Page
-tableGameResults = divMatchResults.find_all("table", {"class":"table-stats"})
+# tableGameResults = divMatchResults.find_all("table", {"class":"table-stats"})
 
 # Output Match Results to a File
 divMatchDetails = gameSoup.find_all("td", {"class":"match-details"})
@@ -101,13 +110,17 @@ for i in divMatchDetails:
 
 # for i in divMatchResults:
 	# Parse out Home Team and Score
-	# print i
+#	print i
+#	print len(i)
 
-# Parse out Match Result Game URLs
+# print len(divMatchResults)
+
+'''# Parse out Match Result Game URLs
 urlList = divMatchResults.find_all('a', {'class': 'report'})
 for i in urlList:
 	#Partial URL for Match Results
 	stringURL = i.get("href")
 	# Full URL for BBC Site
 	href = "http://www.bbc.com" + stringURL
-	print i.get_text(strip=True) + ' ' + href
+	# print i.get_text(strip=True) + ' ' + href
+'''
