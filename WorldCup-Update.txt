@@ -110,3 +110,7 @@
 2014-06-23|15:02:00|WorldCup v0.12.b|BBC Sport - Football -  World Cup  Results
 2014-06-23|15:03:15|WorldCup v0.12.b|BBC Sport - Football -  World Cup  Results
 2014-06-23|15:08:05|WorldCup v0.12.c|BBC Sport - Football -  World Cup  Results
+2014-06-23|15:29:23|WorldCup v0.12.c|BBC Sport - Football -  World Cup  Results
+2014-06-23|15:39:15|WorldCup v0.12.c|BBC Sport - Football -  World Cup  Results
+2014-06-23|15:40:12|WorldCup v0.12.c|BBC Sport - Football -  World Cup  Results
+2014-06-23|15:40:49|WorldCup v0.12.c|BBC Sport - Football -  World Cup  Results

@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
 Modified on Jun 23, 2014
-Version 0.12.c
+Version 0.12.d
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -32,7 +32,7 @@ website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/s
 # Open World Cup Results 
 gameWeb = urllib2.urlopen(website[2])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.12.c'
+parseVersion = 'WorldCup v0.12.d'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
@@ -60,7 +60,7 @@ with open('WorldCup-Results.html', "w") as f:
 
 # Initialize Results Output File
 with open('MatchRestuls-output.txt', "w") as f:
-	f.write(ds + "|" + ts + '\n')
+	f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')
 	f.close()
 
 divMatchResults = gameSoup.find_all("div", {"class":"fixtures-table full-table-medium"})
@@ -94,9 +94,9 @@ for i in divMatchResults:
 		z += 1
 	
 	# Output the HTML to a local file
-	with open('WorlCup-MatchResults.html', "w") as f:
-		f.write(i.prettify())
-		f.close()
+	# with open('WorlCup-MatchResults.html', "w") as f:
+	# 	f.write(i.prettify())
+	#	f.close()
 
 # Update Date for Matches
 divUpdateDate = gameSoup.find_all("h2", {"class":"table-header"})
@@ -107,7 +107,7 @@ divUpdateDate = gameSoup.find_all("h2", {"class":"table-header"})
 # tableGameResults = divMatchResults.find_all("table", {"class":"table-stats"})
 
 # Output Match Results to a File
-divMatchDetails = gameSoup.find_all("td", {"class":"match-details"})
+'''divMatchDetails = gameSoup.find_all("td", {"class":"match-details"})
 for i in divMatchDetails:
 	with open('WorldCup-MatchDetails.html', "a") as f:
 		f.write(i.prettify())
@@ -117,7 +117,7 @@ for i in divMatchDetails:
 with open('MatchDetails-output.txt', "w") as f:
 	f.write(ds + " " + ts + '\n')
 	f.close()
-
+'''
 '''
 for i in divMatchDetails:
 	# Parse out Home Team and Score
