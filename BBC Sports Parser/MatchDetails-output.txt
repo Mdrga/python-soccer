@@ -1,27 +1,33 @@
-2014-06-21 09:01:23
-2014-06-21|09:01:23|Italy|0|Costa Rica|1
-2014-06-21|09:01:23|Switzerland|2|France|5
-2014-06-21|09:01:23|Honduras|1|Ecuador|2
-2014-06-21|09:01:23|Colombia|2|Ivory Coast|1
-2014-06-21|09:01:23|Japan|0|Greece|0
-2014-06-21|09:01:23|Uruguay|2|England|1
-2014-06-21|09:01:23|Cameroon|0|Croatia|4
-2014-06-21|09:01:23|Australia|2|Netherlands|3
-2014-06-21|09:01:23|Spain|0|Chile|2
-2014-06-21|09:01:23|Brazil|0|Mexico|0
-2014-06-21|09:01:23|Belgium|2|Algeria|1
-2014-06-21|09:01:23|Russia|1|South Korea|1
-2014-06-21|09:01:23|Iran|0|Nigeria|0
-2014-06-21|09:01:23|Germany|4|Portugal|0
-2014-06-21|09:01:23|Ghana|1|USA|2
-2014-06-21|09:01:23|Ivory Coast|2|Japan|1
-2014-06-21|09:01:23|Switzerland|2|Ecuador|1
-2014-06-21|09:01:23|France|3|Honduras|0
-2014-06-21|09:01:23|Argentina|2|Bos-Herce|1
-2014-06-21|09:01:23|Colombia|3|Greece|0
-2014-06-21|09:01:23|Uruguay|1|Costa Rica|3
-2014-06-21|09:01:23|England|1|Italy|2
-2014-06-21|09:01:23|Mexico|1|Cameroon|0
-2014-06-21|09:01:23|Spain|1|Netherlands|5
-2014-06-21|09:01:23|Chile|3|Australia|1
-2014-06-21|09:01:23|Brazil|3|Croatia|1
+2014-06-23 06:57:52
+2014-06-23|06:57:52|USA|2|Portugal|2
+2014-06-23|06:57:52|Belgium|1|Russia|0
+2014-06-23|06:57:52|South Korea|2|Algeria|4
+2014-06-23|06:57:52|Argentina|1|Iran|0
+2014-06-23|06:57:52|Nigeria|1|Bos-Herce|0
+2014-06-23|06:57:52|Germany|2|Ghana|2
+2014-06-23|06:57:52|Italy|0|Costa Rica|1
+2014-06-23|06:57:52|Switzerland|2|France|5
+2014-06-23|06:57:52|Honduras|1|Ecuador|2
+2014-06-23|06:57:52|Colombia|2|Ivory Coast|1
+2014-06-23|06:57:52|Japan|0|Greece|0
+2014-06-23|06:57:52|Uruguay|2|England|1
+2014-06-23|06:57:52|Cameroon|0|Croatia|4
+2014-06-23|06:57:52|Australia|2|Netherlands|3
+2014-06-23|06:57:52|Spain|0|Chile|2
+2014-06-23|06:57:52|Brazil|0|Mexico|0
+2014-06-23|06:57:52|Belgium|2|Algeria|1
+2014-06-23|06:57:52|Russia|1|South Korea|1
+2014-06-23|06:57:52|Iran|0|Nigeria|0
+2014-06-23|06:57:52|Germany|4|Portugal|0
+2014-06-23|06:57:52|Ghana|1|USA|2
+2014-06-23|06:57:52|Ivory Coast|2|Japan|1
+2014-06-23|06:57:52|Switzerland|2|Ecuador|1
+2014-06-23|06:57:52|France|3|Honduras|0
+2014-06-23|06:57:52|Argentina|2|Bos-Herce|1
+2014-06-23|06:57:52|Colombia|3|Greece|0
+2014-06-23|06:57:52|Uruguay|1|Costa Rica|3
+2014-06-23|06:57:52|England|1|Italy|2
+2014-06-23|06:57:52|Mexico|1|Cameroon|0
+2014-06-23|06:57:52|Spain|1|Netherlands|5
+2014-06-23|06:57:52|Chile|3|Australia|1
+2014-06-23|06:57:52|Brazil|3|Croatia|1

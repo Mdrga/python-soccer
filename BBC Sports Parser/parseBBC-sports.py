@@ -57,15 +57,15 @@ with open('WorldCup-Results.html', "w") as f:
 	f.close()
 
 divMatchResults = gameSoup.find("div", {"class":"fixtures-table full-table-medium"})
+# print divMatchResults
 with open('WorlCup-MatchResults.html', "w") as f:
 	f.write(divMatchResults.prettify())
 	f.close()
 
 # Update Date for Matches
 divUpdateDate = gameSoup.find_all("h2", {"class":"table-header"})
-print divUpdateDate
-for i in divUpdateDate:
-	print i.get_text(strip=True)
+# for i in divUpdateDate:
+# 	print i.get_text(strip=True)
 
 # Posts when Matches were last updated on Page
 tableGameResults = divMatchResults.find_all("table", {"class":"table-stats"})
@@ -98,12 +98,16 @@ for i in divMatchDetails:
 	# Create writer object
 	writer = csv.writer(csvFile, delimiter='|')
 	writer.writerow(divMatchOutput)
-	
+
+# for i in divMatchResults:
+	# Parse out Home Team and Score
+	# print i
+
 # Parse out Match Result Game URLs
 urlList = divMatchResults.find_all('a', {'class': 'report'})
 for i in urlList:
 	#Partial URL for Match Results
 	stringURL = i.get("href")
-
 	# Full URL for BBC Site
 	href = "http://www.bbc.com" + stringURL
+	print i.get_text(strip=True) + ' ' + href
