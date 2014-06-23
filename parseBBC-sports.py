@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
 Modified on Jun 23, 2014
-Version 0.12.d
+Version 0.12.e
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -23,7 +23,6 @@ URLs for use in testing the parsing of the World Cup & results:
     TO-DO ITEMS
     Add in CSV Writer to Parse out the Update File (Identifies when / if Page was updated)
     Output Game Date in CSV Details 
-    Output Match Results Link to CSV Details
 *** ======================================================================== '''
 
 # Create an array of URL Links.
@@ -32,7 +31,7 @@ website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/s
 # Open World Cup Results 
 gameWeb = urllib2.urlopen(website[2])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.12.d'
+parseVersion = 'WorldCup v0.12.e'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
@@ -88,7 +87,7 @@ for i in divMatchResults:
 		
 		# Create output file and generate Results CSV
 		resultOutput = open('MatchRestuls-output.txt', "a")
-		resultMatchOutput = [ds, ts, resultHomeTeam, resultScore[0], resultAwayTeam, resultScore[2], href]
+		resultMatchOutput = [ds, ts, stringURL[16:24], resultHomeTeam, resultScore[0], resultAwayTeam, resultScore[2], href]
 		writer = csv.writer(resultOutput, delimiter='|')
 		writer.writerow(resultMatchOutput)
 		z += 1
