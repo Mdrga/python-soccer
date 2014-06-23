@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
 Modified on Jun 23, 2014
-Version 0.12.b
+Version 0.12.c
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -32,7 +32,7 @@ website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/s
 # Open World Cup Results 
 gameWeb = urllib2.urlopen(website[2])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.12.b'
+parseVersion = 'WorldCup v0.12.c'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
@@ -52,20 +52,47 @@ with open('WorldCup-Update.txt', "a") as f:
 
 # Find the Main Results Table and Output the Results
 divResults = gameSoup.find("div", {"class":"league-table table-narrow mod"})
+'''
 with open('WorldCup-Results.html', "w") as f:
 	f.write(divResults.prettify())
+	f.close()
+'''
+
+# Initialize Results Output File
+with open('MatchRestuls-output.txt', "w") as f:
+	f.write(ds + "|" + ts + '\n')
 	f.close()
 
 divMatchResults = gameSoup.find_all("div", {"class":"fixtures-table full-table-medium"})
 # print divMatchResults
 for i in divMatchResults:
-	# 
+	# Create slices for output of results
 	resultsHomeTeam = i.find_all("span", {"class":"team-home teams"})
 	resultsAwayTeam = i.find_all("span", {"class":"team-away teams"})
 	resultsPaddedScore = i.find_all("span", {"class":"score"})
 	resultsGameDay = i.find_all("h2", {"class":"table-header"})
-	print resultsGameDay
+	urlList = i.find_all('a', {'class': 'report'})
+	
+	x = len(resultsHomeTeam)
+	z = 0
 
+	# Iterate over the Match Results
+	while z < x:
+		resultHomeTeam = resultsHomeTeam[z].get_text(strip=True)
+		resultAwayTeam = resultsAwayTeam[z].get_text(strip=True)
+		resultScore = resultsPaddedScore[z].get_text(strip=True)
+		
+		# Full URL for BBC Site
+		stringURL = urlList[z].get("href")
+		href = "http://www.bbc.com" + stringURL
+		
+		# Create output file and generate Results CSV
+		resultOutput = open('MatchRestuls-output.txt', "a")
+		resultMatchOutput = [ds, ts, resultHomeTeam, resultScore[0], resultAwayTeam, resultScore[2], href]
+		writer = csv.writer(resultOutput, delimiter='|')
+		writer.writerow(resultMatchOutput)
+		z += 1
+	
 	# Output the HTML to a local file
 	with open('WorlCup-MatchResults.html', "w") as f:
 		f.write(i.prettify())
@@ -91,6 +118,7 @@ with open('MatchDetails-output.txt', "w") as f:
 	f.write(ds + " " + ts + '\n')
 	f.close()
 
+'''
 for i in divMatchDetails:
 	# Parse out Home Team and Score
 	divHomeTeam = i.find("span", {"class":"team-home teams"})
@@ -107,6 +135,7 @@ for i in divMatchDetails:
 	# Create writer object
 	writer = csv.writer(csvFile, delimiter='|')
 	writer.writerow(divMatchOutput)
+'''
 
 # for i in divMatchResults:
 	# Parse out Home Team and Score

@@ -1,0 +1,35 @@
+2014-06-23|15:08:05
+2014-06-23|15:08:05|Australia|0|Spain|3|http://www.bbc.com/sport/football/25285263
+2014-06-23|15:08:05|Netherlands|2|Chile|0|http://www.bbc.com/sport/football/25285270
+2014-06-23|15:08:05|USA|2|Portugal|2|http://www.bbc.com/sport/football/25285256
+2014-06-23|15:08:05|Belgium|1|Russia|0|http://www.bbc.com/sport/football/25285242
+2014-06-23|15:08:05|South Korea|2|Algeria|4|http://www.bbc.com/sport/football/25285249
+2014-06-23|15:08:05|Argentina|1|Iran|0|http://www.bbc.com/sport/football/25285221
+2014-06-23|15:08:05|Nigeria|1|Bos-Herce|0|http://www.bbc.com/sport/football/25285235
+2014-06-23|15:08:05|Germany|2|Ghana|2|http://www.bbc.com/sport/football/25285228
+2014-06-23|15:08:05|Italy|0|Costa Rica|1|http://www.bbc.com/sport/football/25285190
+2014-06-23|15:08:05|Switzerland|2|France|5|http://www.bbc.com/sport/football/25285207
+2014-06-23|15:08:05|Honduras|1|Ecuador|2|http://www.bbc.com/sport/football/25285214
+2014-06-23|15:08:05|Colombia|2|Ivory Coast|1|http://www.bbc.com/sport/football/25285169
+2014-06-23|15:08:05|Japan|0|Greece|0|http://www.bbc.com/sport/football/25285183
+2014-06-23|15:08:05|Uruguay|2|England|1|http://www.bbc.com/sport/football/25285176
+2014-06-23|15:08:05|Cameroon|0|Croatia|4|http://www.bbc.com/sport/football/25285162
+2014-06-23|15:08:05|Australia|2|Netherlands|3|http://www.bbc.com/sport/football/25285148
+2014-06-23|15:08:05|Spain|0|Chile|2|http://www.bbc.com/sport/football/25285155
+2014-06-23|15:08:05|Brazil|0|Mexico|0|http://www.bbc.com/sport/football/25285134
+2014-06-23|15:08:05|Belgium|2|Algeria|1|http://www.bbc.com/sport/football/25285127
+2014-06-23|15:08:05|Russia|1|South Korea|1|http://www.bbc.com/sport/football/25285141
+2014-06-23|15:08:05|Iran|0|Nigeria|0|http://www.bbc.com/sport/football/25285113
+2014-06-23|15:08:05|Germany|4|Portugal|0|http://www.bbc.com/sport/football/25285106
+2014-06-23|15:08:05|Ghana|1|USA|2|http://www.bbc.com/sport/football/25285120
+2014-06-23|15:08:05|Ivory Coast|2|Japan|1|http://www.bbc.com/sport/football/25285078
+2014-06-23|15:08:05|Switzerland|2|Ecuador|1|http://www.bbc.com/sport/football/25285085
+2014-06-23|15:08:05|France|3|Honduras|0|http://www.bbc.com/sport/football/25285092
+2014-06-23|15:08:05|Argentina|2|Bos-Herce|1|http://www.bbc.com/sport/football/25285099
+2014-06-23|15:08:05|Colombia|3|Greece|0|http://www.bbc.com/sport/football/25285057
+2014-06-23|15:08:05|Uruguay|1|Costa Rica|3|http://www.bbc.com/sport/football/25285064
+2014-06-23|15:08:05|England|1|Italy|2|http://www.bbc.com/sport/football/25285071
+2014-06-23|15:08:05|Mexico|1|Cameroon|0|http://www.bbc.com/sport/football/25285036
+2014-06-23|15:08:05|Spain|1|Netherlands|5|http://www.bbc.com/sport/football/25285043
+2014-06-23|15:08:05|Chile|3|Australia|1|http://www.bbc.com/sport/football/25285050
+2014-06-23|15:08:05|Brazil|3|Croatia|1|http://www.bbc.com/sport/football/25285029
