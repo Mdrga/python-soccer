@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jun 23, 2014
-Version 0.12.e
+Modified on Jun 24, 2014
+Version 0.13.a
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -31,7 +31,7 @@ website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/s
 # Open World Cup Results 
 gameWeb = urllib2.urlopen(website[2])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.12.e'
+parseVersion = 'WorldCup v0.13.a'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
@@ -45,9 +45,9 @@ ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Output Time & Date Stamp as well as Script Version
 print ds + ' | ' + ts
-with open('WorldCup-Update.txt', "a") as f:
-		f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')
-		f.close()
+# with open('WorldCup-Update.txt', "a") as f:
+# 		f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')
+#		f.close()
 
 # Find the Main Results Table and Output the Results
 divResults = gameSoup.find("div", {"class":"league-table table-narrow mod"})
@@ -90,4 +90,6 @@ for i in divMatchResults:
 		resultMatchOutput = [ds, ts, stringURL[16:24], resultHomeTeam, resultScore[0], resultAwayTeam, resultScore[2], href]
 		writer = csv.writer(resultOutput, delimiter='|')
 		writer.writerow(resultMatchOutput)
+		# print resultMatchOutput
 		z += 1
+
