@@ -45,14 +45,20 @@ for i in listHomeRoster:
 	for i in lineup:
 		# print i.text
 		# print len(i.text)
-		print i.text[3:5] + ' ' + i.text[7:len(i.text)]
+		playerDetails =  i.text[7:len(i.text)]
+		print i.text[3:5] + ' ' + playerDetails
+		playerStart = playerDetails.find("  ")
+		if len(playerDetails) - playerStart > 2:
+			playerUpdate = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
+			print playerUpdate
 
 for i in divDetailResults:
 	# print i
 	detailsTeam = i.find("span", {"class":"team-name"})
 	detailsScorer = i.find_all("p", {"class":"scorer-list blq-clearfix"})
 	detailsSpan = i.find("span")
-	print detailsTeam.get_text()
+	returnTeam = detailsTeam.get_text()
+	
 	
 	# Determine if the Scorers contains any values
 	try:
