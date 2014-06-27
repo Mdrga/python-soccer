@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jun 24, 2014
-Version 0.13.a
+Modified on Jun 26, 2014
+Version 0.13.c
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -17,6 +17,7 @@ URLs for use in testing the parsing of the World Cup & results:
 	Switzerland vs Ecuador - http://www.bbc.com/sport/0/football/25285085
 	Full World Cup Results - http://www.bbc.com/sport/football/world-cup/results
 	Upcoming Fixtures - http://www.bbc.com/sport/football/fixtures
+	Algeria v Russia - http://www.bbc.com/sport/football/25285249
 *** ======================================================================== '''
 
 ''' ======================================================================== ***
@@ -26,12 +27,12 @@ URLs for use in testing the parsing of the World Cup & results:
 *** ======================================================================== '''
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Open World Cup Results 
-gameWeb = urllib2.urlopen(website[2])
+gameWeb = urllib2.urlopen(website[3])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.13.a'
+parseVersion = 'WorldCup v0.13.c'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
