@@ -34,7 +34,10 @@ divLineup = matchSoup.find("div", {"id":"oppm-team-list"})
 listHomeRoster = divLineup.find_all("div", {"class":"home-team"})
 listAwayRoster = divLineup.find_all("div", {"class":"away-team"})
 
-# print listHomeRoster
+# Initialize Results Output File
+with open('MatchDetails-output.txt', "w") as f:
+	f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Results File' + '\n')
+	f.close()
 
 # Identify the Starting IX and the Bench
 def startingLineup(x):
@@ -72,7 +75,12 @@ def rosterOutput(x):
 	       rosterArray.append(playerRow.encode('utf-8'))
     return rosterArray
 
-print rosterOutput(listHomeRoster)
+for i in rosterOutput(listHomeRoster):
+    with open ('MatchDetails-output.txt', "a") as f:
+        f.write(i + '\n')
+        f.close()
+      
+
 print rosterOutput(listAwayRoster)
 
 # for i in rosterOutput(listHomeRoster):
@@ -84,6 +92,7 @@ for i in divDetailResults:
     listScorer = i.find_all("p", {"class":"scorer-list blq-clearfix"})
     detailsSpan = i.find("span")
     returnTeam = detailsTeam.get_text()
+    
 	# Determine if the Scorers contains any values
     try:
         listScorer
@@ -98,4 +107,5 @@ for i in divDetailResults:
             scorer = i.find("span")
             print detailsTeam.get_text() + ' Goal Scorers: ' + i.get_text(strip=True) + ' '
         # print listScorer
- 
+
+

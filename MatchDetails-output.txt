@@ -1,1 +1,24 @@
-2014-06-23 15:29:23
+2014-06-27|10:16:08|WorldCup v0.13.c|Match Results File
+01|Jung Sung-ryong  |Started Match|
+12|Lee Yong|Started Match|  Booked 
+03|Yun Suk-young  |Started Match|
+16|Ki Sung-yueng  |Started Match|
+20|Hong Jeong-ho  |Started Match|
+05|Kim Young-gwon  |Started Match|
+17|Lee Chung-yong|Started Match|      (Lee Keun-ho - 64'  )  
+14|Han Kook-young|Started Match|  Booked   (Ji Dong-won - 78'  )  
+10|Park Chu-young|Started Match|      (Kim Shin-wook - 57'  )  
+13|Koo Ja-cheol  |Started Match|
+09|Son Heung-min  |Started Match|
+02|Kim Chang-soo  |Bench|
+04|Kwak Tae-hwi  |Bench|
+06|Hwang Seok-ho  |Bench|
+07|Kim Bo-kyung  |Bench|
+08|Ha Dae-sung  |Bench|
+11|Lee Keun-ho  |Bench|
+15|Park Jong-woo  |Bench|
+18|Kim Shin-wook  |Bench|
+19|Ji Dong-won  |Bench|
+21|Kim Seung-gyu|Bench|   
+22|Park Joo-ho  |Bench|
+23|Lee Bum-young  |Bench|

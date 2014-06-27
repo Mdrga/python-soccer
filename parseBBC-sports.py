@@ -60,8 +60,12 @@ with open('WorldCup-Results.html', "w") as f:
 
 # Initialize Results Output File
 with open('MatchRestuls-output.txt', "w") as f:
-	f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')
-	f.close()
+    f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')
+    f.close()
+    
+with open('urlOutput.txt', "w") as f:
+    f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')
+    f.close()
 
 divMatchResults = gameSoup.find_all("div", {"class":"fixtures-table full-table-medium"})
 # print divMatchResults
@@ -85,6 +89,12 @@ for i in divMatchResults:
 		# Full URL for BBC Site
 		stringURL = urlList[z].get("href")
 		href = "http://www.bbc.com" + stringURL
+		
+		# Create output file of just the URLs for Matches played
+		urlOutput = open('urlOutput.txt',"a")
+		urlLinkOutput = [stringURL[16:24],href]
+		writer = csv.writer(urlOutput, delimiter='|')
+		writer.writerow(urlLinkOutput)
 		
 		# Create output file and generate Results CSV
 		resultOutput = open('MatchRestuls-output.txt', "a")
