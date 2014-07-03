@@ -1,4 +1,4 @@
-2014-06-29|19:01:17|WorldCup v0.13.c|BBC Sport - Football -  World Cup  Results
+2014-06-30|13:00:31|WorldCup v0.13.c|BBC Sport - Football -  World Cup  Results
 27961190|http://www.bbc.com/sport/football/27961190
 27961189|http://www.bbc.com/sport/football/27961189
 27952759|http://www.bbc.com/sport/football/27952759

@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jun 26, 2014
-Version 0.13.c
+Modified on Jul 01, 2014
+Version 0.13.d
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -16,12 +16,12 @@ ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/football/27952759","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/25285113","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
-gameMatch = urllib2.urlopen(website[0])
+gameMatch = urllib2.urlopen(website[1])
 matchSoup = BeautifulSoup(gameMatch)
-parseVersion = 'WorldCup v0.13.c'
+parseVersion = 'WorldCup v0.13.d'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
@@ -52,7 +52,9 @@ def rosterOutput(x):
     counter = 1
     for i in x:
         i.encode('utf-8')
+        # print i
         # listHoldRoster = i.find_all("ul", {"class":"player-list"})
+	# Setup Team Name Output
 	lineup = i.find_all("li")
 	for i in lineup:
 	   playerJersey = i.text[3:5]
@@ -69,7 +71,7 @@ def rosterOutput(x):
 	       counter += 1
 	       rosterArray.append(playerUpdateRow.encode('utf-8'))
 	   else:
-	       playerRow = playerJersey + '|' + playerDetails + '|' + startingLineup(counter) + '|'
+	       playerRow = playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
 	       #print playerRow
 	       counter += 1
 	       rosterArray.append(playerRow.encode('utf-8'))
@@ -79,21 +81,23 @@ for i in rosterOutput(listHomeRoster):
     with open ('MatchDetails-output.txt', "a") as f:
         f.write(i + '\n')
         f.close()
-      
 
-print rosterOutput(listAwayRoster)
+for i in rosterOutput(listAwayRoster):
+    with open ('MatchDetails-output.txt', "a") as f:
+        f.write(i + '\n')
+        f.close()
 
+# print rosterOutput(listAwayRoster)
 # for i in rosterOutput(listHomeRoster):
 #    print i
-
+# divDetailResults:
 for i in divDetailResults:
     # print i
     detailsTeam = i.find("span", {"class":"team-name"})
     listScorer = i.find_all("p", {"class":"scorer-list blq-clearfix"})
     detailsSpan = i.find("span")
     returnTeam = detailsTeam.get_text()
-    
-	# Determine if the Scorers contains any values
+    # Determine if the Scorers contains any values
     try:
         listScorer
     except NameError:
@@ -101,11 +105,61 @@ for i in divDetailResults:
     
     # Output of the Goal Scorers for the Teams
     if listScorer == []:
-        print detailsTeam.get_text() + ' No Goals Scored'
+        scorer = ""
     else: 
         for i in listScorer:
             scorer = i.find("span")
-            print detailsTeam.get_text() + ' Goal Scorers: ' + i.get_text(strip=True) + ' '
+            # print detailsTeam.get_text() + ' Goal Scorers: ' + i.get_text(strip=True) + ' '
         # print listScorer
 
+# Match Stats Details
+divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
 
+# Team Match Details & Team Badge
+divTeamDetails = matchSoup.find("div", {"class":"post-match"})
+
+for i in divTeamDetails:
+    print i
+    if len(i) > 1:
+        # print len(i)
+        homeTeam = i.find("div", {"id":"home-team"})
+        awayTeam = i.find("div", {"id":"away-team"})
+        
+        spanHomeTeam = homeTeam.find("span", {"class":"team-name"})
+        spanAwayTeam = awayTeam.find("span", {"class":"team-name"})
+        
+        spanHomeScore = homeTeam.find("span", {"class":"team-score"})
+        spanAwayScore = awayTeam.find("span", {"class":"team-score"})
+        
+        homeScorer = homeTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
+        awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
+        
+        homeTeamBadge = homeTeam.find("img")
+        awayTeamBadge = awayTeam.find("img")
+        # Identify if anyone scored for the team
+        
+        try:
+            homeScorer
+        except NameError:
+            homeScorer = None
+        if homeScorer != []:
+            for i in homeScorer:
+                print spanHomeTeam.get_text() +'|' + spanHomeScore.get_text() + '|'+ i.get_text() + '|' + homeTeamBadge["src"]
+        else:
+            print spanHomeTeam.get_text() + '|' + spanHomeScore.get_text() + '|' + '|' + homeTeamBadge["src"]
+        try:
+            awayScorer
+        except NameError:
+            awayScorer = None
+        if awayScorer != []:
+            for i in awayScorer:
+                print spanAwayTeam.get_text() + '|' + spanAwayScore.get_text() + '|' + i.get_text() + '|' + awayTeamBadge["src"]
+        else:
+            print spanAwayTeam.get_text() + '|' + spanAwayScore.get_text() + '|' + '|' + awayTeamBadge["src"]
+        # print homeScorer
+    # else:
+        # print "***-------------***"
+    
+    # homeTeam = i.find("div", {"id":"home-team"})
+    # print homeTeam
+    # print "***------------------------------------***"

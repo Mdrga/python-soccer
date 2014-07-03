@@ -1,24 +1,46 @@
-2014-06-29|19:02:16|WorldCup v0.13.c|Match Results File
-12|Julio César  |Started Match|
-02|Dani Alves|Started Match|  Booked 
-06|Marcelo  |Started Match|
-17|Luiz Gustavo|Started Match|  Booked 
-03|Thiago Silva  |Started Match|
-04|David Luiz  |Started Match|
-11|Oscar|Started Match|      (Willian - 105'  )  
-05|Fernandinho|Started Match|      (Ramires - 72'  )  
-09|Fred|Started Match|      (Jô - 64' Booked )  
-10|Neymar  |Started Match|
-07|Hulk|Started Match|  Booked 
-01|Jefferson  |Bench|
-08|Paulinho  |Bench|
-13|Dante  |Bench|
-14|Maxwell  |Bench|
-15|Henrique  |Bench|
-16|Ramires  |Bench|
-18|Hernanes  |Bench|
-19|Willian  |Bench|
-20|Bernard  |Bench|
-21|Jô  |Bench|
-22|Victor  |Bench|
-23|Maicon  |Bench|
+2014-07-03|09:45:29|WorldCup v0.13.d|Match Results File
+01|Cillessen|Started Match|
+12|Verhaegh|Started Match|      (Depay - 56'  )  
+15|Kuyt|Started Match|
+05|Blind|Started Match|
+02|Vlaar|Started Match|
+03|de Vrij|Started Match|
+20|Wijnaldum|Started Match|
+06|de Jong|Started Match|      (Martins Indi - 9'  )  
+10|Sneijder|Started Match|
+09|van Persie|Started Match|      (Huntelaar - 76'  )  
+11|Robben|Started Match|
+04|Martins Indi|Bench|
+07|Janmaat|Bench|
+08|de Guzmán|Bench|
+13|Veltman|Bench|
+14|Kongolo|Bench|
+16|Clasie|Bench|
+17|Lens|Bench|
+18|Fer|Bench|
+19|Huntelaar|Bench|
+21|Depay|Bench|
+22|Vorm|Bench|
+23|Krul|Bench|
+13|Ochoa|Started Match|
+22|Aguilar|Started Match|  Booked 
+07|Layún|Started Match|
+15|Moreno|Started Match|      (Reyes - 45'  )  
+04|Márquez|Started Match|  Booked 
+02|Rodríguez|Started Match|
+06|Herrera|Started Match|
+03|Salcido|Started Match|
+10|dos Santos|Started Match|      (Aquino - 61'  )  
+19|Peralta|Started Match|      (Hernández - 75'  )  
+18|Guardado|Started Match|  Booked 
+01|Corona|Bench|
+05|Reyes|Bench|
+08|Fabián|Bench|
+09|Jiménez|Bench|
+11|Pulido|Bench|
+12|Talavera|Bench|
+14|Hernández|Bench|
+16|Ponce|Bench|
+17|Brizuela|Bench|
+20|Aquino|Bench|
+21|Peña|Bench|
