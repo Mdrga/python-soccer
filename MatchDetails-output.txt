@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2014-07-03|20:32:29|WorldCup v0.13.d|Match Results File
 12|Haghighi|Started Match|
 15|Montazeri|Started Match|
@@ -45,3 +46,50 @@
 20|Uchebo|Bench|
 21|Agbim|Bench|
 23|Ameobi|Bench|
+=======
+2014-07-07|14:20:34|WorldCup v0.13.e|Match Results File
+Belgium|01|Courtois|Started Match|
+Belgium|02|Alderweireld|Started Match|
+Belgium|05|Vertonghen|Started Match|
+Belgium|06|Witsel|Started Match|
+Belgium|15|van Buyten|Started Match|
+Belgium|04|Kompany|Started Match|  Booked 
+Belgium|14|Mertens|Started Match|      (Mirallas - 60'  )  
+Belgium|08|Fellaini|Started Match|
+Belgium|17|Origi|Started Match|      (Lukaku - 90'  )  
+Belgium|07|De Bruyne|Started Match|
+Belgium|10|Hazard|Started Match|      (Chadli - 111'  )  
+Belgium|03|Vermaelen|Bench|
+Belgium|09|Lukaku|Bench|
+Belgium|11|Mirallas|Bench|
+Belgium|12|Mignolet|Bench|
+Belgium|13|Bossut|Bench|
+Belgium|18|Lombaerts|Bench|
+Belgium|19|Dembélé|Bench|
+Belgium|20|Januzaj|Bench|
+Belgium|22|Chadli|Bench|
+Belgium|23|Ciman|Bench|
+USA|01|Howard|Started Match|
+USA|23|Johnson|Started Match|      (Yedlin - 32'  )  
+USA|07|Beasley|Started Match|
+USA|20|Cameron|Started Match|  Booked 
+USA|03|González|Started Match|
+USA|05|Besler|Started Match|
+USA|19|Zusi|Started Match|      (Wondolowski - 72'  )  
+USA|13|Jones|Started Match|
+USA|08|Dempsey|Started Match|
+USA|04|Bradley|Started Match|
+USA|11|Bedoya|Started Match|      (Green - 107'  )  
+USA|02|Yedlin|Bench|
+USA|06|Brooks|Bench|
+USA|09|Jóhannsson|Bench|
+USA|10|Diskerud|Bench|
+USA|12|Guzan|Bench|
+USA|14|Davis|Bench|
+USA|15|Beckerman|Bench|
+USA|16|Green|Bench|
+USA|17|Altidore|Bench|
+USA|18|Wondolowski|Bench|
+USA|21|Chandler|Bench|
+USA|22|Rimando|Bench|
+>>>>>>> FETCH_HEAD
