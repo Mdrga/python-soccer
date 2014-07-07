@@ -1,4 +1,8 @@
-2014-06-30|13:00:31|WorldCup v0.13.c|BBC Sport - Football -  World Cup  Results
+2014-07-03|20:09:39|WorldCup v0.13.d|BBC Sport - Football -  World Cup  Results
+27990606|http://www.bbc.com/sport/football/27990606
+27990605|http://www.bbc.com/sport/football/27990605
+27969976|http://www.bbc.com/sport/football/27969976
+27969924|http://www.bbc.com/sport/football/27969924
 27961190|http://www.bbc.com/sport/football/27961190
 27961189|http://www.bbc.com/sport/football/27961189
 27952759|http://www.bbc.com/sport/football/27952759

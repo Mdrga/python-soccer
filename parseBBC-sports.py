@@ -52,11 +52,6 @@ print ds + ' | ' + ts
 
 # Find the Main Results Table and Output the Results
 divResults = gameSoup.find("div", {"class":"league-table table-narrow mod"})
-'''
-with open('WorldCup-Results.html', "w") as f:
-	f.write(divResults.prettify())
-	f.close()
-'''
 
 # Initialize Results Output File
 with open('MatchRestuls-output.txt', "w") as f:

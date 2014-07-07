@@ -1,46 +1,47 @@
-2014-07-03|09:45:29|WorldCup v0.13.d|Match Results File
-01|Cillessen|Started Match|
-12|Verhaegh|Started Match|      (Depay - 56'  )  
-15|Kuyt|Started Match|
-05|Blind|Started Match|
-02|Vlaar|Started Match|
-03|de Vrij|Started Match|
-20|Wijnaldum|Started Match|
-06|de Jong|Started Match|      (Martins Indi - 9'  )  
-10|Sneijder|Started Match|
-09|van Persie|Started Match|      (Huntelaar - 76'  )  
-11|Robben|Started Match|
-04|Martins Indi|Bench|
-07|Janmaat|Bench|
-08|de Guzmán|Bench|
-13|Veltman|Bench|
-14|Kongolo|Bench|
-16|Clasie|Bench|
-17|Lens|Bench|
-18|Fer|Bench|
-19|Huntelaar|Bench|
-21|Depay|Bench|
-22|Vorm|Bench|
-23|Krul|Bench|
-13|Ochoa|Started Match|
-22|Aguilar|Started Match|  Booked 
-07|Layún|Started Match|
-15|Moreno|Started Match|      (Reyes - 45'  )  
-04|Márquez|Started Match|  Booked 
-02|Rodríguez|Started Match|
-06|Herrera|Started Match|
-03|Salcido|Started Match|
-10|dos Santos|Started Match|      (Aquino - 61'  )  
-19|Peralta|Started Match|      (Hernández - 75'  )  
-18|Guardado|Started Match|  Booked 
-01|Corona|Bench|
-05|Reyes|Bench|
-08|Fabián|Bench|
-09|Jiménez|Bench|
-11|Pulido|Bench|
-12|Talavera|Bench|
-14|Hernández|Bench|
-16|Ponce|Bench|
-17|Brizuela|Bench|
-20|Aquino|Bench|
-21|Peña|Bench|
+2014-07-03|20:32:29|WorldCup v0.13.d|Match Results File
+12|Haghighi|Started Match|
+15|Montazeri|Started Match|
+23|Pooladi|Started Match|
+06|Nekounam|Started Match|
+04|Hosseini|Started Match|
+05|Sadeqi|Started Match|
+02|Heydari|Started Match|      (Shojaei - 89'  )  
+14|Teymourian|Started Match|  Booked 
+16|Ghoochanneijhad|Started Match|
+03|Hajsafi|Started Match|
+21|Dejagah|Started Match|      (Jahanbakhsh - 78'  )  
+01|Ahmadi|Bench|
+07|Shojaei|Bench|
+08|Haghighi|Bench|
+09|Jahanbakhsh|Bench|
+10|Ansarifard|Bench|
+11|Haddadifar|Bench|
+13|Mahini|Bench|
+17|Alnameh|Bench|
+18|Rahmani|Bench|
+19|Beikzadeh|Bench|
+20|Beitashour|Bench|
+22|Davari|Bench|
+01|Enyeama|Started Match|
+05|Ambrose Emuobo|Started Match|
+13|Oshaniwa|Started Match|
+10|Mikel|Started Match|
+22|Omeruo|Started Match|
+14|Oboabona|Started Match|      (Yobo - 29'  )  
+07|Musa|Started Match|
+17|Onazi|Started Match|
+09|Emenike|Started Match|
+15|Azeez|Started Match|      (Odemwingie - 69'  )  
+11|Moses|Started Match|      (Ameobi - 52'  )  
+02|Yobo|Bench|
+03|Uzoenyi|Bench|
+04|Gabriel|Bench|
+06|Egwuekwe|Bench|
+08|Odemwingie|Bench|
+12|Odunlami|Bench|
+16|Ejide|Bench|
+18|Babatunde|Bench|
+19|Nwofor|Bench|
+20|Uchebo|Bench|
+21|Agbim|Bench|
+23|Ameobi|Bench|

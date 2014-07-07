@@ -115,11 +115,16 @@ for i in divDetailResults:
 # Match Stats Details
 divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
 
+print len(divMatchStats)
+divPossession = divMatchStats.find("div", {"id":"possession-chart"})
+
+print divPossession
+
 # Team Match Details & Team Badge
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
 
 for i in divTeamDetails:
-    print i
+    # print i
     if len(i) > 1:
         # print len(i)
         homeTeam = i.find("div", {"id":"home-team"})
