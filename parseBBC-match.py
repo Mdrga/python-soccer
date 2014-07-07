@@ -26,8 +26,8 @@ parseVersion = 'WorldCup v0.13.e'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
-	 f.write(matchSoup.prettify("utf-8"))
-	 f.close()
+     f.write(matchSoup.prettify("utf-8"))
+     f.close()
 # Identify Team Lineup
 divDetailResults = matchSoup.find_all("div", {"class":"team-match-details"})
 divLineup = matchSoup.find("div", {"id":"oppm-team-list"})
@@ -37,8 +37,8 @@ listAwayRoster = divLineup.find_all("div", {"class":"away-team"})
 
 # Initialize Results Output File
 with open('MatchDetails-output.txt', "w") as f:
-	f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Results File' + '\n')
-	f.close()
+    f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Results File' + '\n')
+    f.close()
 
 # Identify the Starting IX and the Bench
 def startingLineup(x):
@@ -70,26 +70,26 @@ def rosterOutput(x):
         lineup = i.find_all("li")
         teamName = i.find("h3")
 
-    	# print i
+        # print i
         for i in lineup:
             playerJersey = i.text[3:5]
             playerDetails =  i.text[7:len(i.text)]
             playerDetails.encode('utf-8')
             playerStart = playerDetails.find("  ")
             playerString = len(playerDetails) 
-	    if len(playerDetails) - playerStart > 2:
-	       playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
-	       # print playerName
-	       playerUpdate = i.text[7+len(playerName):7+playerString]
-	       playerUpdateRow = teamName.get_text()+ '|' + playerJersey + '|' + playerName + '|' + startingLineup(counter) + '|' + playerUpdate 
-	       #print playerUpdateRow
-	       counter += 1
-	       rosterArray.append(playerUpdateRow.encode('utf-8'))
-	    else:
-	       playerRow = teamName.get_text() + '|' + playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
-	       #print playerRow
-	       counter += 1
-	       rosterArray.append(playerRow.encode('utf-8'))
+        if len(playerDetails) - playerStart > 2:
+           playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
+           # print playerName
+           playerUpdate = i.text[7+len(playerName):7+playerString]
+           playerUpdateRow = teamName.get_text()+ '|' + playerJersey + '|' + playerName + '|' + startingLineup(counter) + '|' + playerUpdate 
+           #print playerUpdateRow
+           counter += 1
+           rosterArray.append(playerUpdateRow.encode('utf-8'))
+        else:
+           playerRow = teamName.get_text() + '|' + playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
+           #print playerRow
+           counter += 1
+           rosterArray.append(playerRow.encode('utf-8'))
     return rosterArray
 
 for i in rosterOutput(listHomeRoster):
@@ -125,11 +125,6 @@ for i in divDetailResults:
         # print listScorer
 '''
 
-print len(divMatchStats)
-divPossession = divMatchStats.find("div", {"id":"possession-chart"})
-
-print divPossession
-
 # Team Match Details & Team Badge
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
 
@@ -140,7 +135,7 @@ with open('MatchStats-output.txt', "w") as f:
 
 # Parses the values contained in the divTeamDetails in to Team-Level Stats for the Match
 for i in divTeamDetails:
-    # print i
+    #print i
     if len(i) > 1:
         # print len(i)
         homeTeam = i.find("div", {"id":"home-team"})
