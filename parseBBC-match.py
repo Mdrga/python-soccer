@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jul 01, 2014
-Version 0.13.d
+Modified on Jul 07, 2014
+Version 0.13.e
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -16,12 +16,13 @@ ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/25285113","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/27990605","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
 gameMatch = urllib2.urlopen(website[1])
+gameURL = website[1]
 matchSoup = BeautifulSoup(gameMatch)
-parseVersion = 'WorldCup v0.13.d'
+parseVersion = 'WorldCup v0.13.e'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
@@ -47,31 +48,43 @@ def startingLineup(x):
     else:
         return "Bench"
 
+# Function to return the Home Team Name using the divTeamDetails
+def returnHome(x):
+    homeTeam = x.find("div", {"id":"home-team"})
+    spanHomeTeam = homeTeam.find("span", {"class":"team-name"})
+    return spanHomeTeam.get_text()
+
+# Function to return the Away Team Name using the divTeamDetails
+def returnAway(x):
+    awayTeam = x.find("div", {"id":"away-team"})
+    spanAwayTeam = awayTeam.find("span", {"class":"team-name"})
+    return spanAwayTeam.get_text()
+
+# Function to return the Roster & Lineup of the squads
 def rosterOutput(x):
     rosterArray = []
     counter = 1
     for i in x:
         i.encode('utf-8')
-        # print i
-        # listHoldRoster = i.find_all("ul", {"class":"player-list"})
-	# Setup Team Name Output
-	lineup = i.find_all("li")
-	for i in lineup:
-	   playerJersey = i.text[3:5]
-	   playerDetails =  i.text[7:len(i.text)]
-	   playerDetails.encode('utf-8')
-	   playerStart = playerDetails.find("  ")
-	   playerString = len(playerDetails)
-	   if len(playerDetails) - playerStart > 2:
+        lineup = i.find_all("li")
+        teamName = i.find("h3")
+    	
+        for i in lineup:
+            playerJersey = i.text[3:5]
+            playerDetails =  i.text[7:len(i.text)]
+            playerDetails.encode('utf-8')
+            playerStart = playerDetails.find("  ")
+            playerString = len(playerDetails) 
+	    if len(playerDetails) - playerStart > 2:
 	       playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
 	       # print playerName
 	       playerUpdate = i.text[7+len(playerName):7+playerString]
-	       playerUpdateRow = playerJersey + '|' + playerName + '|' + startingLineup(counter) + '|' + playerUpdate 
+	       playerUpdateRow = teamName.get_text()+ '|' + playerJersey + '|' + playerName + '|' + startingLineup(counter) + '|' + playerUpdate 
 	       #print playerUpdateRow
 	       counter += 1
 	       rosterArray.append(playerUpdateRow.encode('utf-8'))
-	   else:
-	       playerRow = playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
+	    else:
+	       playerRow = teamName.get_text() + '|' + playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
 	       #print playerRow
 	       counter += 1
 	       rosterArray.append(playerRow.encode('utf-8'))
@@ -87,10 +100,7 @@ for i in rosterOutput(listAwayRoster):
         f.write(i + '\n')
         f.close()
 
-# print rosterOutput(listAwayRoster)
-# for i in rosterOutput(listHomeRoster):
-#    print i
-# divDetailResults:
+# Get Team Results from the container divDetailResults:
 for i in divDetailResults:
     # print i
     detailsTeam = i.find("span", {"class":"team-name"})
@@ -112,21 +122,23 @@ for i in divDetailResults:
             # print detailsTeam.get_text() + ' Goal Scorers: ' + i.get_text(strip=True) + ' '
         # print listScorer
 
-# Match Stats Details
-divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
 
 # Team Match Details & Team Badge
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
 
+# Initialize the Stats File
+with open('MatchStats-output.txt', "w") as f:
+    f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
+    f.close()
+
+
+
 for i in divTeamDetails:
-    print i
+    #print i
     if len(i) > 1:
         # print len(i)
         homeTeam = i.find("div", {"id":"home-team"})
         awayTeam = i.find("div", {"id":"away-team"})
-        
-        spanHomeTeam = homeTeam.find("span", {"class":"team-name"})
-        spanAwayTeam = awayTeam.find("span", {"class":"team-name"})
         
         spanHomeScore = homeTeam.find("span", {"class":"team-score"})
         spanAwayScore = awayTeam.find("span", {"class":"team-score"})
@@ -138,28 +150,57 @@ for i in divTeamDetails:
         awayTeamBadge = awayTeam.find("img")
         # Identify if anyone scored for the team
         
+        # Array to contain the Team Output Line
+        teamOutput = []
+        
         try:
             homeScorer
         except NameError:
             homeScorer = None
         if homeScorer != []:
             for i in homeScorer:
-                print spanHomeTeam.get_text() +'|' + spanHomeScore.get_text() + '|'+ i.get_text() + '|' + homeTeamBadge["src"]
+                i.encode('utf-8')
+                teamOutput.append(gameURL + '|' + returnHome(divTeamDetails) +'|' + spanHomeScore.get_text() + '|'+ i.get_text() + '|' + homeTeamBadge["src"])
         else:
-            print spanHomeTeam.get_text() + '|' + spanHomeScore.get_text() + '|' + '|' + homeTeamBadge["src"]
+            teamOutput.append(gameURL + '|' + returnHome(divTeamDetails) + '|' + spanHomeScore.get_text() + '|' + '|' + homeTeamBadge["src"])
         try:
             awayScorer
         except NameError:
             awayScorer = None
         if awayScorer != []:
             for i in awayScorer:
-                print spanAwayTeam.get_text() + '|' + spanAwayScore.get_text() + '|' + i.get_text() + '|' + awayTeamBadge["src"]
+                i.encode('utf-8')
+                teamOutput.append(gameURL + '|' + returnAway(divTeamDetails) + '|' + spanAwayScore.get_text() + '|' + i.get_text() + '|' + awayTeamBadge["src"])
         else:
-            print spanAwayTeam.get_text() + '|' + spanAwayScore.get_text() + '|' + '|' + awayTeamBadge["src"]
-        # print homeScorer
-    # else:
-        # print "***-------------***"
-    
-    # homeTeam = i.find("div", {"id":"home-team"})
-    # print homeTeam
-    # print "***------------------------------------***"
+            teamOutput.append(gameURL + '|' + returnAway(divTeamDetails) + '|' + spanAwayScore.get_text() + '|' + '|' + awayTeamBadge["src"])
+        
+        print teamOutput
+        for i in teamOutput:
+            with open('MatchStats-output.txt', "a") as f:
+                f.write(i.encode('utf-8') + '\n')
+                f.close()
+
+# Match Stats Details
+divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
+statPossession = divMatchStats.find("div", {"id":"possession"})
+statShots = divMatchStats.find("div", {"id":"total-shots"})
+statPossessionHome = statPossession.find("span", {"class":"home"})
+statPossessionAway = statPossession.find("span", {"class":"away"})
+print statPossessionHome.get_text()
+print statPossessionAway.get_text()
+
+'''
+for i in divMatchStats:
+    #print i
+    print len(i)
+    print i
+    print "***----------------------------------------------------***"
+
+print len(divMatchStats)
+'''
+with open ('MatchStats-output.html', "w") as f:
+    f.write(divMatchStats.prettify())
+    f.close()
+
+print returnHome(divTeamDetails)
+print returnAway(divTeamDetails)
