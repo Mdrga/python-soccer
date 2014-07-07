@@ -61,6 +61,7 @@ def returnAway(x):
     return spanAwayTeam.get_text()
 
 # Function to return the Roster & Lineup of the squads
+# TODO - Use the value of the Start / Substitue in the Roster coming in
 def rosterOutput(x):
     rosterArray = []
     counter = 1
@@ -68,7 +69,8 @@ def rosterOutput(x):
         i.encode('utf-8')
         lineup = i.find_all("li")
         teamName = i.find("h3")
-    	
+
+    	# print i
         for i in lineup:
             playerJersey = i.text[3:5]
             playerDetails =  i.text[7:len(i.text)]
@@ -100,7 +102,7 @@ for i in rosterOutput(listAwayRoster):
         f.write(i + '\n')
         f.close()
 
-# Get Team Results from the container divDetailResults:
+'''# Get Team Results from the container divDetailResults:
 for i in divDetailResults:
     # print i
     detailsTeam = i.find("span", {"class":"team-name"})
@@ -121,7 +123,7 @@ for i in divDetailResults:
             scorer = i.find("span")
             # print detailsTeam.get_text() + ' Goal Scorers: ' + i.get_text(strip=True) + ' '
         # print listScorer
-
+'''
 
 # Team Match Details & Team Badge
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
@@ -131,8 +133,7 @@ with open('MatchStats-output.txt', "w") as f:
     f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
     f.close()
 
-
-
+# Parses the values contained in the divTeamDetails in to Team-Level Stats for the Match
 for i in divTeamDetails:
     #print i
     if len(i) > 1:
@@ -153,6 +154,10 @@ for i in divTeamDetails:
         # Array to contain the Team Output Line
         teamOutput = []
         
+        totalGoalsScored = int(spanHomeScore.get_text()) + int(spanAwayScore.get_text())
+        # print totalGoalsScored
+
+        # Change this Process to look at the value of spanTEAMScore and run from that.
         try:
             homeScorer
         except NameError:
@@ -174,7 +179,7 @@ for i in divTeamDetails:
         else:
             teamOutput.append(gameURL + '|' + returnAway(divTeamDetails) + '|' + spanAwayScore.get_text() + '|' + '|' + awayTeamBadge["src"])
         
-        print teamOutput
+        # print teamOutput
         for i in teamOutput:
             with open('MatchStats-output.txt', "a") as f:
                 f.write(i.encode('utf-8') + '\n')
@@ -186,21 +191,16 @@ statPossession = divMatchStats.find("div", {"id":"possession"})
 statShots = divMatchStats.find("div", {"id":"total-shots"})
 statPossessionHome = statPossession.find("span", {"class":"home"})
 statPossessionAway = statPossession.find("span", {"class":"away"})
-print statPossessionHome.get_text()
-print statPossessionAway.get_text()
+# print statPossessionHome.get_text()
+# print statPossessionAway.get_text()
 
-'''
-for i in divMatchStats:
-    #print i
-    print len(i)
-    print i
-    print "***----------------------------------------------------***"
-
-print len(divMatchStats)
-'''
+# Output Raw HTML for Match Stats to a Local File
 with open ('MatchStats-output.html', "w") as f:
     f.write(divMatchStats.prettify())
     f.close()
 
+# Test the Function to Print the Home & Away Teams
 print returnHome(divTeamDetails)
 print returnAway(divTeamDetails)
+
+print listHomeRoster
