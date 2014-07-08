@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"BB",
+				"BBC_MatchID"
+			],
+			[
+				"str",
+				"strGameURL"
+			],
+			[
+				"bbc",
+				"BBC_MatchID"
+			],
+			[
+				"tot",
+				"totalGoalsScored"
+			],
+			[
+				"span",
+				"spanAwayScore"
+			],
+			[
 				"awa",
 				"awayScorer"
 			],
@@ -22,10 +42,6 @@
 			[
 				"ret",
 				"returnAwayTeam"
-			],
-			[
-				"span",
-				"spanHomeTeam"
 			],
 			[
 				"home",
@@ -151,7 +167,7 @@
 			"file": "parseBBC-match.py",
 			"settings":
 			{
-				"buffer_size": 7434,
+				"buffer_size": 8898,
 				"line_ending": "Windows"
 			}
 		},
@@ -215,7 +231,7 @@
 			"file": "WorldCup-MatchBase.html",
 			"settings":
 			{
-				"buffer_size": 198242,
+				"buffer_size": 198209,
 				"line_ending": "Windows"
 			}
 		}
@@ -353,15 +369,15 @@
 					"file": "parseBBC-match.py",
 					"settings":
 					{
-						"buffer_size": 7434,
+						"buffer_size": 8898,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1710,
-								1710
+								8569,
+								8569
 							]
 						],
 						"settings":
@@ -475,7 +491,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3483.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -519,8 +535,8 @@
 						"selection":
 						[
 							[
-								766,
-								726
+								587,
+								587
 							]
 						],
 						"settings":
@@ -783,8 +799,8 @@
 						"selection":
 						[
 							[
-								646,
-								638
+								558,
+								558
 							]
 						],
 						"settings":
@@ -1043,8 +1059,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								270,
+								270
 							]
 						],
 						"settings":
@@ -1156,7 +1172,7 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 108.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1298,7 +1314,7 @@
 					"file": "WorldCup-MatchBase.html",
 					"settings":
 					{
-						"buffer_size": 198242,
+						"buffer_size": 198209,
 						"regions":
 						{
 						},

@@ -26,8 +26,8 @@ parseVersion = 'WorldCup v0.13.e'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
-	 f.write(matchSoup.prettify("utf-8"))
-	 f.close()
+     f.write(matchSoup.prettify("utf-8"))
+     f.close()
 # Identify Team Lineup
 divDetailResults = matchSoup.find_all("div", {"class":"team-match-details"})
 divLineup = matchSoup.find("div", {"id":"oppm-team-list"})
@@ -37,8 +37,8 @@ listAwayRoster = divLineup.find_all("div", {"class":"away-team"})
 
 # Initialize Results Output File
 with open('MatchDetails-output.txt', "w") as f:
-	f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Results File' + '\n')
-	f.close()
+    f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Results File' + '\n')
+    f.close()
 
 # Identify the Starting IX and the Bench
 def startingLineup(x):
@@ -61,6 +61,7 @@ def returnAway(x):
     return spanAwayTeam.get_text()
 
 # Function to return the Roster & Lineup of the squads
+# TODO - Use the value of the Start / Substitue in the Roster coming in
 def rosterOutput(x):
     rosterArray = []
     counter = 1
@@ -68,26 +69,27 @@ def rosterOutput(x):
         i.encode('utf-8')
         lineup = i.find_all("li")
         teamName = i.find("h3")
-    	
+
+        # print i
         for i in lineup:
             playerJersey = i.text[3:5]
             playerDetails =  i.text[7:len(i.text)]
             playerDetails.encode('utf-8')
             playerStart = playerDetails.find("  ")
             playerString = len(playerDetails) 
-	    if len(playerDetails) - playerStart > 2:
-	       playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
-	       # print playerName
-	       playerUpdate = i.text[7+len(playerName):7+playerString]
-	       playerUpdateRow = teamName.get_text()+ '|' + playerJersey + '|' + playerName + '|' + startingLineup(counter) + '|' + playerUpdate 
-	       #print playerUpdateRow
-	       counter += 1
-	       rosterArray.append(playerUpdateRow.encode('utf-8'))
-	    else:
-	       playerRow = teamName.get_text() + '|' + playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
-	       #print playerRow
-	       counter += 1
-	       rosterArray.append(playerRow.encode('utf-8'))
+        if len(playerDetails) - playerStart > 2:
+           playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
+           # print playerName
+           playerUpdate = i.text[7+len(playerName):7+playerString]
+           playerUpdateRow = teamName.get_text()+ '|' + playerJersey + '|' + playerName + '|' + startingLineup(counter) + '|' + playerUpdate 
+           #print playerUpdateRow
+           counter += 1
+           rosterArray.append(playerUpdateRow.encode('utf-8'))
+        else:
+           playerRow = teamName.get_text() + '|' + playerJersey + '|' + playerDetails[0:len(playerDetails)-2] + '|' + startingLineup(counter) + '|'
+           #print playerRow
+           counter += 1
+           rosterArray.append(playerRow.encode('utf-8'))
     return rosterArray
 
 for i in rosterOutput(listHomeRoster):
@@ -100,7 +102,7 @@ for i in rosterOutput(listAwayRoster):
         f.write(i + '\n')
         f.close()
 
-# Get Team Results from the container divDetailResults:
+'''# Get Team Results from the container divDetailResults:
 for i in divDetailResults:
     # print i
     detailsTeam = i.find("span", {"class":"team-name"})
@@ -121,7 +123,7 @@ for i in divDetailResults:
             scorer = i.find("span")
             # print detailsTeam.get_text() + ' Goal Scorers: ' + i.get_text(strip=True) + ' '
         # print listScorer
-
+'''
 
 # Team Match Details & Team Badge
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
@@ -131,8 +133,7 @@ with open('MatchStats-output.txt', "w") as f:
     f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
     f.close()
 
-
-
+# Parses the values contained in the divTeamDetails in to Team-Level Stats for the Match
 for i in divTeamDetails:
     #print i
     if len(i) > 1:
@@ -153,6 +154,10 @@ for i in divTeamDetails:
         # Array to contain the Team Output Line
         teamOutput = []
         
+        totalGoalsScored = int(spanHomeScore.get_text()) + int(spanAwayScore.get_text())
+        # print totalGoalsScored
+
+        # Change this Process to look at the value of spanTEAMScore and run from that.
         try:
             homeScorer
         except NameError:
@@ -174,33 +179,46 @@ for i in divTeamDetails:
         else:
             teamOutput.append(gameURL + '|' + returnAway(divTeamDetails) + '|' + spanAwayScore.get_text() + '|' + '|' + awayTeamBadge["src"])
         
-        print teamOutput
+        # print teamOutput
         for i in teamOutput:
             with open('MatchStats-output.txt', "a") as f:
                 f.write(i.encode('utf-8') + '\n')
                 f.close()
 
-# Match Stats Details
-divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
-statPossession = divMatchStats.find("div", {"id":"possession"})
-statShots = divMatchStats.find("div", {"id":"total-shots"})
-statPossessionHome = statPossession.find("span", {"class":"home"})
-statPossessionAway = statPossession.find("span", {"class":"away"})
-print statPossessionHome.get_text()
-print statPossessionAway.get_text()
+# Function to return Match Stats based on input of matchSoup
+def matchStats(x):
+    funcMatch = x
+    divTeamDetails = funcMatch.find("div", {"class":"post-match"})
+    divMatchStats = funcMatch.find("div", {"id":"match-stats-wrapper"})
+    statPossession = divMatchStats.find("div", {"id":"possession"})
+    statShots = divMatchStats.find("div", {"id":"total-shots"})
+    statPossessionHome = statPossession.find("span", {"class":"home"})
+    statPossessionAway = statPossession.find("span", {"class":"away"})
+    homeTeam = divTeamDetails.find("div", {"id":"home-team"})
+    awayTeam = divTeamDetails.find("div", {"id":"away-team"})
+    homeScorer = homeTeam.find("p", {"class":"scorer-list blq-clearfix"})
+    awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
+    spanHomeScorer = homeScorer.find_all("span")
+    spanHomeScore = homeTeam.find("span", {"class":"team-score"})
+    spanAwayScore = awayTeam.find("span", {"class":"team-score"})
 
-'''
-for i in divMatchStats:
-    #print i
-    print len(i)
+    homeTeamBadge = homeTeam.find("img")
+    awayTeamBadge = awayTeam.find("img")
+
+    teamStats = []
+
+    # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
+    strGameURL = gameURL.split('/')
+    BBC_MatchID = strGameURL[5]
+
+    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + spanHomeScore.get_text())
+    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + spanAwayScore.get_text())
+
+    with open ('MatchStats-output.html', "w") as f:
+        f.write(funcMatch.prettify('utf-8'))
+        f.close()
+
+    return teamStats
+
+for i in matchStats(matchSoup):
     print i
-    print "***----------------------------------------------------***"
-
-print len(divMatchStats)
-'''
-with open ('MatchStats-output.html', "w") as f:
-    f.write(divMatchStats.prettify())
-    f.close()
-
-print returnHome(divTeamDetails)
-print returnAway(divTeamDetails)
