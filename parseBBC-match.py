@@ -205,19 +205,18 @@ def matchStats(x):
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
 
-    print homeTeam.a.get_text() + '|' + statPossessionHome.get_text() + '|'
-    print awayTeam.a.get_text() + '|' + statPossessionAway.get_text()
+    teamStats = []
 
-    # print statPossessionHome.get_text()
-    # print statPossessionAway.get_text()
+    print len(gameURL)
 
-    # print returnHome(funcMatch)
-    # print returnAway(funcMatch)
+    teamStats.append('Home' + '|' + homeTeam.a.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + spanHomeScore.get_text())
+    teamStats.append('Away' + '|' + awayTeam.a.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + spanAwayScore.get_text())
 
     with open ('MatchStats-output.html', "w") as f:
         f.write(funcMatch.prettify('utf-8'))
         f.close()
 
-    return True
+    return teamStats
 
-matchStats(matchSoup)
+for i in matchStats(matchSoup):
+    print i
