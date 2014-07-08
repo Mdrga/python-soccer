@@ -1,6 +1,6 @@
 '''
 Created on Jun 16, 2014
-Modified on Jul 07, 2014
+Modified on Jul 08, 2014
 Version 0.13.e
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
@@ -207,13 +207,13 @@ def matchStats(x):
 
     teamStats = []
 
-
     # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
     strGameURL = gameURL.split('/')
     BBC_MatchID = strGameURL[5]
 
-    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + spanHomeScore.get_text())
-    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + spanAwayScore.get_text())
+    teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %')
+    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text())
+    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text())
 
     with open ('MatchStats-output.html', "w") as f:
         f.write(funcMatch.prettify('utf-8'))

@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jul 01, 2014
-Version 0.13.d
+Modified on Jul 08, 2014
+Version 0.13.e
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -32,7 +32,7 @@ website = ["http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/s
 # Open World Cup Results 
 gameWeb = urllib2.urlopen(website[3])
 gameSoup = BeautifulSoup(gameWeb)
-parseVersion = 'WorldCup v0.13.d'
+parseVersion = 'WorldCup v0.13.e'
 
 # Output All Results Page to a local HTML file
 outputTxt = 'WorldCup-Base.html'
