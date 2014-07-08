@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 2014-07-08|08:25:57|WorldCup v0.13.e|Match Stats File
+=======
+2014-07-08|07:07:02|WorldCup v0.13.e|Match Stats File
+>>>>>>> origin/master
 http://www.bbc.com/sport/football/27990605|Belgium|2|  De Bruyne 93′  Lukaku 105′  |http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png
 http://www.bbc.com/sport/football/27990605|USA|1|  Green 107′  |http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/usa.png

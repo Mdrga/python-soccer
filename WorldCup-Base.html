@@ -133,190 +133,190 @@ fig.manager.include();
   </script>
   <!-- BBCDOTCOM template: desktop journalismVariant: false ipIsAdvertiseCombined: true adsEnabled: true flagpole: ON -->
   <script type="text/javascript">
-   /*<![CDATA[*/
-            if (window.bbcdotcom === undefined) {
-                var bbcdotcom = {
-                    data: {},
-                    advert: {
-                        write: function () {},
-                        show: function () {},
-                        isActive: function () {
-                            return false;
-                        }
-                    },
-                    objects: function(str) {
-                        return false;
-                    }
-                };
-            }
-            bbcdotcom.objects = function (strName, action, obj) {
-                var nameParts, i, len;
-                nameParts = strName.split(".");
-                if (action === undefined) {
-                    action = 'valid';
-                }
-                if (obj === undefined) {
-                    obj = window;
-                }
-                for (i = 0, len = nameParts.length; i < len; i++) {
-                    if (obj[nameParts[i]] === undefined) {
-                        if (action === 'create') {
-                            obj[nameParts[i]] = {};
-                        } else {
-                            return false;
-                        }
-                    } else if (typeof obj[nameParts[i]] === 'function') {
-                        if(obj[nameParts[i]]() !== undefined) {
-                            return obj[nameParts[i]]();
-                        }
-                    }
-                    obj = obj[nameParts[i]];
-                }
-                return obj;
-            };
+   /*<![CDATA[*/
+            if (window.bbcdotcom === undefined) {
+                var bbcdotcom = {
+                    data: {},
+                    advert: {
+                        write: function () {},
+                        show: function () {},
+                        isActive: function () {
+                            return false;
+                        }
+                    },
+                    objects: function(str) {
+                        return false;
+                    }
+                };
+            }
+            bbcdotcom.objects = function (strName, action, obj) {
+                var nameParts, i, len;
+                nameParts = strName.split(".");
+                if (action === undefined) {
+                    action = 'valid';
+                }
+                if (obj === undefined) {
+                    obj = window;
+                }
+                for (i = 0, len = nameParts.length; i < len; i++) {
+                    if (obj[nameParts[i]] === undefined) {
+                        if (action === 'create') {
+                            obj[nameParts[i]] = {};
+                        } else {
+                            return false;
+                        }
+                    } else if (typeof obj[nameParts[i]] === 'function') {
+                        if(obj[nameParts[i]]() !== undefined) {
+                            return obj[nameParts[i]]();
+                        }
+                    }
+                    obj = obj[nameParts[i]];
+                }
+                return obj;
+            };
             /*]]>*/
   </script>
   <style type="text/css">
    .bbccom_display_none{display:none;}
   </style>
   <script type="text/javascript">
-   /*<![CDATA[*/
-            bbcdotcom.objects('bbcdotcom.config', 'create');
-            bbcdotcom.config =(function(ads, analytics) {
-                var adsEnabled=ads,
-                    analyticsEnabled=analytics,
-                    jsPrefix="http://static.bbci.co.uk/bbcdotcom/0.3.250/script",
-                    swfPrefix="http://static.bbci.co.uk/bbcdotcom/0.3.250/swf",
-                    cssPrefix="http://static.bbci.co.uk/bbcdotcom/0.3.250/style";
-                return {
-                    setAdsEnabled: function(enabled) {
-                        /* Once it has been disable to not allow it to be enabled */
-                        adsEnabled = (adsEnabled !== 0) ? enabled : 0;
-                    },
-                    isAdsEnabled: function() {
-                        return adsEnabled;
-                    },
-                    setAnalyticsEnabled: function(enabled) {
-                        /* Once it has been disable to not allow it to be enabled */
-                        analyticsEnabled = (analyticsEnabled !== 0) ? enabled : 0;
-                    },
-                    isAnalyticsEnabled: function() {
-                        return analyticsEnabled;
-                    },
-                    setJsPrefix: function (prefix) {
-                        jsPrefix = prefix;
-                    },
-                    getJsPrefix: function () {
-                        return jsPrefix;
-                    },
-                    setSwfPrefix: function (prefix) {
-                        swfPrefix = prefix;
-                    },
-                    getSwfPrefix: function () {
-                        return swfPrefix;
-                    },
-                    setCssPrefix: function (prefix) {
-                        cssPrefix = prefix;
-                    },
-                    getCssPrefix: function () {
-                        return cssPrefix;
-                    }
-                };
-            }(1, 1));
-            bbcdotcom.objects('bbcdotcom.siteCatalyst', 'create');
-            bbcdotcom.siteCatalyst = {"ch":"","cdp":"3","ce":"UTF-8"};
-            bbcdotcom.objects('bbcdotcom.stats', 'create');
-            /* Create BBC.adverts skeleton */
-            if (window.BBC === undefined) {
-                var BBC = {};
-            }
-            if (window.BBC.adverts === undefined) {
-                BBC.adverts = {
-                    setZone: function () {},
-                    configure: function () {},
-                    write: function () {},
-                    show: function () {},
-                    isActive: function () {
-                        return false;
-                    },
-                    setScriptRoot: function () {},
-                    setImgRoot: function () {},
-                    getAdvertTag: function () {},
-                    getSectionPath: function() {},
-                    showPartnerButtons: function() {}
-                };
-            }
-            (function(){
-                if(typeof require !== 'undefined') {
-                    require({
-                        paths:{
-                            "bbcdotcom":"http://static.bbci.co.uk/bbcdotcom/0.3.250/script"
-                        }
-                    });
-                }
-            })();
-            if (typeof orb !== 'undefined' && typeof orb.fig === 'function') {
-                bbcdotcom.data = {
-                    a: orb.fig('ad')? 1 : 0,
-                    b: (0 == orb.fig('uk')) ? 1 : 0,
-                    c: orb.fig('ap')
-                };
-            } else {
-                document.write('<script type="text/javascript" src="http://tps.bbc.com/wwscripts/data">\x3C/script>');
-            }
+   /*<![CDATA[*/
+            bbcdotcom.objects('bbcdotcom.config', 'create');
+            bbcdotcom.config =(function(ads, analytics) {
+                var adsEnabled=ads,
+                    analyticsEnabled=analytics,
+                    jsPrefix="http://static.bbci.co.uk/bbcdotcom/0.3.250/script",
+                    swfPrefix="http://static.bbci.co.uk/bbcdotcom/0.3.250/swf",
+                    cssPrefix="http://static.bbci.co.uk/bbcdotcom/0.3.250/style";
+                return {
+                    setAdsEnabled: function(enabled) {
+                        /* Once it has been disable to not allow it to be enabled */
+                        adsEnabled = (adsEnabled !== 0) ? enabled : 0;
+                    },
+                    isAdsEnabled: function() {
+                        return adsEnabled;
+                    },
+                    setAnalyticsEnabled: function(enabled) {
+                        /* Once it has been disable to not allow it to be enabled */
+                        analyticsEnabled = (analyticsEnabled !== 0) ? enabled : 0;
+                    },
+                    isAnalyticsEnabled: function() {
+                        return analyticsEnabled;
+                    },
+                    setJsPrefix: function (prefix) {
+                        jsPrefix = prefix;
+                    },
+                    getJsPrefix: function () {
+                        return jsPrefix;
+                    },
+                    setSwfPrefix: function (prefix) {
+                        swfPrefix = prefix;
+                    },
+                    getSwfPrefix: function () {
+                        return swfPrefix;
+                    },
+                    setCssPrefix: function (prefix) {
+                        cssPrefix = prefix;
+                    },
+                    getCssPrefix: function () {
+                        return cssPrefix;
+                    }
+                };
+            }(1, 1));
+            bbcdotcom.objects('bbcdotcom.siteCatalyst', 'create');
+            bbcdotcom.siteCatalyst = {"ch":"","cdp":"3","ce":"UTF-8"};
+            bbcdotcom.objects('bbcdotcom.stats', 'create');
+            /* Create BBC.adverts skeleton */
+            if (window.BBC === undefined) {
+                var BBC = {};
+            }
+            if (window.BBC.adverts === undefined) {
+                BBC.adverts = {
+                    setZone: function () {},
+                    configure: function () {},
+                    write: function () {},
+                    show: function () {},
+                    isActive: function () {
+                        return false;
+                    },
+                    setScriptRoot: function () {},
+                    setImgRoot: function () {},
+                    getAdvertTag: function () {},
+                    getSectionPath: function() {},
+                    showPartnerButtons: function() {}
+                };
+            }
+            (function(){
+                if(typeof require !== 'undefined') {
+                    require({
+                        paths:{
+                            "bbcdotcom":"http://static.bbci.co.uk/bbcdotcom/0.3.250/script"
+                        }
+                    });
+                }
+            })();
+            if (typeof orb !== 'undefined' && typeof orb.fig === 'function') {
+                bbcdotcom.data = {
+                    a: orb.fig('ad')? 1 : 0,
+                    b: (0 == orb.fig('uk')) ? 1 : 0,
+                    c: orb.fig('ap')
+                };
+            } else {
+                document.write('<script type="text/javascript" src="http://tps.bbc.com/wwscripts/data">\x3C/script>');
+            }
             /*]]>*/
   </script>
   <script type="text/javascript">
-   /*<![CDATA[*/
-            if (typeof bbcdotcom.data == 'undefined' || typeof bbcdotcom.data.a == 'undefined' || typeof bbcdotcom.data.b == 'undefined' || typeof bbcdotcom.data.c == 'undefined') {
-                bbcdotcom.data = {a:0,b:0,c:0};
-            }
-            if (bbcdotcom.data.a == 1) {
-                document.write('<script type="text/javascript" src="http://www.bbc.co.uk/wwscripts/flag">\x3C/script>');
-            }
+   /*<![CDATA[*/
+            if (typeof bbcdotcom.data == 'undefined' || typeof bbcdotcom.data.a == 'undefined' || typeof bbcdotcom.data.b == 'undefined' || typeof bbcdotcom.data.c == 'undefined') {
+                bbcdotcom.data = {a:0,b:0,c:0};
+            }
+            if (bbcdotcom.data.a == 1) {
+                document.write('<script type="text/javascript" src="http://www.bbc.co.uk/wwscripts/flag">\x3C/script>');
+            }
             /*]]>*/
   </script>
   <script type="text/javascript">
-   /*<![CDATA[*/
-            if (typeof bbcdotcom.flag == 'undefined' || bbcdotcom.flag.a != 1) {
-                                bbcdotcom.data.a = 0;
+   /*<![CDATA[*/
+            if (typeof bbcdotcom.flag == 'undefined' || bbcdotcom.flag.a != 1) {
+                                bbcdotcom.data.a = 0;
             }
   </script>
   <script type="text/javascript">
-   /*<![CDATA[*/
-            if(bbcdotcom.data.a == 1 || bbcdotcom.data.b == 1) {
-                document.write('<link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/bbcdotcom/0.3.250/style/3pt_ads.css" />');document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/0.3.250/script/bbccom.js">\x3C/script>');            }
+   /*<![CDATA[*/
+            if(bbcdotcom.data.a == 1 || bbcdotcom.data.b == 1) {
+                document.write('<link rel="stylesheet" type="text/css" href="http://static.bbci.co.uk/bbcdotcom/0.3.250/style/3pt_ads.css" />');document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/0.3.250/script/bbccom.js">\x3C/script>');            }
             /*]]>*/
   </script>
   <script type="text/javascript">
-   /*<![CDATA[*/
-            if (bbcdotcom.data.a == 1 || bbcdotcom.data.b == 1) {
-                                BBC.adverts.setData(bbcdotcom.data);
-                bbcdotcom.config.setAdsEnabled(bbcdotcom.data.a);
-                bbcdotcom.config.setAnalyticsEnabled(bbcdotcom.data.b);
-            }
-            if (bbcdotcom.data.a == 1) {
-                                (function(){
-                    var zoneFile = "3pt_zone_file";
-
-                    bbcdotcom.objects('page', 'create', bbcdotcom);
-                    
-                                        BBC.adverts.setScriptRoot("http://static.bbci.co.uk/bbcdotcom/0.3.250/script/");
-                    BBC.adverts.setImgRoot("http://static.bbci.co.uk/bbcdotcom/0.3.250/img/");
-                    BBC.adverts.init({
-                        domain: "www.bbc.com",
-                        location: window.location.pathname,
-                        zoneVersion: zoneFile,
-                        zoneAuto: false,
-                        siteAuto: false,
-                        keywordsAuto: false,
-                        zoneReferrer: document.referrer
-                    });
-                })();
-                if(typeof bbcdotcom !== 'undefined' && typeof bbcdotcom.survey !== 'undefined' && typeof bbcdotcom.survey.init === 'function') {
-                    bbcdotcom.survey.init();
-                }
-            }
+   /*<![CDATA[*/
+            if (bbcdotcom.data.a == 1 || bbcdotcom.data.b == 1) {
+                                BBC.adverts.setData(bbcdotcom.data);
+                bbcdotcom.config.setAdsEnabled(bbcdotcom.data.a);
+                bbcdotcom.config.setAnalyticsEnabled(bbcdotcom.data.b);
+            }
+            if (bbcdotcom.data.a == 1) {
+                                (function(){
+                    var zoneFile = "3pt_zone_file";
+
+                    bbcdotcom.objects('page', 'create', bbcdotcom);
+                    
+                                        BBC.adverts.setScriptRoot("http://static.bbci.co.uk/bbcdotcom/0.3.250/script/");
+                    BBC.adverts.setImgRoot("http://static.bbci.co.uk/bbcdotcom/0.3.250/img/");
+                    BBC.adverts.init({
+                        domain: "www.bbc.com",
+                        location: window.location.pathname,
+                        zoneVersion: zoneFile,
+                        zoneAuto: false,
+                        siteAuto: false,
+                        keywordsAuto: false,
+                        zoneReferrer: document.referrer
+                    });
+                })();
+                if(typeof bbcdotcom !== 'undefined' && typeof bbcdotcom.survey !== 'undefined' && typeof bbcdotcom.survey.init === 'function') {
+                    bbcdotcom.survey.init();
+                }
+            }
             /*]]>*/
   </script>
   <script type="text/javascript">
@@ -352,12 +352,12 @@ fig.manager.include();
    BBC.adverts.write("wallpaper",false);
   </script>
   <script type="text/javascript">
-   /*<![CDATA[*/
-            body= document.getElementsByTagName('body');
-            aTags = document.getElementsByTagName('a');
-            if('undefined' != typeof aTags && 'undefined' != typeof aTags[0] && -1 !== aTags[0].href.indexOf('http://ad.doubleclick.net')) {
-                body[0].removeChild(aTags[0]);
-            }
+   /*<![CDATA[*/
+            body= document.getElementsByTagName('body');
+            aTags = document.getElementsByTagName('a');
+            if('undefined' != typeof aTags && 'undefined' != typeof aTags[0] && -1 !== aTags[0].href.indexOf('http://ad.doubleclick.net')) {
+                body[0].removeChild(aTags[0]);
+            }
             /*]]>*/
   </script>
   <script type="text/javascript">
@@ -4849,9 +4849,9 @@ fig.manager.include();
         </p>
         <div class="bbccom_adsense bbccom_display_none" id="bbccom_adsense_mpu">
          <script type="text/javascript">
-          if (BBC.adverts.isActive('ads')) {
-                    bbc_adsense_slot = "adsense_mpu"; bbc_adsense_country = "us";
-                    document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/0.3.250/script/adsense_write.js">\x3C/script>');
+          if (BBC.adverts.isActive('ads')) {
+                    bbc_adsense_slot = "adsense_mpu"; bbc_adsense_country = "us";
+                    document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/0.3.250/script/adsense_write.js">\x3C/script>');
                 }
          </script>
         </div>
@@ -4929,7 +4929,7 @@ fig.manager.include();
             </span>
             <ul class="upcoming-fixtures">
              <li>
-              <span>
+              <a href="/sport/football/28102403">
                <span class="inner-wrapper-a">
                 <span class="home-team">
                  Brazil
@@ -4950,7 +4950,7 @@ fig.manager.include();
                  </abbr>
                 </span>
                </span>
-              </span>
+              </a>
              </li>
             </ul>
             <span class="date">
@@ -4958,7 +4958,7 @@ fig.manager.include();
             </span>
             <ul class="upcoming-fixtures">
              <li>
-              <span>
+              <a href="/sport/football/28122293">
                <span class="inner-wrapper-a">
                 <span class="home-team">
                  Netherlands
@@ -4979,7 +4979,7 @@ fig.manager.include();
                  </abbr>
                 </span>
                </span>
-              </span>
+              </a>
              </li>
             </ul>
             <span class="date">
@@ -6365,6 +6365,46 @@ fig.manager.include();
          <div class="grid grid-160">
           <div class="item item-even">
            <h3>
+            <a class="heading-small" href="/sport/football/28122293">
+             <span class="holder">
+              <img alt="Netherlands coach Louis van Gaal" height="90" src="http://ichef.bbci.co.uk/sportui/images/ic/cps/160/media/images/76085000/jpg/_76085695_vangaala.jpg" width="160"/>
+             </span>
+             Argentina v Netherlands
+            </a>
+           </h3>
+           <p class="updated">
+            <span class="icon-story-label">
+             New
+            </span>
+           </p>
+           <p class="link-tag">
+            <a class="tag link-index" href="http://www.bbc.co.uk/sport/football/teams/netherlands">
+             Netherlands
+            </a>
+           </p>
+          </div>
+          <div class="item item-odd">
+           <h3>
+            <a class="heading-small" href="/sport/football/28198309">
+             <span class="holder">
+              <img alt="Neymar and  Juan Zuniga" height="90" src="http://ichef.bbci.co.uk/sportui/images/ic/cps/160/media/images/76099000/jpg/_76099011_neymar_brazil_getty.jpg" width="160"/>
+             </span>
+             No Fifa action over Neymar challenge
+            </a>
+           </h3>
+           <p class="updated">
+            <span class="date">
+             7 Jul 14
+            </span>
+           </p>
+           <p class="link-tag">
+            <a class="tag link-index" href="http://www.bbc.co.uk/sport/football/teams/colombia">
+             Colombia
+            </a>
+           </p>
+          </div>
+          <div class="item item-even">
+           <h3>
             <a class="heading-small" href="/sport/football/28134694">
              <span class="holder">
               <img alt="David Luiz" height="90" src="http://ichef.bbci.co.uk/sportui/images/ic/cps/160/media/images/76062000/jpg/_76062862_76062861.jpg" width="160"/>
@@ -6403,12 +6443,9 @@ fig.manager.include();
             </a>
            </p>
           </div>
-          <div class="item item-even">
+          <div class="additional">
            <h3>
             <a class="heading-small" href="/sport/football/28069209">
-             <span class="holder">
-              <img alt="Argentina v Belgium - Gonzalo Higuain and Lionel Messi" height="90" src="http://ichef.bbci.co.uk/sportui/images/ic/cps/160/media/images/76073000/jpg/_76073201_76073200.jpg" width="160"/>
-             </span>
              Argentina 1-0 Belgium
             </a>
            </h3>
@@ -6423,12 +6460,9 @@ fig.manager.include();
             </a>
            </p>
           </div>
-          <div class="item item-odd">
+          <div class="additional lastAdditional">
            <h3>
             <a class="heading-small" href="/sport/football/28174072">
-             <span class="holder">
-              <img alt="David Luiz and Thomas Muller" height="90" src="http://ichef.bbci.co.uk/sportui/images/ic/cps/160/media/images/76065000/jpg/_76065411_davidluiz&amp;thomasmuller_comp_getty.jpg" width="160"/>
-             </span>
              BBC to show Brazil-Germany semi-final
             </a>
            </h3>
@@ -6436,40 +6470,6 @@ fig.manager.include();
             <span class="date">
              5 Jul 14
             </span>
-           </p>
-          </div>
-          <div class="additional">
-           <h3>
-            <a class="heading-small" href="/sport/football/28051801">
-             Brazil 2-1 Colombia
-            </a>
-           </h3>
-           <p class="updated">
-            <span class="date">
-             5 Jul 14
-            </span>
-           </p>
-           <p class="link-tag">
-            <a class="tag link-index" href="http://www.bbc.co.uk/sport/football/teams/colombia">
-             Colombia
-            </a>
-           </p>
-          </div>
-          <div class="additional lastAdditional">
-           <h3>
-            <a class="heading-small" href="/sport/football/28051800">
-             France 0-1 Germany
-            </a>
-           </h3>
-           <p class="updated">
-            <span class="date">
-             4 Jul 14
-            </span>
-           </p>
-           <p class="link-tag">
-            <a class="tag link-index" href="http://www.bbc.co.uk/sport/football/teams/germany">
-             Germany
-            </a>
            </p>
           </div>
          </div>
@@ -6721,168 +6721,168 @@ fig.manager.include();
     </div>
     <!-- BBCDOTCOM analytics template:client-side journalismVariant: false ipIsAdvertiseCombined: true adsEnabled: true flagpole: ON -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                if(typeof(bbcdotcom) != 'undefined' && typeof(bbcdotcom.stats) != 'undefined') {
-                    bbcdotcom.stats.contentType = "HTML";
-                                    }
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                if(typeof(bbcdotcom) != 'undefined' && typeof(bbcdotcom.stats) != 'undefined') {
+                    bbcdotcom.stats.contentType = "HTML";
+                                    }
+            }
             /*]]>*/
     </script>
     <!-- Start AudienceScience -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                document.write('<script type="text/javascript" src="http://js.revsci.net/gateway/gw.js?csid=J08781">\x3C/script>');
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                document.write('<script type="text/javascript" src="http://js.revsci.net/gateway/gw.js?csid=J08781">\x3C/script>');
+            }
             /*]]>*/
     </script>
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                DM_tag();
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                DM_tag();
+            }
             /*]]>*/
     </script>
     <!-- End AudienceScience -->
     <!-- Start SiteCatalyst -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                var s_account = "bbcwglobalprod";                    document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/0.3.250/script/s_code.js">\x3C/script>');
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                var s_account = "bbcwglobalprod";                    document.write('<script type="text/javascript" src="http://static.bbci.co.uk/bbcdotcom/0.3.250/script/s_code.js">\x3C/script>');
+            }
             /*]]>*/
     </script>
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                var s_code=scw.t();if(s_code)document.write(s_code)
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                var s_code=scw.t();if(s_code)document.write(s_code)
+            }
             /*]]>*/
     </script>
     <!-- End SiteCatalyst -->
     <!-- Start comScore Tag -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                document.write("\x3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js'>\x3C/script>");
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                document.write("\x3Cscript src='" + (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js'>\x3C/script>");
+            }
             /*]]>*/
     </script>
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                COMSCORE.beacon({
-                    c1:2,
-                    c2:"6035051",
-                    c3:"",
-                    c4:"www.bbc.com/sport/football/world-cup/results",
-                    c5:"",
-                    c6:"",
-                    c15:""
-                });
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                COMSCORE.beacon({
+                    c1:2,
+                    c2:"6035051",
+                    c3:"",
+                    c4:"www.bbc.com/sport/football/world-cup/results",
+                    c5:"",
+                    c6:"",
+                    c15:""
+                });
+            }
             /*]]>*/
     </script>
     <!-- End comScore Tag -->
     <!-- Begin Sitestat4 code -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('sitestat')) {
-                function sitestat(ns_l){ns_l+='&amp;ns__t='+(new Date()).getTime();
-                ns_0=document.referrer;
-                ns_0=(ns_0.lastIndexOf('/')==ns_0.length-1)?ns_0.substring(ns_0.lastIndexOf('/'),0):ns_0;
-                if(ns_0.length>0)ns_l+='&amp;ns_referrer='+encodeURI(ns_0);
-                if(document.images){ns_1=new Image();ns_1.src=ns_l;}else
-                document.write('<img src="'+ns_l+'" width="1" height="1" alt="">');}
-                sitestat("http://nl.sitestat.com/adfab/bbc/s?teller");
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('sitestat')) {
+                function sitestat(ns_l){ns_l+='&amp;ns__t='+(new Date()).getTime();
+                ns_0=document.referrer;
+                ns_0=(ns_0.lastIndexOf('/')==ns_0.length-1)?ns_0.substring(ns_0.lastIndexOf('/'),0):ns_0;
+                if(ns_0.length>0)ns_l+='&amp;ns_referrer='+encodeURI(ns_0);
+                if(document.images){ns_1=new Image();ns_1.src=ns_l;}else
+                document.write('<img src="'+ns_l+'" width="1" height="1" alt="">');}
+                sitestat("http://nl.sitestat.com/adfab/bbc/s?teller");
+            }
             /*]]>*/
     </script>
     <!-- End Sitestat4 code -->
     <!-- Start Nielsen Online SiteCensus V6.0 -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('nielsen-au')) {
-                <!-- COPYRIGHT 2009 Nielsen Online -->
-                document.write('<script type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https:' : 'http:') + '//secure-au.imrworldwide.com/v60.js">\x3C/script>');
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-au')) {
+                <!-- COPYRIGHT 2009 Nielsen Online -->
+                document.write('<script type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https:' : 'http:') + '//secure-au.imrworldwide.com/v60.js">\x3C/script>');
+            }
             /*]]>*/
     </script>
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('nielsen-au')) {
-                nol_t({cid:"au-bbc",content:"0",server:"secure-au"}).record().post();
-            }
-            /*]]>*/
-    </script>
-    <!-- End Nielsen Online SiteCensus V6.0 -->
-    <!-- Start Nielsen Online SiteCensus V6.0 -->
-    <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('nielsen-nz')) {
-                <!-- COPYRIGHT 2009 Nielsen Online -->
-                document.write('<script type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https:' : 'http:') + '//secure-nz.imrworldwide.com/v60.js">\x3C/script>');
-            }
-            /*]]>*/
-    </script>
-    <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('nielsen-nz')) {
-                nol_t({cid:"nz-bbc",content:"0",server:"secure-nz"}).record().post();
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-au')) {
+                nol_t({cid:"au-bbc",content:"0",server:"secure-au"}).record().post();
+            }
             /*]]>*/
     </script>
     <!-- End Nielsen Online SiteCensus V6.0 -->
     <!-- Start Nielsen Online SiteCensus V6.0 -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('nielsen-us')) {
-                <!-- COPYRIGHT 2010 Nielsen Online -->
-               (function () {
-                   var d = new Image(1, 1);
-                   d.onerror = d.onload = function () {
-                       d.onerror = d.onload = null;
-                   };
-                   d.src = [('https:' == document.location.protocol ? 'https:' : 'http:') + "//secure-us.imrworldwide.com/cgi-bin/m?ci=us-804789h&amp;cg=0&amp;cc=1&amp;si=", encodeURI(window.location.href), "&amp;rp=",
-                   encodeURI(document.referrer), "&amp;ts=compact&amp;rnd=", (new Date()).getTime()].join('');
-                })();
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-nz')) {
+                <!-- COPYRIGHT 2009 Nielsen Online -->
+                document.write('<script type="text/javascript" src="' + ('https:' == document.location.protocol ? 'https:' : 'http:') + '//secure-nz.imrworldwide.com/v60.js">\x3C/script>');
+            }
+            /*]]>*/
+    </script>
+    <script type="text/javascript">
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-nz')) {
+                nol_t({cid:"nz-bbc",content:"0",server:"secure-nz"}).record().post();
+            }
+            /*]]>*/
+    </script>
+    <!-- End Nielsen Online SiteCensus V6.0 -->
+    <!-- Start Nielsen Online SiteCensus V6.0 -->
+    <script type="text/javascript">
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('nielsen-us')) {
+                <!-- COPYRIGHT 2010 Nielsen Online -->
+               (function () {
+                   var d = new Image(1, 1);
+                   d.onerror = d.onload = function () {
+                       d.onerror = d.onload = null;
+                   };
+                   d.src = [('https:' == document.location.protocol ? 'https:' : 'http:') + "//secure-us.imrworldwide.com/cgi-bin/m?ci=us-804789h&amp;cg=0&amp;cc=1&amp;si=", encodeURI(window.location.href), "&amp;rp=",
+                   encodeURI(document.referrer), "&amp;ts=compact&amp;rnd=", (new Date()).getTime()].join('');
+                })();
+            }
             /*]]>*/
     </script>
     <!-- End Nielsen Online SiteCensus V6.0 -->
     <!-- Effective Measure BBCCOM-1195 -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('analytics')) {
-                (function() {
-                    var em = document.createElement('script'); em.type = 'text/javascript'; em.async = true;
-                    em.src = ('https:' == document.location.protocol ? 'https://me-ssl' : 'http://me-cdn') + '.effectivemeasure.net/em.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(em, s);
-                })();
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('analytics')) {
+                (function() {
+                    var em = document.createElement('script'); em.type = 'text/javascript'; em.async = true;
+                    em.src = ('https:' == document.location.protocol ? 'https://me-ssl' : 'http://me-cdn') + '.effectivemeasure.net/em.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(em, s);
+                })();
+            }
             /*]]>*/
     </script>
     <!-- End Effective Measure -->
     <!-- AGOF BBCCOM-1271 -->
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('agof')) {
-                var ivwcode="default";
-                if(typeof BBC != 'undefined' && typeof BBC.adverts != 'undefined'){
-                    ivwcode = BBC.adverts.getSectionPath();
-                }
-                var IVW="http://bbc.ivwbox.de/cgi-bin/ivw/CP/"+ivwcode+";";
-                document.write("<img src=\""+IVW+"?r="+encodeURI(document.referrer)+"&d="+(Math.random()*100000)+"\" width=\"1\" height=\"1\" alt=\"szmtag\" />");
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('agof')) {
+                var ivwcode="default";
+                if(typeof BBC != 'undefined' && typeof BBC.adverts != 'undefined'){
+                    ivwcode = BBC.adverts.getSectionPath();
+                }
+                var IVW="http://bbc.ivwbox.de/cgi-bin/ivw/CP/"+ivwcode+";";
+                document.write("<img src=\""+IVW+"?r="+encodeURI(document.referrer)+"&d="+(Math.random()*100000)+"\" width=\"1\" height=\"1\" alt=\"szmtag\" />");
+            }
             /*]]>*/
     </script>
     <script type="text/javascript">
-     /*<![CDATA[*/
-            if (BBC.adverts.isActive('agof')) {
-                var szmvars="bbc//CP/"+ivwcode;
-                document.write('<script src="http://bbc.ivwbox.de/2004/01/survey.js" type="text/javascript">\x3C/script>');
-            }
+     /*<![CDATA[*/
+            if (BBC.adverts.isActive('agof')) {
+                var szmvars="bbc//CP/"+ivwcode;
+                document.write('<script src="http://bbc.ivwbox.de/2004/01/survey.js" type="text/javascript">\x3C/script>');
+            }
             /*]]>*/
     </script>
     <!-- End AGOF -->

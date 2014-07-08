@@ -207,6 +207,7 @@ def matchStats(x):
 
     teamStats = []
 
+
     # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
     strGameURL = gameURL.split('/')
     BBC_MatchID = strGameURL[5]
