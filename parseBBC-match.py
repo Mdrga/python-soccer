@@ -187,13 +187,25 @@ for i in divTeamDetails:
 
 # Function to return Match Stats based on input of matchSoup
 def matchStats(x):
+    # Pull in the main Match Detail page from the Function Call
     funcMatch = x
+
+    # Create a local copy of the Match HTML page
+    with open ('MatchStats-output.html', "w") as f:
+        f.write(funcMatch.prettify('utf-8'))
+        f.close()
+
+    # Parse out the two main sections of the Match (Roster & Stats)
     divTeamDetails = funcMatch.find("div", {"class":"post-match"})
     divMatchStats = funcMatch.find("div", {"id":"match-stats-wrapper"})
+
+    # Parse out the Match Statistics
     statPossession = divMatchStats.find("div", {"id":"possession"})
     statShots = divMatchStats.find("div", {"id":"total-shots"})
     statPossessionHome = statPossession.find("span", {"class":"home"})
     statPossessionAway = statPossession.find("span", {"class":"away"})
+    
+    # Parse out the Team Names, Team Badge, Scores and Scorers of Goals
     homeTeam = divTeamDetails.find("div", {"id":"home-team"})
     awayTeam = divTeamDetails.find("div", {"id":"away-team"})
     homeScorer = homeTeam.find("p", {"class":"scorer-list blq-clearfix"})
@@ -201,25 +213,23 @@ def matchStats(x):
     spanHomeScorer = homeScorer.find_all("span")
     spanHomeScore = homeTeam.find("span", {"class":"team-score"})
     spanAwayScore = awayTeam.find("span", {"class":"team-score"})
-
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
 
+    # Create an array to store the Team-Level Statistics that will be returned
     teamStats = []
 
     # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
     strGameURL = gameURL.split('/')
     BBC_MatchID = strGameURL[5]
 
+    # Create the rows for the Match in to the array teamStats
     teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %')
     teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text())
     teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text())
 
-    with open ('MatchStats-output.html', "w") as f:
-        f.write(funcMatch.prettify('utf-8'))
-        f.close()
-
     return teamStats
 
+# Print out the results of the function matchStats
 for i in matchStats(matchSoup):
     print i
