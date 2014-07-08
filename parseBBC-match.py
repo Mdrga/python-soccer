@@ -188,13 +188,14 @@ for i in divTeamDetails:
 # Function to return Match Stats based on input of matchSoup
 def matchStats(x):
     funcMatch = x
-    divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
+    divTeamDetails = funcMatch.find("div", {"class":"post-match"})
+    divMatchStats = funcMatch.find("div", {"id":"match-stats-wrapper"})
     statPossession = divMatchStats.find("div", {"id":"possession"})
     statShots = divMatchStats.find("div", {"id":"total-shots"})
     statPossessionHome = statPossession.find("span", {"class":"home"})
     statPossessionAway = statPossession.find("span", {"class":"away"})
-    homeTeam = funcMatch.find("div", {"id":"home-team"})
-    awayTeam = funcMatch.find("div", {"id":"away-team"})
+    homeTeam = divTeamDetails.find("div", {"id":"home-team"})
+    awayTeam = divTeamDetails.find("div", {"id":"away-team"})
     homeScorer = homeTeam.find("p", {"class":"scorer-list blq-clearfix"})
     awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
     spanHomeScorer = homeScorer.find_all("span")
@@ -203,15 +204,6 @@ def matchStats(x):
 
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
-
-    # print spanHomeScore.get_text()
-    print len(homeScorer)
-    for i in spanHomeScorer:
-        print i
-
-    # print textHomeScorer
-    # for i in homeScorer:
-        # print i.get_text()
 
     print homeTeam.a.get_text() + '|' + statPossessionHome.get_text() + '|'
     print awayTeam.a.get_text() + '|' + statPossessionAway.get_text()
