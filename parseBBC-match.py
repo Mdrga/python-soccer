@@ -185,22 +185,47 @@ for i in divTeamDetails:
                 f.write(i.encode('utf-8') + '\n')
                 f.close()
 
-# Match Stats Details
-divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
-statPossession = divMatchStats.find("div", {"id":"possession"})
-statShots = divMatchStats.find("div", {"id":"total-shots"})
-statPossessionHome = statPossession.find("span", {"class":"home"})
-statPossessionAway = statPossession.find("span", {"class":"away"})
-# print statPossessionHome.get_text()
-# print statPossessionAway.get_text()
+# Function to return Match Stats based on input of matchSoup
+def matchStats(x):
+    funcMatch = x
+    divMatchStats = matchSoup.find("div", {"id":"match-stats-wrapper"})
+    statPossession = divMatchStats.find("div", {"id":"possession"})
+    statShots = divMatchStats.find("div", {"id":"total-shots"})
+    statPossessionHome = statPossession.find("span", {"class":"home"})
+    statPossessionAway = statPossession.find("span", {"class":"away"})
+    homeTeam = funcMatch.find("div", {"id":"home-team"})
+    awayTeam = funcMatch.find("div", {"id":"away-team"})
+    homeScorer = homeTeam.find("p", {"class":"scorer-list blq-clearfix"})
+    awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
+    spanHomeScorer = homeScorer.find_all("span")
+    spanHomeScore = homeTeam.find("span", {"class":"team-score"})
+    spanAwayScore = awayTeam.find("span", {"class":"team-score"})
 
-# Output Raw HTML for Match Stats to a Local File
-with open ('MatchStats-output.html', "w") as f:
-    f.write(divMatchStats.prettify())
-    f.close()
+    homeTeamBadge = homeTeam.find("img")
+    awayTeamBadge = awayTeam.find("img")
 
-# Test the Function to Print the Home & Away Teams
-print returnHome(divTeamDetails)
-print returnAway(divTeamDetails)
+    # print spanHomeScore.get_text()
+    print len(homeScorer)
+    for i in spanHomeScorer:
+        print i
 
-print listHomeRoster
+    # print textHomeScorer
+    # for i in homeScorer:
+        # print i.get_text()
+
+    print homeTeam.a.get_text() + '|' + statPossessionHome.get_text() + '|'
+    print awayTeam.a.get_text() + '|' + statPossessionAway.get_text()
+
+    # print statPossessionHome.get_text()
+    # print statPossessionAway.get_text()
+
+    # print returnHome(funcMatch)
+    # print returnAway(funcMatch)
+
+    with open ('MatchStats-output.html', "w") as f:
+        f.write(funcMatch.prettify('utf-8'))
+        f.close()
+
+    return True
+
+matchStats(matchSoup)
