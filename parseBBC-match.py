@@ -16,11 +16,11 @@ ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/27990605","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/28069208","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
-gameMatch = urllib2.urlopen(website[1])
 gameURL = website[1]
+gameMatch = urllib2.urlopen(gameURL)
 matchSoup = BeautifulSoup(gameMatch)
 parseVersion = 'WorldCup v0.13.e'
 
@@ -133,6 +133,7 @@ with open('MatchStats-output.txt', "w") as f:
     f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
     f.close()
 
+'''
 # Parses the values contained in the divTeamDetails in to Team-Level Stats for the Match
 for i in divTeamDetails:
     #print i
@@ -141,6 +142,8 @@ for i in divTeamDetails:
         homeTeam = i.find("div", {"id":"home-team"})
         awayTeam = i.find("div", {"id":"away-team"})
         
+        print homeTeam
+
         spanHomeScore = homeTeam.find("span", {"class":"team-score"})
         spanAwayScore = awayTeam.find("span", {"class":"team-score"})
         
@@ -184,6 +187,7 @@ for i in divTeamDetails:
             with open('MatchStats-output.txt', "a") as f:
                 f.write(i.encode('utf-8') + '\n')
                 f.close()
+'''
 
 # Function to return Match Stats based on input of matchSoup
 def matchStats(x):
@@ -202,17 +206,31 @@ def matchStats(x):
     # Parse out the Match Statistics
     statPossession = divMatchStats.find("div", {"id":"possession"})
     statShots = divMatchStats.find("div", {"id":"total-shots"})
+    statShotsGoal = divMatchStats.find("div", {"id":"shots-on-target"})
+    statCorners = divMatchStats.find("div", {"id":"corners-wrapper"})
+    statFouls = divMatchStats.find("div", {"id":"fouls-wrapper"})
     statPossessionHome = statPossession.find("span", {"class":"home"})
     statPossessionAway = statPossession.find("span", {"class":"away"})
-    
+    statShotsHome = statShots.find("span", {"class":"home"})
+    statShotsAway = statShots.find("span", {"class":"away"})
+    statShotsGoalHome = statShotsGoal.find("span", {"class":"home"})
+    statShotsGoalAway = statShotsGoal.find("span", {"class":"away"})
+    statCornersHome = statCorners.find("span", {"class":"home"})
+    statCornersAway = statCorners.find("span", {"class":"away"})
+    statFoulsHome = statFouls.find("span", {"class":"home"})
+    statFoulsAway = statFouls.find("span", {"class":"away"})
+
     # Parse out the Team Names, Team Badge, Scores and Scorers of Goals
     homeTeam = divTeamDetails.find("div", {"id":"home-team"})
+    # print homeTeam.prettify('utf-8')
+
     awayTeam = divTeamDetails.find("div", {"id":"away-team"})
-    homeScorer = homeTeam.find("p", {"class":"scorer-list blq-clearfix"})
+    homeScorer = homeTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
     awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
-    spanHomeScorer = homeScorer.find_all("span")
     spanHomeScore = homeTeam.find("span", {"class":"team-score"})
     spanAwayScore = awayTeam.find("span", {"class":"team-score"})
+    # spanHomeScore = 0
+    # spanAwayScore = 0
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
 
@@ -224,12 +242,32 @@ def matchStats(x):
     BBC_MatchID = strGameURL[5]
 
     # Create the rows for the Match in to the array teamStats
-    teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %')
-    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text())
-    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text())
+    teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls')
+    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text())
+    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text())
+
+    # print funcMatch.prettify('utf-8')
+
+    specNotice = funcMatch.find("div", {"id":"special-notice"})
+    try:
+        specNotice
+    except NameError:
+        specNotice = None
+
+    if specNotice != None:
+        print "DRAW" + ' - ' + specNotice.get_text(strip=True)
+    # <div id="special-notice">
+
+    # print spanHomeScorer
+    # print homeTeam.prettify('utf-8')
+    # for i in homeTeam.p:
+    #    print i
 
     return teamStats
 
 # Print out the results of the function matchStats
+
+print '***- - - - - - - - - - - - - - - - -***'
 for i in matchStats(matchSoup):
     print i
+    # print '***- - - - - - - - - - - - - - - - -***'
