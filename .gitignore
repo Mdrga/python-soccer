@@ -3,3 +3,11 @@
 *.txt
 
 *.html
+
+MatchStats-output.html
+
+MatchStats-output.txt
+
+MatchDetails-output.txt
+
+WorldCup-MatchBase.html
