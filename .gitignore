@@ -30,3 +30,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+MatchDetails-output.txt
+MatchStats-output.html
+MatchStats-output.txt
+WorldCup-MatchBase.html

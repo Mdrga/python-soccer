@@ -1,7 +1,124 @@
-<<<<<<< HEAD
-2014-07-08|08:25:57|WorldCup v0.13.e|Match Stats File
-=======
-2014-07-08|07:07:02|WorldCup v0.13.e|Match Stats File
->>>>>>> origin/master
-http://www.bbc.com/sport/football/27990605|Belgium|2|  De Bruyne 93′  Lukaku 105′  |http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png
-http://www.bbc.com/sport/football/27990605|USA|1|  Green 107′  |http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/usa.png
+2014-07-09|12:49:41|WorldCup v0.13.f|Match Stats File
+MatchID|Team Side|Team Name|Goals Scored|Team Badge|Possession %|Shots|Shots On Goal|Corners|Fouls|Match Notice
+28102403|Home|Brazil|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/brazil.png|47|18|8|7|11|No Special Notice
+28102403|Away|Germany|7|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/germany.png|53|14|10|5|14|No Special Notice
+28069209|Home|Argentina|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/argentina.png|46|10|2|3|11|No Special Notice
+28069209|Away|Belgium|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png|54|10|1|4|14|No Special Notice
+28069208|Home|Netherlands|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/netherlands.png|67|20|8|11|15|DRAW - Netherlands win 4-3 on penalties
+28069208|Away|Costa Rica|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/costa-rica.png|33|6|1|1|13|DRAW - Netherlands win 4-3 on penalties
+28051800|Home|France|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/france.png|49|13|5|5|15|No Special Notice
+28051800|Away|Germany|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/germany.png|51|9|3|3|18|No Special Notice
+28051801|Home|Brazil|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/brazil.png|51|13|5|4|31|No Special Notice
+28051801|Away|Colombia|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/colombia.png|49|11|2|6|23|No Special Notice
+27990606|Home|Argentina|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/argentina.png|64|29|8|13|18|No Special Notice
+27990606|Away|Switzerland|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/switzerland.png|36|15|4|5|29|No Special Notice
+27990605|Home|Belgium|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png|46|39|17|19|27|No Special Notice
+27990605|Away|USA|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/usa.png|54|17|5|4|11|No Special Notice
+27969976|Home|France|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/france.png|53|13|5|12|12|No Special Notice
+27969976|Away|Nigeria|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/nigeria.png|47|9|2|9|15|No Special Notice
+27969924|Home|Germany|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/germany.png|67|28|14|10|11|No Special Notice
+27969924|Away|Algeria|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/algeria.png|33|10|4|4|20|No Special Notice
+27961190|Home|Netherlands|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/netherlands.png|56|13|4|10|8|No Special Notice
+27961190|Away|Mexico|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/mexico.png|44|10|5|2|12|No Special Notice
+27961189|Home|Costa Rica|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/costa-rica.png|40|7|1|3|22|DRAW - Costa Rica win 5-3 on penalties
+27961189|Away|Greece|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/greece.png|60|23|8|11|16|DRAW - Costa Rica win 5-3 on penalties
+27952759|Home|Brazil|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/brazil.png|48|23|6|9|28|DRAW - Brazil win 3-2 on penalties
+27952759|Away|Chile|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/chile.png|52|13|2|5|23|DRAW - Brazil win 3-2 on penalties
+27952760|Home|Colombia|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/colombia.png|51|9|4|3|19|No Special Notice
+27952760|Away|Uruguay|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/uruguay.png|49|16|4|5|17|No Special Notice
+25285312|Home|Portugal|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/portugal.png|58|18|7|7|21|No Special Notice
+25285312|Away|Ghana|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ghana.png|42|17|4|4|16|No Special Notice
+25285382|Home|USA|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/usa.png|33|4|0|2|15|No Special Notice
+25285382|Away|Germany|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/germany.png|67|13|6|3|9|No Special Notice
+25285498|Home|Algeria|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/algeria.png|43|8|6|3|15|No Special Notice
+25285498|Away|Russia|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/russia.png|57|9|4|4|14|No Special Notice
+25285474|Home|South Korea|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/south-korea.png|55|16|4|7|16|No Special Notice
+25285474|Away|Belgium|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png|45|15|5|4|12|No Special Notice
+25285420|Home|Ecuador|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ecuador.png|32|12|2|1|17|No Special Notice
+25285420|Away|France|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/france.png|68|21|9|7|6|No Special Notice
+25285335|Home|Honduras|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/honduras.png|62|12|4|8|17|No Special Notice
+25285335|Away|Switzerland|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/switzerland.png|38|16|10|1|17|No Special Notice
+25285298|Home|Bos-Herce|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/bosnia-hercegovina.png|66|12|5|6|20|No Special Notice
+25285298|Away|Iran|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/iran.png|34|7|2|5|17|No Special Notice
+25285406|Home|Nigeria|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/nigeria.png|39|12|3|4|16|No Special Notice
+25285406|Away|Argentina|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/argentina.png|61|18|13|12|5|No Special Notice
+25285284|Home|Greece|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/greece.png|46|13|5|4|12|No Special Notice
+25285284|Away|Ivory Coast|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ivory-coast.png|54|13|4|7|23|No Special Notice
+25455848|Home|Japan|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/japan.png|61|24|7|9|10|No Special Notice
+25455848|Away|Colombia|4|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/colombia.png|39|13|4|2|18|No Special Notice
+25285354|Home|Costa Rica|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/costa-rica.png|44|4|2|3|18|No Special Notice
+25285354|Away|England|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/england.png|56|8|1|7|16|No Special Notice
+25285368|Home|Italy|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/italy.png|57|9|1|3|19|No Special Notice
+25285368|Away|Uruguay|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/uruguay.png|43|14|5|3|19|No Special Notice
+25285277|Home|Cameroon|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/cameroon.png|45|12|1|6|14|No Special Notice
+25285277|Away|Brazil|4|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/brazil.png|55|19|11|7|19|No Special Notice
+25285326|Home|Croatia|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/croatia.png|55|10|3|7|17|No Special Notice
+25285326|Away|Mexico|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/mexico.png|45|11|4|9|12|No Special Notice
+25285263|Home|Australia|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/australia.png|42|4|0|2|14|No Special Notice
+25285263|Away|Spain|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/spain.png|58|10|4|6|9|No Special Notice
+25285270|Home|Netherlands|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/netherlands.png|32|13|4|2|25|No Special Notice
+25285270|Away|Chile|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/chile.png|68|8|1|7|14|No Special Notice
+25285256|Home|USA|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/usa.png|48|15|5|6|11|No Special Notice
+25285256|Away|Portugal|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/portugal.png|52|21|7|4|14|No Special Notice
+25285242|Home|Belgium|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png|51|12|2|5|14|No Special Notice
+25285242|Away|Russia|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/russia.png|49|12|3|8|9|No Special Notice
+25285249|Home|South Korea|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/south-korea.png|52|8|4|7|13|No Special Notice
+25285249|Away|Algeria|4|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/algeria.png|48|15|5|5|16|No Special Notice
+25285221|Home|Argentina|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/argentina.png|76|21|4|10|7|No Special Notice
+25285221|Away|Iran|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/iran.png|24|8|3|6|14|No Special Notice
+25285235|Home|Nigeria|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/nigeria.png|41|20|9|4|9|No Special Notice
+25285235|Away|Bos-Herce|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/bosnia-hercegovina.png|59|20|7|4|7|No Special Notice
+25285228|Home|Germany|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/germany.png|62|12|4|7|11|No Special Notice
+25285228|Away|Ghana|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ghana.png|38|18|6|3|17|No Special Notice
+25285190|Home|Italy|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/italy.png|61|11|4|4|10|No Special Notice
+25285190|Away|Costa Rica|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/costa-rica.png|39|11|5|5|23|No Special Notice
+25285207|Home|Switzerland|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/switzerland.png|59|17|4|5|12|No Special Notice
+25285207|Away|France|5|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/france.png|41|22|12|3|15|No Special Notice
+25285214|Home|Honduras|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/honduras.png|50|17|5|4|15|No Special Notice
+25285214|Away|Ecuador|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ecuador.png|50|10|4|12|16|No Special Notice
+25285169|Home|Colombia|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/colombia.png|45|11|6|5|11|No Special Notice
+25285169|Away|Ivory Coast|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ivory-coast.png|55|13|3|5|14|No Special Notice
+25285183|Home|Japan|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/japan.png|74|18|4|5|23|No Special Notice
+25285183|Away|Greece|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/greece.png|26|9|4|7|18|No Special Notice
+25285176|Home|Uruguay|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/uruguay.png|37|8|2|7|17|No Special Notice
+25285176|Away|England|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/england.png|63|12|6|6|12|No Special Notice
+25285162|Home|Cameroon|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/cameroon.png|42|17|2|4|11|No Special Notice
+25285162|Away|Croatia|4|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/croatia.png|58|18|9|7|9|No Special Notice
+25285148|Home|Australia|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/australia.png|50|10|4|3|18|No Special Notice
+25285148|Away|Netherlands|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/netherlands.png|50|14|9|2|25|No Special Notice
+25285155|Home|Spain|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/spain.png|63|16|6|7|14|No Special Notice
+25285155|Away|Chile|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/chile.png|37|8|4|1|15|No Special Notice
+25285134|Home|Brazil|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/brazil.png|53|14|6|4|13|No Special Notice
+25285134|Away|Mexico|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/mexico.png|47|13|2|3|18|No Special Notice
+25285127|Home|Belgium|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/belgium.png|67|17|8|7|20|No Special Notice
+25285127|Away|Algeria|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/algeria.png|33|3|1|2|18|No Special Notice
+25285141|Home|Russia|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/russia.png|49|18|5|4|15|No Special Notice
+25285141|Away|South Korea|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/south-korea.png|51|10|5|4|7|No Special Notice
+25285113|Home|Iran|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/iran.png|31|9|1|2|18|No Special Notice
+25285113|Away|Nigeria|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/nigeria.png|69|10|4|7|16|No Special Notice
+25285106|Home|Germany|4|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/germany.png|57|13|6|4|8|No Special Notice
+25285106|Away|Portugal|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/portugal.png|43|13|4|6|12|No Special Notice
+25285120|Home|Ghana|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ghana.png|62|21|3|7|10|No Special Notice
+25285120|Away|USA|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/usa.png|38|8|4|3|12|No Special Notice
+25285078|Home|Ivory Coast|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ivory-coast.png|58|21|5|8|12|No Special Notice
+25285078|Away|Japan|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/japan.png|42|7|2|5|13|No Special Notice
+25285085|Home|Switzerland|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/switzerland.png|62|17|6|8|9|No Special Notice
+25285085|Away|Ecuador|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/ecuador.png|38|10|4|5|15|No Special Notice
+25285092|Home|France|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/france.png|71|20|5|8|13|No Special Notice
+25285092|Away|Honduras|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/honduras.png|29|4|1|0|14|No Special Notice
+25285099|Home|Argentina|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/argentina.png|59|12|2|2|10|No Special Notice
+25285099|Away|Bos-Herce|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/bosnia-hercegovina.png|41|16|6|6|14|No Special Notice
+25285057|Home|Colombia|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/colombia.png|48|13|6|4|19|No Special Notice
+25285057|Away|Greece|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/greece.png|52|11|2|4|14|No Special Notice
+25285064|Home|Uruguay|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/uruguay.png|56|9|3|5|20|No Special Notice
+25285064|Away|Costa Rica|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/costa-rica.png|44|13|4|6|18|No Special Notice
+25285071|Home|England|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/england.png|44|18|5|9|8|No Special Notice
+25285071|Away|Italy|2|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/italy.png|56|13|4|2|11|No Special Notice
+25285036|Home|Mexico|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/mexico.png|62|9|4|2|11|No Special Notice
+25285036|Away|Cameroon|0|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/cameroon.png|38|13|1|5|12|No Special Notice
+25285043|Home|Spain|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/spain.png|64|10|4|4|5|No Special Notice
+25285043|Away|Netherlands|5|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/netherlands.png|36|14|10|1|18|No Special Notice
+25285050|Home|Chile|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/chile.png|65|10|5|3|9|No Special Notice
+25285050|Away|Australia|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/australia.png|35|13|4|1|18|No Special Notice
+25285029|Home|Brazil|3|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/brazil.png|61|14|6|7|5|No Special Notice
+25285029|Away|Croatia|1|http://ichef.bbci.co.uk/onesport/images/football/team-badges/66/croatia.png|39|11|3|3|20|No Special Notice
