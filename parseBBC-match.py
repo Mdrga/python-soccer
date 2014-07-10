@@ -1,13 +1,12 @@
 '''
 Created on Jun 16, 2014
-Modified on Jul 08, 2014
-Version 0.13.e
+Modified on Jul 09, 2014
+Version 0.13.f
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
 # Import Libraries needed for Scraping the various web pages
 from bs4 import BeautifulSoup
-import csv
 import urllib2
 import datetime
 
@@ -19,10 +18,12 @@ ds = datetime.datetime.now().strftime("%Y-%m-%d")
 website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/28069208","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
+matchResults = urllib2.urlopen(website[5])
 gameURL = website[1]
 gameMatch = urllib2.urlopen(gameURL)
+resultSoup = BeautifulSoup(matchResults)
 matchSoup = BeautifulSoup(gameMatch)
-parseVersion = 'WorldCup v0.13.e'
+parseVersion = 'WorldCup v0.13.f'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
@@ -131,6 +132,7 @@ divTeamDetails = matchSoup.find("div", {"class":"post-match"})
 # Initialize the Stats File
 with open('MatchStats-output.txt', "w") as f:
     f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
+    f.write('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice' + '\n')
     f.close()
 
 '''
@@ -190,7 +192,7 @@ for i in divTeamDetails:
 '''
 
 # Function to return Match Stats based on input of matchSoup
-def matchStats(x):
+def matchStats(x,y):
     # Pull in the main Match Detail page from the Function Call
     funcMatch = x
 
@@ -238,16 +240,10 @@ def matchStats(x):
     teamStats = []
 
     # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
-    strGameURL = gameURL.split('/')
+    strGameURL = y.split('/')
     BBC_MatchID = strGameURL[5]
 
-    # Create the rows for the Match in to the array teamStats
-    teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls')
-    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text())
-    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text())
-
-    # print funcMatch.prettify('utf-8')
-
+    # Advice of Winner in event of a Penalty Shoot Out
     specNotice = funcMatch.find("div", {"id":"special-notice"})
     try:
         specNotice
@@ -255,19 +251,49 @@ def matchStats(x):
         specNotice = None
 
     if specNotice != None:
-        print "DRAW" + ' - ' + specNotice.get_text(strip=True)
-    # <div id="special-notice">
+        matchNotice = "DRAW" + ' - ' + specNotice.get_text(strip=True)
+    else:
+        matchNotice = "No Special Notice"
 
     # print spanHomeScorer
     # print homeTeam.prettify('utf-8')
     # for i in homeTeam.p:
     #    print i
 
+    # teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice')
+    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
+    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
+
     return teamStats
 
 # Print out the results of the function matchStats
 
 print '***- - - - - - - - - - - - - - - - -***'
-for i in matchStats(matchSoup):
-    print i
+# for i in matchStats(matchSoup,gameURL):
+#    print i
     # print '***- - - - - - - - - - - - - - - - -***'
+
+# Output Game URLs from Results page resultSoup
+def resultsURL(x):
+    listURL = []
+    funcSoup = x
+    divMatchResults = funcSoup.find_all("div", {"class":"fixtures-table full-table-medium"})
+    for i in divMatchResults:
+        urlList = i.find_all('a', {'class': 'report'})
+        for i in urlList:
+            listURL.append("http://www.bbc.com" + i.get("href"))
+
+    return listURL
+
+# Iterate over all Results for the World Cup
+for i in resultsURL(resultSoup):
+    parseURL = i
+    parseMatch = urllib2.urlopen(parseURL)
+    parseSoup = BeautifulSoup(parseMatch)
+    print datetime.datetime.now().strftime("%H:%M:%S") + " Record Read"
+    for i in matchStats(parseSoup,parseURL):
+        print "Record Saved"
+        with open('MatchStats-output.txt', "a") as f:
+            f.write(i + '\n')
+            f.close()
+
