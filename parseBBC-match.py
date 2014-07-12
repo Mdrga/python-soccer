@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
-Modified on Jul 09, 2014
-Version 0.13.f
+Modified on Jul 12, 2014
+Version 0.13.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -9,13 +9,17 @@ A simple Python Program to scrape the BBC Sports website for content.
 from bs4 import BeautifulSoup
 import urllib2
 import datetime
+import sys
+import random
+
+" # -- coding: utf-8 -- "
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/football/28069208","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/0/football/27961189","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
 matchResults = urllib2.urlopen(website[5])
@@ -23,7 +27,9 @@ gameURL = website[1]
 gameMatch = urllib2.urlopen(gameURL)
 resultSoup = BeautifulSoup(matchResults)
 matchSoup = BeautifulSoup(gameMatch)
-parseVersion = 'WorldCup v0.13.f'
+
+# Program Version
+parseVersion = 'WorldCup v0.13.g'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
@@ -112,10 +118,53 @@ with open('MatchStats-output.txt', "w") as f:
     f.write('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice' + '\n')
     f.close()
 
+# Get the Home Team from the URL
+# Paramaters are as follows:
+# x = BeautifulSoup(URL)
+# y = Output Format
+# z = 'H'ome or 'A'way Team
+def teamName (x,y,z):
+    funcMatch = x
+    formatType = y
+    returnName = z
+    returnArray = []
+    returnString = ''
+    divTeamDetails = funcMatch.find("div", {"class":"post-match"})
+    homeTeam = divTeamDetails.find("div", {"id":"home-team"})
+    awayTeam = divTeamDetails.find("div", {"id":"away-team"})
+    if formatType == 0:
+        returnArray.append(homeTeam.a.get_text())
+        returnArray.append(awayTeam.a.get_text())
+    elif formatType == 1:
+        returnArray.append(homeTeam)
+        returnArray.append(awayTeam)
+    else:
+        returnArray = []
+        returnString = 'Some Other Format'
+    if returnName == 'H':
+        returnString = returnArray[0]
+    elif returnName == 'A':
+        returnString = returnArray[1]
+    else:
+        returnString = returnString + ' Also you did not pick a team'
+
+    return returnString 
+
 # Function to return Match Stats based on input of matchSoup
-def matchStats(x,y):
+# Paramaters are as follows:
+# x = BeautifulSoup(gameURL)
+# y = gameURL
+# z = 'H'ome, 'A'way or 'B'oth
+def matchStats(x,y,z):
     # Pull in the main Match Detail page from the Function Call
     funcMatch = x
+
+    # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
+    strGameURL = y.split('/')
+    BBC_MatchID = strGameURL[5]
+    
+    # Define the Output Format for the Match Stats
+    outputFormat = z
 
     # Create a local copy of the Match HTML page
     with open ('MatchStats-output.html', "w") as f:
@@ -145,24 +194,16 @@ def matchStats(x,y):
 
     # Parse out the Team Names, Team Badge, Scores and Scorers of Goals
     homeTeam = divTeamDetails.find("div", {"id":"home-team"})
-    # print homeTeam.prettify('utf-8')
-
     awayTeam = divTeamDetails.find("div", {"id":"away-team"})
     homeScorer = homeTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
     awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
     spanHomeScore = homeTeam.find("span", {"class":"team-score"})
     spanAwayScore = awayTeam.find("span", {"class":"team-score"})
-    # spanHomeScore = 0
-    # spanAwayScore = 0
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
 
     # Create an array to store the Team-Level Statistics that will be returned
     teamStats = []
-
-    # Parse Game URL into segments. Will be using the last portions to create a unique BBC_MatchID 
-    strGameURL = y.split('/')
-    BBC_MatchID = strGameURL[5]
 
     # Advice of Winner in event of a Penalty Shoot Out
     specNotice = funcMatch.find("div", {"id":"special-notice"})
@@ -181,41 +222,128 @@ def matchStats(x,y):
     # for i in homeTeam.p:
     #    print i
 
-    # teamStats.append('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice')
-    teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
-    teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
-
-    # Print Player Roster for Team
-    divLineup = funcMatch.find("div", {"id":"oppm-team-list"})
-    # print divLineup.prettify("utf-8")
-    
-    listHomeRoster = divLineup.find("div", {"class":"home-team"})
-    listHomeStarter = listHomeRoster.find("ul", {"class":"player-list"})
-    listHomeSubs = listHomeRoster.find("ul", {"class":"subs-list"})
-    listAwayRoster = divLineup.find("div", {"class":"away-team"})
-    listAwayStarter = listAwayRoster.find("ul", {"class":"player-list"})
-    listAwaySubs = listAwayRoster.find("ul", {"class":"subs-list"})
-
-    lineupHomeStarter = listHomeStarter.find_all("li")
-    lineupAwayStarter = listAwayStarter.find_all("li")
-    lineupHomeSubs = listHomeSubs.find_all("li")
-    lineupAwaySubs = listAwaySubs.find_all("li")
-
-    print "*** - - - - - - - - - - - - - - - - - - ***"
-    print listHomeRoster.prettify("utf-8")
-    # print listHomeStarter.prettify("utf-8")
-
-    # for i in lineupHomeStarter:
-    #     print i.get_text()
+    # Define the Function Output to the Array teamStats
+    if outputFormat == 'H':
+        teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
+    elif outputFormat == 'A':
+        teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
+    elif outputFormat == 'B':
+        teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
+        teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
+    else:
+        teamStats.append('INCORRECT OUTPUT FORMAT SELECTED')
 
     return teamStats
 
-# Print out the results of the function matchStats
+# Initialize the Player Stats File
+with open('PlayerStats-output.txt', 'w') as f:
+    f.write('Match ID|Team Side|Country|Player Name|Player ID|Bench Status|Jersey #|Incident|Booked|Dismissed|Substituted|' + '\n')
+    f.close()
 
-print '***- - - - - - - - - - - - - - - - -***'
-# for i in matchStats(matchSoup,gameURL):
-#    print i
-    # print '***- - - - - - - - - - - - - - - - -***'
+# Function to return the Individual Team Members
+# Parameters are as follows:
+# x = BeautifulSoup(SomeURL)
+# y = SomeURL
+# z = Return Roster Type 'H'ome or 'A'way
+def outputRosters(x,y,z):
+    # Incoming Game to Return Results Upon
+    funcMatch = x
+    
+    #URL to identify the Match
+    strGameURL = y.split('/')
+    BBC_MatchID = strGameURL[5]
+
+    # Format Return Type
+    returnType = z
+
+    # The Match Details
+    divLineup = funcMatch.find("div", {"id":"oppm-team-list"})
+    
+    # Setting up the necessary Variables for the function
+    if returnType == 'H':
+        listRoster = divLineup.find("div", {"class":"home-team"})
+        listStarter = listRoster.find("ul", {"class":"player-list"})
+        listSubs = listRoster.find("ul", {"class":"subs-list"})
+        lineupStarter = listStarter.find_all("li")
+        lineupSubs = listSubs.find_all("li")
+        teamSide = 'Home'
+    elif returnType == 'A':
+        listRoster = divLineup.find("div", {"class":"away-team"})
+        listStarter = listRoster.find("ul", {"class":"player-list"})
+        listSubs = listRoster.find("ul", {"class":"subs-list"})
+        lineupStarter = listStarter.find_all("li")
+        lineupSubs = listSubs.find_all("li")
+        teamSide = 'Away'
+    else: 
+        print 'BAD RETURN TYPE INDICATED'
+        listRoster = []
+        listStarter = []
+        listSubs = []
+        lineupStarter = []
+        lineupSubs = []
+
+    # print "*** - - - - - - - - - - - - - - - - - - ***"
+    # print 'Player Name|Country|Bench Status|Jersey #|Incident|Booked|Dismissed|Substituted|'
+    teamRoster = []
+
+    # Creates the Player Lineup for the incoming Match
+    for i in lineupStarter:
+        i.encode('utf-8')
+        playerID = i.span["id"]
+        playerID = playerID[10:len(playerID)]
+        playerJersey = i.text[3:5]
+        playerDetails =  i.text[7:len(i.text)]
+        playerStart = playerDetails.find("  ")
+        playerString = len(playerDetails) 
+        playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
+        playerUpdate = i.text[7+len(playerName):7+playerString]
+        # print len(playerUpdate)
+        if len(playerUpdate) > 2: 
+            # print playerUpdate
+            playerIncident = 'Y'
+            playerBooked = playerUpdate.find("Booked")
+            playerDismissed = playerUpdate.find("Dismissed")
+            playerSub = playerUpdate.find("(")
+            # print playerName.encode('utf-8') + ' Red Card ' + str(playerDismissed)
+            if playerDismissed > 0:
+                playerDismissed = 'Y'
+            else:
+                playerDismissed = 'N'
+            # print playerSub
+            if playerBooked > 0:
+                playerBooked = 'Y'
+            else:
+                playerBooked = 'N'
+            if playerSub > 0:
+                playerSub = playerUpdate[playerSub + 1:len(playerUpdate) - 4]
+            else:
+                playerSub = ''
+        else:
+            playerIncident = 'N'
+            playerDismissed = 'N'
+            playerUpdate = 'N'
+            playerBooked = 'N'
+            playerSub = 'N'
+        
+        
+        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) +  '|' + playerName + '|' + playerID + '|Starter|' + playerJersey + '|' + playerIncident + '|' + playerBooked + '|' + playerDismissed + '|' + playerSub + '|')
+
+    for i in lineupSubs:
+        # print i
+        i.encode('utf-8')
+        playerID = i.span["id"]
+        playerID = playerID[10:len(playerID)]
+        playerJersey = i.text[3:5]
+        playerDetails =  i.text[7:len(i.text)]
+        playerStart = playerDetails.find("  ")
+        playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
+
+        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) + '|' + playerName + '|' + playerID + '|Bench|' + playerJersey + '|||||')
+
+    #for i in teamRoster:
+    #    print i.encode('utf-8')
+
+    return teamRoster
 
 # Output Game URLs from Results page resultSoup
 def resultsURL(x):
@@ -229,19 +357,51 @@ def resultsURL(x):
 
     return listURL
 
-for i in matchStats(matchSoup, gameURL):
-    print i
+# for i in matchStats(matchSoup, gameURL):
+#    print i
+# for i in matchStats(matchSoup,gameURL):
+#    print i
+    # print '***- - - - - - - - - - - - - - - - -***'
 
-'''
-# Iterate over all Results for the World Cup
-for i in resultsURL(resultSoup):
-    parseURL = i
-    parseMatch = urllib2.urlopen(parseURL)
-    parseSoup = BeautifulSoup(parseMatch)
-    print datetime.datetime.now().strftime("%H:%M:%S") + " Record Read"
-    for i in matchStats(parseSoup,parseURL):
-        print "Record Saved"
-        with open('MatchStats-output.txt', "a") as f:
-            f.write(i + '\n')
-            f.close()
-'''
+
+# outputRosters(matchSoup, 'H')
+print '***- - - - - - - - - - - - - - - - -***'
+# outputRosters(matchSoup, 'A')
+print datetime.datetime.now().strftime("%H:%M:%S")
+
+counter = 0
+while counter < 1:
+    # Iterate over all Results for the World Cup
+    urlArray = []
+    urlArray = resultsURL(resultSoup)[0:5]
+    # print urlArray
+    counter +=1
+    # print '*** --------------- ***'
+    # print (counter < 5)
+    for i in urlArray:
+        print '*** - - - - - - - - - - - - - - - - - - - - ***'
+        parseURL = i
+        parseMatch = urllib2.urlopen(parseURL)
+        parseSoup = BeautifulSoup(parseMatch)
+        print teamName(parseSoup,0,'H') + ' vs ' + teamName(parseSoup,0,'A') + ' ' + datetime.datetime.now().strftime("%H:%M:%S") + " Record Read"
+        # counter += 1
+        # print teamRosters(parseSoup,parseURL)
+
+        for i in matchStats(parseSoup,parseURL,'B'):
+            if i.find("Home") > 0:
+                print "Record Saved for " + teamName(parseSoup,0,'H') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
+                for i in outputRosters(parseSoup,parseURL,'H'):
+                    with open('PlayerStats-output.txt', "a") as f:
+                        f.write(i.encode('utf-8') + '\n')
+                        f.close()
+                    # print i.encode('utf-8')
+            else:
+                print "Record Saved for " + teamName(parseSoup,0,'A') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
+                for i in outputRosters(parseSoup,parseURL,'A'):
+                    with open('PlayerStats-output.txt', "a") as f:
+                        f.write(i.encode('utf-8') + '\n')
+                        f.close()                    
+                    # print i.encode('utf-8')
+            with open('MatchStats-output.txt', "a") as f:
+                f.write(i + '\n')
+                f.close()   
