@@ -12,14 +12,12 @@ import datetime
 import sys
 import random
 
-" # -- coding: utf-8 -- "
-
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/0/football/27961189","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/0/football/28102403","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
 matchResults = urllib2.urlopen(website[5])
@@ -38,22 +36,6 @@ with open(outputBase, "w") as f:
 # Identify Team Lineup
 divDetailResults = matchSoup.find_all("div", {"class":"team-match-details"})
 divLineup = matchSoup.find("div", {"id":"oppm-team-list"})
-
-listHomeRoster = divLineup.find_all("div", {"class":"home-team"})
-listAwayRoster = divLineup.find_all("div", {"class":"away-team"})
-
-# Initialize Results Output File
-with open('MatchDetails-output.txt', "w") as f:
-    f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Results File' + '\n')
-    f.close()
-
-# Identify the Starting IX and the Bench
-def startingLineup(x):
-    lineupCount = x
-    if lineupCount < 12:
-        return "Started Match"
-    else:
-        return "Bench"
 
 # Function to return the Home Team Name using the divTeamDetails
 def returnHome(x):
@@ -98,16 +80,6 @@ def rosterOutput(x):
            counter += 1
            rosterArray.append(playerRow.encode('utf-8'))
     return rosterArray
-
-for i in rosterOutput(listHomeRoster):
-    with open ('MatchDetails-output.txt', "a") as f:
-        f.write(i + '\n')
-        f.close()
-
-for i in rosterOutput(listAwayRoster):
-    with open ('MatchDetails-output.txt', "a") as f:
-        f.write(i + '\n')
-        f.close()
 
 # Team Match Details & Team Badge
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
@@ -221,6 +193,9 @@ def matchStats(x,y,z):
     # print homeTeam.prettify('utf-8')
     # for i in homeTeam.p:
     #    print i
+
+    #print homeScorer
+    #print awayScorer
 
     # Define the Function Output to the Array teamStats
     if outputFormat == 'H':
@@ -357,18 +332,79 @@ def resultsURL(x):
 
     return listURL
 
-# for i in matchStats(matchSoup, gameURL):
-#    print i
-# for i in matchStats(matchSoup,gameURL):
-#    print i
-    # print '***- - - - - - - - - - - - - - - - -***'
+# Function to return the Goal Scorers for a Match
+# Parameters are as follows:
+# x = BeautifulSoup(SomeURL)
+# y = SomeURL
+# z = Return Roster Type 'H'ome or 'A'way
+def goalScorer(x,y,z):
+    # Incoming Game to Return Results Upon
+    funcMatch = x
+    
+    #URL to identify the Match
+    strGameURL = y.split('/')
+    BBC_MatchID = strGameURL[5]
 
+    # Designate the output type for the Match in Qestion
+    returnType = z
 
-# outputRosters(matchSoup, 'H')
+    # Comment
+    #<div class="story blq-clearfix" id="main-content">
+    gameDetails = funcMatch.find("div", {"id":"main-content"})
+
+    # Output Array
+    scorerArray = []
+
+    # For Home
+    if returnType == 'H':
+        team = gameDetails.find("div", {"id":"home-team"})
+    if returnType == 'A':
+        team = gameDetails.find("div", {"id":"away-team"})
+        #print homeTeam.prettify('utf-8')
+        
+    teamScore = team.find("span", {"class":"team-score"})
+    if teamScore.get_text() > 0:
+        for i in teamScore:
+            goalScorer = team.find("p", {"class":"scorer-list blq-clearfix"})
+            # print goalScorer.prettify('utf-8')
+            try:
+                goalScorer
+            except NameError:
+                goalScorer = None
+
+            if goalScorer != None:
+                textGoalScorer = goalScorer.find_all("span")
+                for i in textGoalScorer:
+                    textScorer = (i.text).encode('utf-8')
+                    scorerArray.append(textScorer)
+    else:
+        scorerArray = []
+
+        # <div class="team" id="home-team">
+
+    return scorerArray
+
+# Output tests run below this line
 print '***- - - - - - - - - - - - - - - - -***'
 # outputRosters(matchSoup, 'A')
 print datetime.datetime.now().strftime("%H:%M:%S")
 
+urlArray = resultsURL(resultSoup)
+
+
+for i in urlArray[0:11]:
+    parseURL = i
+    parseMatch = urllib2.urlopen(parseURL)
+    parseSoup = BeautifulSoup(parseMatch)
+    for i in goalScorer(parseSoup,parseURL,'H'):
+        if i.find(",") < 0:
+            print parseSoup.title.get_text() + ' :: ' + parseURL 
+            print i[1:len(i)-7]
+        else:
+            print parseSoup.title.get_text() + ' :: ' + parseURL
+            print i[1:len(i)-14]
+
+'''
 counter = 0
 while counter < 1:
     # Iterate over all Results for the World Cup
@@ -390,18 +426,26 @@ while counter < 1:
         for i in matchStats(parseSoup,parseURL,'B'):
             if i.find("Home") > 0:
                 print "Record Saved for " + teamName(parseSoup,0,'H') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
+                with open('MatchStats-output.txt', "a") as f:
+                    f.write(i.encode('utf-8') + '\n')
+                    f.close() 
                 for i in outputRosters(parseSoup,parseURL,'H'):
                     with open('PlayerStats-output.txt', "a") as f:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()
+
                     # print i.encode('utf-8')
             else:
                 print "Record Saved for " + teamName(parseSoup,0,'A') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
+                with open('MatchStats-output.txt', "a") as f:
+                    f.write(i.encode('utf-8') + '\n')
+                    f.close() 
                 for i in outputRosters(parseSoup,parseURL,'A'):
                     with open('PlayerStats-output.txt', "a") as f:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()                    
-                    # print i.encode('utf-8')
-            with open('MatchStats-output.txt', "a") as f:
-                f.write(i + '\n')
-                f.close()   
+                    # print i.encode('utf-8')  
+
+
+
+'''

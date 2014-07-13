@@ -4,116 +4,236 @@
 		"selected_items":
 		[
 			[
+				"Player",
+				"playerID"
+			],
+			[
+				"team",
+				"teamSide"
+			],
+			[
+				"ret",
+				"returnType"
+			],
+			[
 				"parse",
-				"parseResults"
-			],
-			[
-				"Progr",
-				"ProgressBar"
-			],
-			[
-				"ma",
-				"maxRecord"
-			],
-			[
-				"mat",
-				"matchNotice"
-			],
-			[
-				"par",
 				"parseURL"
 			],
 			[
+				"out",
+				"outputFormat"
+			],
+			[
+				"pla",
+				"playerJersey"
+			],
+			[
+				"re",
+				"returnName"
+			],
+			[
+				"player",
+				"playerID"
+			],
+			[
+				"playerI",
+				"playerID"
+			],
+			[
+				"li",
+				"lineupSubs"
+			],
+			[
+				"lineu",
+				"lineupSubs"
+			],
+			[
+				"lin",
+				"lineupStarter"
+			],
+			[
+				"return",
+				"returnType"
+			],
+			[
+				"r",
+				"returnString"
+			],
+			[
+				"retur",
+				"returnString"
+			],
+			[
+				"retu",
+				"returnString"
+			],
+			[
+				"teamR",
+				"teamRosters"
+			],
+			[
 				"pa",
-				"parseSoup"
+				"parseURL"
 			],
 			[
-				"matc",
-				"matchStats"
-			],
-			[
-				"pars",
-				"parseMatch"
-			],
-			[
-				"ur",
-				"urlopen  (function)"
-			],
-			[
-				"u",
-				"urllib2"
-			],
-			[
-				"get",
-				"get_text"
-			],
-			[
-				"url",
-				"urlList"
-			],
-			[
-				"div",
-				"divMatchResults"
-			],
-			[
-				"res",
-				"resultSoup"
-			],
-			[
-				"resultS",
-				"resultSoup"
-			],
-			[
-				"Be",
-				"BeautifulSoup"
-			],
-			[
-				"BB",
-				"BBC_MatchID"
+				"tea",
+				"teamStats"
 			],
 			[
 				"str",
 				"strGameURL"
 			],
 			[
-				"bbc",
-				"BBC_MatchID"
+				"url",
+				"urlArray"
 			],
 			[
-				"tot",
-				"totalGoalsScored"
+				"play",
+				"playerUpdate"
 			],
 			[
-				"span",
-				"spanAwayScore"
+				"N",
+				"N"
 			],
 			[
-				"awa",
-				"awayScorer"
+				"playe",
+				"playerBooked"
 			],
 			[
-				"Ma",
-				"MatchStats-output"
+				"pl",
+				"playerIncident"
 			],
 			[
-				"team",
-				"teamOutput"
+				"T",
+				"True"
 			],
 			[
-				"ret",
-				"returnAwayTeam"
+				"listAwa",
+				"listAwaySubs"
+			],
+			[
+				"listHomeS",
+				"listHomeSubs"
+			],
+			[
+				"listHome",
+				"listHomeRoster"
+			],
+			[
+				"lis",
+				"listAwayRoster"
+			],
+			[
+				"get",
+				"get_text"
+			],
+			[
+				"list",
+				"listHomeStarter"
+			],
+			[
+				"div",
+				"divAltLineup"
+			],
+			[
+				"line",
+				"line-up-wrapper"
 			],
 			[
 				"home",
 				"homeTeam"
 			],
 			[
-				"lis",
-				"listHomeRoster"
+				"divMa",
+				"divMatchStats"
+			],
+			[
+				"match",
+				"matchSoup"
+			],
+			[
+				"spec",
+				"specNotice"
+			],
+			[
+				"game",
+				"gameURL"
+			],
+			[
+				"fun",
+				"funcMatch"
+			],
+			[
+				"span",
+				"spanHomeScore"
+			],
+			[
+				"p",
+				"p"
+			],
+			[
+				"ho",
+				"spanHomeScorer"
+			],
+			[
+				"hom",
+				"homeTeam"
+			],
+			[
+				"u",
+				"utf-8"
+			],
+			[
+				"scorer",
+				"scorer-list"
+			],
+			[
+				"Name",
+				"NameError"
+			],
+			[
+				"h",
+				"homeTeam"
+			],
+			[
+				"statCor",
+				"statCornersAway"
 			],
 			[
 				"stat",
-				"statPossessionHome"
+				"statFoulsHome"
+			],
+			[
+				"statS",
+				"statShotsGoalHome"
+			],
+			[
+				"statSh",
+				"statShots"
+			],
+			[
+				"awa",
+				"awayTeamBadge"
+			],
+			[
+				"tex",
+				"textHomeScorer"
+			],
+			[
+				"awayTeam",
+				"awayTeam"
+			],
+			[
+				"f",
+				"funcMatch"
+			],
+			[
+				"st",
+				"statPossessionAway"
+			],
+			[
+				"Ma",
+				"MatchStats-output"
 			],
 			[
 				"i",
@@ -138,6 +258,10 @@
 			[
 				"n",
 				"n"
+			],
+			[
+				"ur",
+				"urlMatchLink"
 			],
 			[
 				"find",
@@ -215,8 +339,8 @@
 			"file": "parseBBC-match.py",
 			"settings":
 			{
-				"buffer_size": 12314,
-				"line_ending": "Windows"
+				"buffer_size": 16475,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -228,26 +352,26 @@
 			}
 		},
 		{
-			"file": "MatchStats-output.html",
+			"file": "PlayerStats-output.txt",
 			"settings":
 			{
-				"buffer_size": 212720,
-				"line_ending": "Windows"
+				"buffer_size": 5237,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "MatchStats-output.txt",
 			"settings":
 			{
-				"buffer_size": 16334,
-				"line_ending": "Windows"
+				"buffer_size": 739,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "MatchRestuls-output.txt",
 			"settings":
 			{
-				"buffer_size": 5785,
+				"buffer_size": 5822,
 				"line_ending": "Windows"
 			}
 		},
@@ -260,11 +384,19 @@
 			}
 		},
 		{
-			"file": "MatchDetails-output.txt",
+			"file": "WorldCup-MatchBase.html",
 			"settings":
 			{
-				"buffer_size": 131,
-				"line_ending": "Windows"
+				"buffer_size": 199777,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "MatchStats-output.html",
+			"settings":
+			{
+				"buffer_size": 187196,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -272,14 +404,6 @@
 			"settings":
 			{
 				"buffer_size": 243617,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "WorldCup-MatchBase.html",
-			"settings":
-			{
-				"buffer_size": 196592,
 				"line_ending": "Windows"
 			}
 		}
@@ -303,7 +427,10 @@
 	},
 	"console":
 	{
-		"height": 343.0
+		"height": 343.0,
+		"history":
+		[
+		]
 	},
 	"distraction_free":
 	{
@@ -316,6 +443,18 @@
 	},
 	"file_history":
 	[
+		"/Users/rmadruga/Documents/python-soccer/MatchDetails-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/PyTraveller (Rainier.madruga@gmail.com)/pyTraveller.py",
+		"/Users/rmadruga/Documents/python-soccer/parseBBC-match.py",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/parseBBC-match.py",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/parseBBC-sports.py",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchStats-output.html",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchStats-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchRestuls-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/urlOutput.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchDetails-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/WorldCup-Base.html",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/WorldCup-MatchBase.html",
 		"/C/Users/ca08da/Desktop/GitHub/python-learning/parseBBC-match.py",
 		"/C/Users/ca08da/Desktop/GitHub/python-learning/detailResults.html",
 		"/C/Users/ca08da/Desktop/GitHub/python-learning/WorldCup-MatchDetails.html",
@@ -354,7 +493,7 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -368,6 +507,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"matchDeta",
+			"MatchStats-output.html",
 			"updated",
 			"last",
 			"update",
@@ -415,139 +556,38 @@
 				{
 					"buffer": 0,
 					"file": "parseBBC-match.py",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12314,
+						"buffer_size": 16475,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12203,
-								12203
+								3557,
+								3557
 							]
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
 							"syntax": "Packages/Python/Python.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true,
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5130.0,
+						"translation.y": 1226.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
 					"file": "parseBBC-sports.py",
+					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 4025,
@@ -557,132 +597,29 @@
 						"selection":
 						[
 							[
-								2708,
-								2708
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
 							"syntax": "Packages/Python/Python.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1458.0,
+						"translation.y": 1130.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "MatchStats-output.html",
+					"file": "PlayerStats-output.txt",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 212720,
+						"buffer_size": 5237,
 						"regions":
 						{
 						},
@@ -695,385 +632,75 @@
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 126.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "MatchStats-output.txt",
-					"settings":
-					{
-						"buffer_size": 16334,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 126.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "MatchRestuls-output.txt",
-					"settings":
-					{
-						"buffer_size": 5785,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "MatchStats-output.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 739,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "MatchRestuls-output.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5822,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
 					"file": "urlOutput.txt",
+					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 3252,
@@ -1083,130 +710,28 @@
 						"selection":
 						[
 							[
-								3252,
-								3252
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 575.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "MatchDetails-output.txt",
+					"file": "WorldCup-MatchBase.html",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 131,
+						"buffer_size": 199777,
 						"regions":
 						{
 						},
@@ -1219,121 +744,51 @@
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
 					"buffer": 7,
+					"file": "MatchStats-output.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 187196,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4655.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
 					"file": "WorldCup-Base.html",
+					"semi_transient": false,
 					"settings":
 					{
 						"buffer_size": 243617,
@@ -1349,242 +804,6 @@
 						],
 						"settings":
 						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 72.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "WorldCup-MatchBase.html",
-					"settings":
-					{
-						"buffer_size": 196592,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"sublime_auto_complete": true,
 							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -1593,6 +812,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1600,7 +820,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1631,11 +851,16 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 343.0
+		"height": 395.0
 	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "python-learning.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1654,10 +879,24 @@
 		],
 		"width": 0.0
 	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 150.0,
-	"status_bar_visible": true
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
 }
