@@ -366,6 +366,7 @@ def goalScorer(x,y,z):
     if teamScore.get_text() > 0:
         for i in teamScore:
             goalScorer = team.find("p", {"class":"scorer-list blq-clearfix"})
+            # print goalScorer
             # print goalScorer.prettify('utf-8')
             try:
                 goalScorer
@@ -389,20 +390,25 @@ print '***- - - - - - - - - - - - - - - - -***'
 # outputRosters(matchSoup, 'A')
 print datetime.datetime.now().strftime("%H:%M:%S")
 
-urlArray = resultsURL(resultSoup)
+urlArray = resultsURL(resultSoup) # [0:11]
 
+print len(urlArray)
+print '***- - - - - - - - - - - - - - - - -***'
 
-for i in urlArray[0:11]:
-    parseURL = i
+for i in urlArray:
+    parseURL = i # "http://www.bbc.com/sport/football/27969976"
     parseMatch = urllib2.urlopen(parseURL)
     parseSoup = BeautifulSoup(parseMatch)
+    parseSoup.prettify()
+    print parseSoup.title.get_text() + ' :: ' + parseURL
     for i in goalScorer(parseSoup,parseURL,'H'):
-        if i.find(",") < 0:
-            print parseSoup.title.get_text() + ' :: ' + parseURL 
-            print i[1:len(i)-7]
-        else:
-            print parseSoup.title.get_text() + ' :: ' + parseURL
-            print i[1:len(i)-14]
+        if i != None:
+            specGoal = i.find("(")
+            if specGoal > 0:
+                print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i))
+                print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
+            else:
+                print i
 
 '''
 counter = 0
