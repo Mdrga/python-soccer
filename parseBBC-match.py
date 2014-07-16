@@ -396,7 +396,7 @@ print len(urlArray)
 print '***- - - - - - - - - - - - - - - - -***'
 
 for i in urlArray:
-    parseURL = i # "http://www.bbc.com/sport/football/27969976"
+    parseURL = i # "http://www.bbc.com/sport/football/25285106"
     parseMatch = urllib2.urlopen(parseURL)
     parseSoup = BeautifulSoup(parseMatch)
     parseSoup.prettify()
@@ -405,8 +405,12 @@ for i in urlArray:
         if i != None:
             specGoal = i.find("(")
             if specGoal > 0:
-                print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i))
-                print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
+            #    print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i)) + ' Special Character Length is: ' + str(len(i)-specGoal)
+                if (len(i)-specGoal) > 6:
+                    endSpec = i.find(")")
+                    print i[0:specGoal] + i[endSpec+1:len(i)] + ' :: ' + i[specGoal:endSpec+1]
+                else:
+                    print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
             else:
                 print i
 
@@ -451,7 +455,6 @@ while counter < 1:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()                    
                     # print i.encode('utf-8')  
-
 
 
 '''
