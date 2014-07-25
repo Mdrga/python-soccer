@@ -390,7 +390,7 @@ print '***- - - - - - - - - - - - - - - - -***'
 # outputRosters(matchSoup, 'A')
 print datetime.datetime.now().strftime("%H:%M:%S")
 
-urlArray = resultsURL(resultSoup) # [0:11]
+urlArray = resultsURL(resultSoup)[0:11]
 
 print len(urlArray)
 print '***- - - - - - - - - - - - - - - - -***'
@@ -413,8 +413,21 @@ for i in urlArray:
                     print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
             else:
                 print i
+    for i in goalScorer(parseSoup,parseURL,'A'):
+        if i != None:
+            specGoal = i.find("(")
+            if specGoal > 0:
+            #    print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i)) + ' Special Character Length is: ' + str(len(i)-specGoal)
+                if (len(i)-specGoal) > 6:
+                    endSpec = i.find(")")
+                    print i[0:specGoal] + i[endSpec+1:len(i)] + ' :: ' + i[specGoal:endSpec+1]
+                else:
+                    print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
+            else:
+                print i
 
-'''
+
+
 counter = 0
 while counter < 1:
     # Iterate over all Results for the World Cup
@@ -457,4 +470,3 @@ while counter < 1:
                     # print i.encode('utf-8')  
 
 
-'''
