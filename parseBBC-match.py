@@ -55,7 +55,7 @@ def rosterOutput(x):
     rosterArray = []
     counter = 1
     for i in x:
-        i.encode('utf-8')
+        print i.encode('utf-8')
         lineup = i.find_all("li")
         teamName = i.find("h3")
 
