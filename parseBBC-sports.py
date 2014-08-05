@@ -44,7 +44,7 @@ with open(outputTxt, "w") as f:
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
-# Output Time & Date Stamp as well as Script Version
+# Output Time & Date Stamp as well as Script Version 
 print ds + ' | ' + ts
 # with open('WorldCup-Update.txt', "a") as f:
 # 		f.write(ds + '|' + ts + '|' + parseVersion + '|' + gameSoup.title.get_text() + '\n')

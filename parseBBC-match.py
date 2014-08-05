@@ -1,7 +1,7 @@
 '''
 Created on Jun 16, 2014
 Modified on Jul 12, 2014
-Version 0.13.g
+Version 0.13.h
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -9,8 +9,7 @@ A simple Python Program to scrape the BBC Sports website for content.
 from bs4 import BeautifulSoup
 import urllib2
 import datetime
-import sys
-import random
+import requests
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -27,7 +26,7 @@ resultSoup = BeautifulSoup(matchResults)
 matchSoup = BeautifulSoup(gameMatch)
 
 # Program Version
-parseVersion = 'WorldCup v0.13.g'
+parseVersion = 'WorldCup v0.13.h'
 
 outputBase = 'WorldCup-MatchBase.html'
 with open(outputBase, "w") as f:
@@ -122,6 +121,17 @@ def teamName (x,y,z):
 
     return returnString 
 
+def downloadImage(imageURL, localFileName):
+    response = requests.get(imageURL)
+    if response.status_code == 200:
+        print 'Downloading %s...' % (localFileName)
+    with open(localFileName, 'wb') as fo:
+        for chunk in response.iter_content(4096):
+            fo.write(chunk)
+    return True
+    
+
+
 # Function to return Match Stats based on input of matchSoup
 # Paramaters are as follows:
 # x = BeautifulSoup(gameURL)
@@ -174,6 +184,11 @@ def matchStats(x,y,z):
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
 
+    homeBadgeURL = homeTeamBadge["src"]
+    print homeBadgeURL
+    homeBadgeFile = homeBadgeURL[64:len(homeBadgeURL)]
+    downloadImage(homeBadgeURL, homeBadgeFile)
+    
     # Create an array to store the Team-Level Statistics that will be returned
     teamStats = []
 
@@ -390,7 +405,7 @@ print '***- - - - - - - - - - - - - - - - -***'
 # outputRosters(matchSoup, 'A')
 print datetime.datetime.now().strftime("%H:%M:%S")
 
-urlArray = resultsURL(resultSoup)[0:11]
+urlArray = resultsURL(resultSoup)[0:3]
 
 print len(urlArray)
 print '***- - - - - - - - - - - - - - - - -***'

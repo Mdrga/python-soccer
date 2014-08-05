@@ -9,7 +9,6 @@ A simple Python Program to scrape the BBC Sports website for content.
 from bs4 import BeautifulSoup
 import urllib2
 import datetime
-import sqlite3
 
 # Establish the process Date, Time and Version Stamp of the Script
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -35,7 +34,7 @@ fixtureDiv = fixtureList.find("div", {"class":"fixtures-table full-table-medium"
 # Parse out the main Fixture Table to a local file
 fixturesTable = fixturesSoup.find("div", {"class":"stats-body"})
 with open("PL-fixture-table.html", "w") as f:
-     f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
+     f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n' + '\n')
      f.write(fixtureDiv.prettify("utf-8"))
      f.close()
 
@@ -77,7 +76,7 @@ def returnTeam(x, y, z):
 # Function to receive a Text Date (i.e., Saturday 16th August 2014) and return 2014-08-16
 def textDate(x):
 	stringDate = x
-	dayOfWeek = stringDate[0:4]
+	dayOfWeek = stringDate[0:3]
 	length = len(stringDate)
 	output = ''
 	dateSpace = stringDate.find(" ")
@@ -87,6 +86,8 @@ def textDate(x):
 	monthSpace = monthDay.find(" ")
 	# print monthSpace
 	day = monthDay[0:monthSpace-2]
+	if int(day) < 10:
+	    day = '0' + str(day)
 	month = monthDay[monthSpace+1:len(monthDay)-1]
 	month = returnMonth(month)
 	output = dayOfWeek + '|' + year +'-' + month + '-' + day
@@ -126,7 +127,7 @@ def returnMonth(x):
 
 # Create file that parses out the Fixture Details
 with open("PL-fixtures.txt", "w") as f:
-     f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
+     f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n' + '\n')
      f.write("dayOfWeek|fixtureDate|matchKickoff|matchID|matchStatus|homeName|awayName|homeURL|awayURL" + '\n')
      f.close()
 
@@ -137,6 +138,9 @@ TODO - Track if the parsing of the URL was successful
 TODO - DateTime stamp the row when written to the database
 TODO - Parse data to database
 '''	
+
+# Create an array to capture all the teams in Premier League Play
+teamURLs = []
 
 while counter < len(matchDate):
 # Line below is used for Unit Testing of Code
@@ -159,7 +163,66 @@ while counter < len(matchDate):
 		homeURL = returnTeam(i, 'H', 'H')
 		awayName = returnTeam(i, 'A', 'N') 
 		awayURL = returnTeam(i, 'A', 'H')
+		teamURLs.append(homeURL)
+		teamURLs.append(awayURL)
+		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
 		with open("PL-fixtures.txt", "a") as f:
 			f.write(fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '\n')
 			f.close()
 	counter +=1
+print "Program Completed."
+
+# Sort and Remove Duplicates from the array of Premier League Teams
+teamURLs = sorted(set(teamURLs))
+ 
+def teamParse(x, y):
+    teamURL = x
+    outputFormat = y
+    
+    prefix = "http://www.bbc.com"
+    teamOpen = urllib2.urlopen(prefix + teamURL)
+    teamSoup = BeautifulSoup(teamOpen)
+    
+    teamName = teamURL[22:len(teamURL)]
+    teamNameHTML = teamName + '.html'
+    teamTitle = str(teamSoup.title.get_text(strip=True))
+    teamTitle = teamTitle[24:len(teamTitle)]
+    
+    with open(teamNameHTML, "w") as f:
+        f.write(teamSoup.prettify('utf-8'))
+        f.close()
+    
+    output = []
+    matchData = teamSoup.find("div", {"id":"last-next-match"})
+    teamMain = teamSoup.find("div", {"id":"indexpage-body"})
+      
+    # For the option of 'L' print the details of the LAST MATCH
+    if outputFormat == 'L':
+        lastMatch = matchData.find("div", {"id":"last-match"})
+        lastMatchTeam = matchData.find("span", {"class":"match-against"})
+        # lastMatchTeam = lastMatchTeam.get_text(strip=True)
+        lastMatchTeam = lastMatchTeam.get_text(strip=True)
+        lastMatchLeague = matchData.find("span", {"class":"match-league"})
+        lastMatchLeague = lastMatchLeague.get_text(strip=True)
+        lastMatchOutcome = matchData.find("span", {"class":"match-outcome"})
+        lastMatchOutcome = lastMatchOutcome.get_text(strip=True)
+        lastMatchScore = matchData.find("span", {"class":"match-score"})
+        lastMatchScore = lastMatchScore.get_text(strip=True)
+        lastMatchDate = matchData.find("span", {"itemprop":"startDate"})
+        lastMatchDate = lastMatchDate.get_text(strip=True)
+        lastMatchDate = lastMatchDate[0:10]
+        lastMatchURL = matchData.find_all("a")
+        lastMatchStatus = matchData.find("span", {"class":"match-status"})
+        lastMatchStatus = lastMatchStatus.get_text(strip=True)
+        output = teamTitle + '|' +lastMatch.h2.get_text(strip=True) + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeam[2:len(lastMatchTeam)-6] + \
+        " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + lastMatchURL[2]["href"]
+    elif outputFormat == 'A':
+        nextMatch = matchData.find("div", {"id":"next-match"})
+        nextMatchTeam = nextMatch.find("span", {"class":"match-against"})
+        nextMatchTeam = nextMatchTeam.get_text(strip=True)
+        output =  teamTitle + '|' + nextMatch.h2.get_text(strip=True) + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeam[2:len(nextMatchTeam)-6] + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)]
+    return output
+    
+for i in teamURLs[0:5]:
+    print teamParse(i,'A')
+    print teamParse(i,'L')
