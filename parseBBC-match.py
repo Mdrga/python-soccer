@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 Created on Jun 16, 2014
 Modified on Jul 12, 2014
@@ -10,6 +11,10 @@ from bs4 import BeautifulSoup
 import urllib2
 import datetime
 import requests
+import os
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -121,6 +126,8 @@ def teamName (x,y,z):
 
     return returnString 
 
+outputPath = 'WC-Data/'
+
 def downloadImage(imageURL, localFileName):
     response = requests.get(imageURL)
     if response.status_code == 200:
@@ -184,10 +191,11 @@ def matchStats(x,y,z):
     homeTeamBadge = homeTeam.find("img")
     awayTeamBadge = awayTeam.find("img")
 
+    # Download Badge from Site
     homeBadgeURL = homeTeamBadge["src"]
-    print homeBadgeURL
     homeBadgeFile = homeBadgeURL[64:len(homeBadgeURL)]
-    downloadImage(homeBadgeURL, homeBadgeFile)
+    homeBadge = os.path.join(outputPath, homeBadgeFile)
+    downloadImage(homeBadgeURL, homeBadge)
     
     # Create an array to store the Team-Level Statistics that will be returned
     teamStats = []
@@ -415,6 +423,7 @@ for i in urlArray:
     parseMatch = urllib2.urlopen(parseURL)
     parseSoup = BeautifulSoup(parseMatch)
     parseSoup.prettify()
+    print outputRosters(parseSoup,parseURL,'H')
     print parseSoup.title.get_text() + ' :: ' + parseURL
     for i in goalScorer(parseSoup,parseURL,'H'):
         if i != None:
@@ -447,7 +456,7 @@ counter = 0
 while counter < 1:
     # Iterate over all Results for the World Cup
     urlArray = []
-    urlArray = resultsURL(resultSoup)[0:5]
+    urlArray = resultsURL(resultSoup)
     # print urlArray
     counter +=1
     # print '*** --------------- ***'
@@ -485,3 +494,4 @@ while counter < 1:
                     # print i.encode('utf-8')  
 
 
+# 
