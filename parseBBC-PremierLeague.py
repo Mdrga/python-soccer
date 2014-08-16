@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 '''
 Created on Jul 23, 2014
-Modified on Jul 31, 2014
-Version 0.03.b
+Modified on Aug 15, 2014
+Version 0.04.a
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -9,19 +11,28 @@ A simple Python Program to scrape the BBC Sports website for content.
 from bs4 import BeautifulSoup
 import urllib2
 import datetime
+import os
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # Establish the process Date, Time and Version Stamp of the Script
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
-parseVersion = 'Premier League 2014 - v0.03.b'
+parseVersion = 'Premier League 2014 - v0.04.a'
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
 fixturesOpen = urllib2.urlopen(fixturesURL)
 fixturesSoup = BeautifulSoup(fixturesOpen)
 
+outputPath = 'PL-Data/'
+
 # Save a local copy of the Fixtures Page
 outputBase = 'PL-Fixtures.html'
+outputTable = "PL-fixture-table.html"
+
+outputBase = os.path.join(outputPath, outputBase)
 with open(outputBase, "w") as f:
      f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
      f.write(fixturesSoup.prettify("utf-8"))
@@ -33,7 +44,8 @@ fixtureDiv = fixtureList.find("div", {"class":"fixtures-table full-table-medium"
 
 # Parse out the main Fixture Table to a local file
 fixturesTable = fixturesSoup.find("div", {"class":"stats-body"})
-with open("PL-fixture-table.html", "w") as f:
+outputTable = os.path.join(outputPath, outputTable)
+with open(outputTable, "w") as f:
      f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n' + '\n')
      f.write(fixtureDiv.prettify("utf-8"))
      f.close()
@@ -125,8 +137,11 @@ def returnMonth(x):
 		outputMonth = '07'
 	return outputMonth
 
+outputTxt = "PL-fixture.txt"
+outputTxt = os.path.join(outputPath, outputTxt)
+
 # Create file that parses out the Fixture Details
-with open("PL-fixtures.txt", "w") as f:
+with open(outputTxt, "w") as f:
      f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n' + '\n')
      f.write("dayOfWeek|fixtureDate|matchKickoff|matchID|matchStatus|homeName|awayName|homeURL|awayURL" + '\n')
      f.close()
@@ -158,7 +173,7 @@ while counter < len(matchDate):
 		matchKickoff = i.find("td", {"class":"kickoff"})
 		matchKickoff = matchKickoff.get_text(strip=True)
 		matchStatus = i.find("td", {"class":"status"})
-		matchStatus = matchStatus.get_text(strip=True)
+		matchStatus = matchStatus.get_text()
 		homeName = returnTeam(i, 'H', 'N') 
 		homeURL = returnTeam(i, 'H', 'H')
 		awayName = returnTeam(i, 'A', 'N') 
@@ -166,25 +181,26 @@ while counter < len(matchDate):
 		teamURLs.append(homeURL)
 		teamURLs.append(awayURL)
 		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
-		with open("PL-fixtures.txt", "a") as f:
+		with open(outputTxt, "a") as f:
 			f.write(fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '\n')
 			f.close()
 	counter +=1
-print "Program Completed."
+print "Input Determined..."
 
 # Sort and Remove Duplicates from the array of Premier League Teams
 teamURLs = sorted(set(teamURLs))
- 
+prefix = "http://www.bbc.com"
+
 def teamParse(x, y):
     teamURL = x
     outputFormat = y
     
-    prefix = "http://www.bbc.com"
     teamOpen = urllib2.urlopen(prefix + teamURL)
     teamSoup = BeautifulSoup(teamOpen)
     
     teamName = teamURL[22:len(teamURL)]
     teamNameHTML = teamName + '.html'
+    teamNameHTML = os.path.join(outputPath, teamNameHTML)
     teamTitle = str(teamSoup.title.get_text(strip=True))
     teamTitle = teamTitle[24:len(teamTitle)]
     
@@ -202,27 +218,57 @@ def teamParse(x, y):
         lastMatchTeam = matchData.find("span", {"class":"match-against"})
         # lastMatchTeam = lastMatchTeam.get_text(strip=True)
         lastMatchTeam = lastMatchTeam.get_text(strip=True)
-        lastMatchLeague = matchData.find("span", {"class":"match-league"})
+        lastMatchTeamName = lastMatchTeam[2:len(lastMatchTeam)-6]
+        # print lastMatchTeamName.encode('utf-8')
+        lastMatchLeague = lastMatch.find("span", {"class":"match-league"})
         lastMatchLeague = lastMatchLeague.get_text(strip=True)
-        lastMatchOutcome = matchData.find("span", {"class":"match-outcome"})
+        lastMatchOutcome = lastMatch.find("span", {"class":"match-outcome"})
         lastMatchOutcome = lastMatchOutcome.get_text(strip=True)
         lastMatchScore = matchData.find("span", {"class":"match-score"})
         lastMatchScore = lastMatchScore.get_text(strip=True)
         lastMatchDate = matchData.find("span", {"itemprop":"startDate"})
         lastMatchDate = lastMatchDate.get_text(strip=True)
         lastMatchDate = lastMatchDate[0:10]
-        lastMatchURL = matchData.find_all("a")
+        lastMatchURL = lastMatch.find_all("a")
         lastMatchStatus = matchData.find("span", {"class":"match-status"})
         lastMatchStatus = lastMatchStatus.get_text(strip=True)
-        output = teamTitle + '|' +lastMatch.h2.get_text(strip=True) + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeam[2:len(lastMatchTeam)-6] + \
-        " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + lastMatchURL[2]["href"]
-    elif outputFormat == 'A':
+        if len(lastMatchURL) == 2:
+        	matchURL = 1
+        else:
+        	matchURL = 2
+        output = teamTitle.encode('utf-8') + '|' +lastMatch.h2.get_text(strip=True) + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeamName + " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + prefix + lastMatchURL[matchURL]["href"]
+    elif outputFormat == 'N':
         nextMatch = matchData.find("div", {"id":"next-match"})
         nextMatchTeam = nextMatch.find("span", {"class":"match-against"})
         nextMatchTeam = nextMatchTeam.get_text(strip=True)
-        output =  teamTitle + '|' + nextMatch.h2.get_text(strip=True) + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeam[2:len(nextMatchTeam)-6] + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)]
+        nextMatchTeamName = nextMatchTeam[2:len(nextMatchTeam)-6]
+        # print nextMatchTeamName
+        nextMatchDate = nextMatch.find("span", {"itemprop":"startDate"})
+        nextMatchDate = nextMatchDate.get_text(strip=True)
+        nextMatchDate = nextMatchDate[0:10]
+        nextMatchLeague = nextMatch.find("span", {"class":"match-league"})
+        nextMatchLeague = nextMatchLeague.get_text(strip=True)
+        nextMatchStatus = nextMatch.find("span", {"class":"match-status"})
+        nextMatchStatus = nextMatchStatus.get_text(strip=True)
+        output = teamTitle.encode('utf-8') + '|' + nextMatch.h2.get_text(strip=True) + '|' + nextMatchLeague + '|' + nextMatchDate + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeamName + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)] + '|' +nextMatchStatus + '||'
     return output
-    
-for i in teamURLs[0:5]:
-    print teamParse(i,'A')
-    print teamParse(i,'L')
+
+outputNext = "PL-next-fixture.txt"
+outputLast = "PL-last-fixture.txt"
+outputNext = os.path.join(outputPath, outputNext)
+outputLast = os.path.join(outputPath, outputLast)
+
+with open(outputNext, "w") as f:
+	f.write(ds + ' :: ' + ts + ' :: Next Match File :: ' + parseVersion + '\n' + '\n')
+	f.close()
+with open(outputLast, "w") as f:
+	f.write(ds + ' :: ' + ts + ' :: Last Match File :: ' + parseVersion + '\n' + '\n')
+	f.close()
+
+for i in teamURLs:
+	with open(outputNext, "a") as f:
+		f.write(teamParse(i,'N') + '\n')
+		f.close()
+	with open(outputLast, "a") as f:
+		f.write(teamParse(i,'L') + '\n')
+		f.close()

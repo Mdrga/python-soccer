@@ -28,4 +28,8 @@ WorldCup-MatchBase.html
 
 MatchRestuls-output.txt
 
+<<<<<<< HEAD
 info.py
+=======
+*.png
+>>>>>>> FETCH_HEAD
