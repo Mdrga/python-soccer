@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jun 16, 2014
-Modified on Jul 12, 2014
+Modified on Aug 16, 2014
 Version 0.13.h
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
@@ -31,12 +31,17 @@ resultSoup = BeautifulSoup(matchResults)
 matchSoup = BeautifulSoup(gameMatch)
 
 # Program Version
-parseVersion = 'WorldCup v0.13.h'
+parseVersion = 'Premier League v0.13.h'
+outputPath = 'PL-Data/'
+outputImgsPath = 'PL-Data/imgs/'
+outputMatchPath = 'PL-Data/match/'
 
-outputBase = 'WorldCup-MatchBase.html'
+outputBase = 'EPL-MatchBase.html'
+outputBase = os.path.join(outputMatchPath, outputBase)
 with open(outputBase, "w") as f:
      f.write(matchSoup.prettify("utf-8"))
      f.close()
+
 # Identify Team Lineup
 divDetailResults = matchSoup.find_all("div", {"class":"team-match-details"})
 divLineup = matchSoup.find("div", {"id":"oppm-team-list"})
@@ -89,7 +94,9 @@ def rosterOutput(x):
 divTeamDetails = matchSoup.find("div", {"class":"post-match"})
 
 # Initialize the Stats File
-with open('MatchStats-output.txt', "w") as f:
+outputMatch = "MatchStats-output.txt"
+outputMatch = os.path.join(outputMatchPath, outputMatch)
+with open(outputMatch, "w") as f:
     f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
     f.write('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice' + '\n')
     f.close()
@@ -126,8 +133,6 @@ def teamName (x,y,z):
 
     return returnString 
 
-outputPath = 'WC-Data/'
-
 def downloadImage(imageURL, localFileName):
     response = requests.get(imageURL)
     if response.status_code == 200:
@@ -137,8 +142,6 @@ def downloadImage(imageURL, localFileName):
             fo.write(chunk)
     return True
     
-
-
 # Function to return Match Stats based on input of matchSoup
 # Paramaters are as follows:
 # x = BeautifulSoup(gameURL)
@@ -156,7 +159,9 @@ def matchStats(x,y,z):
     outputFormat = z
 
     # Create a local copy of the Match HTML page
-    with open ('MatchStats-output.html', "w") as f:
+    matchStats = BBC_MatchID + '.html'
+    matchStats = os.path.join(outputMatchPath, matchStats)
+    with open (matchStats, "w") as f:
         f.write(funcMatch.prettify('utf-8'))
         f.close()
 
@@ -194,8 +199,12 @@ def matchStats(x,y,z):
     # Download Badge from Site
     homeBadgeURL = homeTeamBadge["src"]
     homeBadgeFile = homeBadgeURL[64:len(homeBadgeURL)]
-    homeBadge = os.path.join(outputPath, homeBadgeFile)
+    homeBadge = os.path.join(outputImgsPath, homeBadgeFile)
     downloadImage(homeBadgeURL, homeBadge)
+    awayBadgeURL = awayTeamBadge["src"]
+    awayBadgeFile = awayBadgeURL[64:len(awayBadgeURL)]
+    awayBadge = os.path.join(outputImgsPath, awayBadgeFile)
+    downloadImage(awayBadgeURL, awayBadge)
     
     # Create an array to store the Team-Level Statistics that will be returned
     teamStats = []
@@ -234,7 +243,9 @@ def matchStats(x,y,z):
     return teamStats
 
 # Initialize the Player Stats File
-with open('PlayerStats-output.txt', 'w') as f:
+playerStats = 'PlayerStats-output.txt'
+playerStats = os.path.join(outputMatchPath, playerStats)
+with open(playerStats, 'w') as f:
     f.write('Match ID|Team Side|Country|Player Name|Player ID|Bench Status|Jersey #|Incident|Booked|Dismissed|Substituted|' + '\n')
     f.close()
 
@@ -413,7 +424,7 @@ print '***- - - - - - - - - - - - - - - - -***'
 # outputRosters(matchSoup, 'A')
 print datetime.datetime.now().strftime("%H:%M:%S")
 
-urlArray = resultsURL(resultSoup)[0:3]
+urlArray = resultsURL(resultSoup)
 
 print len(urlArray)
 print '***- - - - - - - - - - - - - - - - -***'
@@ -473,22 +484,22 @@ while counter < 1:
         for i in matchStats(parseSoup,parseURL,'B'):
             if i.find("Home") > 0:
                 print "Record Saved for " + teamName(parseSoup,0,'H') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
-                with open('MatchStats-output.txt', "a") as f:
+                with open(outputMatch, "a") as f:
                     f.write(i.encode('utf-8') + '\n')
                     f.close() 
                 for i in outputRosters(parseSoup,parseURL,'H'):
-                    with open('PlayerStats-output.txt', "a") as f:
+                    with open(playerStats, "a") as f:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()
 
                     # print i.encode('utf-8')
             else:
                 print "Record Saved for " + teamName(parseSoup,0,'A') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
-                with open('MatchStats-output.txt', "a") as f:
+                with open(outputMatch, "a") as f:
                     f.write(i.encode('utf-8') + '\n')
                     f.close() 
                 for i in outputRosters(parseSoup,parseURL,'A'):
-                    with open('PlayerStats-output.txt', "a") as f:
+                    with open(playerStats, "a") as f:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()                    
                     # print i.encode('utf-8')  
