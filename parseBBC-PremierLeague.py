@@ -2,8 +2,8 @@
 
 '''
 Created on Jul 23, 2014
-Modified on Aug 15, 2014
-Version 0.04.a
+Modified on Aug 16, 2014
+Version 0.04.b
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -19,7 +19,7 @@ sys.setdefaultencoding('utf-8')
 # Establish the process Date, Time and Version Stamp of the Script
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
-parseVersion = 'Premier League 2014 - v0.04.a'
+parseVersion = 'Premier League 2014 - v0.04.b'
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
@@ -27,6 +27,7 @@ fixturesOpen = urllib2.urlopen(fixturesURL)
 fixturesSoup = BeautifulSoup(fixturesOpen)
 
 outputPath = 'PL-Data/'
+prefix = "http://www.bbc.com"
 
 # Save a local copy of the Fixtures Page
 outputBase = 'PL-Fixtures.html'
@@ -143,7 +144,7 @@ outputTxt = os.path.join(outputPath, outputTxt)
 # Create file that parses out the Fixture Details
 with open(outputTxt, "w") as f:
      f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n' + '\n')
-     f.write("dayOfWeek|fixtureDate|matchKickoff|matchID|matchStatus|homeName|awayName|homeURL|awayURL" + '\n')
+     f.write("dayOfWeek|fixtureDate|matchKickoff|matchID|matchStatus|homeName|awayName|homeURL|awayURL|score|matchURL" + '\n')
      f.close()
 
 '''	  
@@ -165,15 +166,67 @@ while counter < len(matchDate):
 	fixtureDate = fixtureDate.get_text(strip=True)
 	fixtureDate = textDate(fixtureDate)
 	fixtureBlock = matches[counter]
-	fixtureDetail = fixtureBlock.find_all("tr", {"class":"preview"})
+	fixtureReport = fixtureBlock.find_all("tr", {"class":"report"})
+	fixtureLive = fixtureBlock.find_all("tr", {"class":"live"})
+	fixturePreview = fixtureBlock.find_all("tr", {"class":"preview"})
 	# Parse out the components of the Fixture. Create a single line to parse the data out
-	for i in fixtureDetail:
+	# Matches that have Completed
+	for i in fixtureReport:
+		matchID = i.get("id")
+		matchID = matchID[10:len(matchID)]
+		matchKickoff = i.find("td", {"class":"time"})
+		matchKickoff = matchKickoff.get_text(strip=True)
+		matchStatus = i.find("td", {"class":"status"})
+		matchURL = matchStatus.find("a")
+		matchURL = matchURL["href"]
+		matchStatus = matchStatus.get_text(strip=True)
+		homeName = returnTeam(i, 'H', 'N') 
+		homeURL = returnTeam(i, 'H', 'H')
+		awayName = returnTeam(i, 'A', 'N') 
+		awayURL = returnTeam(i, 'A', 'H')
+		teamURLs.append(homeURL)
+		teamURLs.append(awayURL)
+		score = i.find("span", {"class":"score"})
+		score = score.get_text(strip=True)
+		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
+		print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' ' + score + ' ' + awayName
+		with open(outputTxt, "a") as f:
+			f.write(fixtureDate + "|" + '|' + matchID + '|' + matchStatus + ' - ' + matchKickoff + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '|' + score + '|' + matchURL + '\n')
+			f.close()
+	
+	# Matches In Progress
+	for i in fixtureLive:
+		matchID = i.get("id")
+		matchID = matchID[10:len(matchID)]
+		matchKickoff = i.find("td", {"class":"time"})
+		matchKickoff = matchKickoff.get_text(strip=True)
+		matchStatus = i.find("td", {"class":"status"})
+		matchURL = matchStatus.find("a")
+		matchURL = matchURL["href"]
+		matchStatus = matchStatus.get_text(strip=True)
+		homeName = returnTeam(i, 'H', 'N') 
+		homeURL = returnTeam(i, 'H', 'H')
+		awayName = returnTeam(i, 'A', 'N') 
+		awayURL = returnTeam(i, 'A', 'H')
+		teamURLs.append(homeURL)
+		teamURLs.append(awayURL)
+		score = i.find("span", {"class":"score"})
+		score = score.get_text(strip=True)
+		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
+		print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' ' + score + ' ' + awayName
+		with open(outputTxt, "a") as f:
+			f.write(fixtureDate + "|" + '|' + matchID + '|' + matchStatus + ' - ' + matchKickoff + '|' + homeName + '|' + awayName + '|' + prefix + homeURL + '|' + prefix + awayURL + '|' + score + '|' + prefix + matchURL + '\n')
+			f.close()
+	# Matches To Be Played
+	for i in fixturePreview:
 		matchID = i.get("id")
 		matchID = matchID[10:len(matchID)]
 		matchKickoff = i.find("td", {"class":"kickoff"})
 		matchKickoff = matchKickoff.get_text(strip=True)
 		matchStatus = i.find("td", {"class":"status"})
-		matchStatus = matchStatus.get_text()
+		matchStatus = matchStatus.get_text(strip=True)
+		if len(matchStatus) > 0:
+		    matchStatus = matchStatus[0:7]
 		homeName = returnTeam(i, 'H', 'N') 
 		homeURL = returnTeam(i, 'H', 'H')
 		awayName = returnTeam(i, 'A', 'N') 
@@ -181,15 +234,15 @@ while counter < len(matchDate):
 		teamURLs.append(homeURL)
 		teamURLs.append(awayURL)
 		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
+		print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' v. ' + awayName
 		with open(outputTxt, "a") as f:
-			f.write(fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '\n')
+			f.write(fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '||' + '\n')
 			f.close()
 	counter +=1
 print "Input Determined..."
 
 # Sort and Remove Duplicates from the array of Premier League Teams
 teamURLs = sorted(set(teamURLs))
-prefix = "http://www.bbc.com"
 
 def teamParse(x, y):
     teamURL = x
@@ -236,7 +289,7 @@ def teamParse(x, y):
         	matchURL = 1
         else:
         	matchURL = 2
-        output = teamTitle.encode('utf-8') + '|' +lastMatch.h2.get_text(strip=True) + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeamName + " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + prefix + lastMatchURL[matchURL]["href"]
+        output = teamTitle.encode('utf-8') + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeamName + " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + prefix + lastMatchURL[matchURL]["href"]
     elif outputFormat == 'N':
         nextMatch = matchData.find("div", {"id":"next-match"})
         nextMatchTeam = nextMatch.find("span", {"class":"match-against"})
@@ -250,7 +303,7 @@ def teamParse(x, y):
         nextMatchLeague = nextMatchLeague.get_text(strip=True)
         nextMatchStatus = nextMatch.find("span", {"class":"match-status"})
         nextMatchStatus = nextMatchStatus.get_text(strip=True)
-        output = teamTitle.encode('utf-8') + '|' + nextMatch.h2.get_text(strip=True) + '|' + nextMatchLeague + '|' + nextMatchDate + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeamName + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)] + '|' +nextMatchStatus + '||'
+        output = teamTitle.encode('utf-8') + '|' + nextMatchLeague + '|' + nextMatchDate + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeamName + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)] + '|' +nextMatchStatus + '||'
     return output
 
 outputNext = "PL-next-fixture.txt"
