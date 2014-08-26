@@ -190,7 +190,9 @@ def matchStats(x,y,z):
     homeTeam = divTeamDetails.find("div", {"id":"home-team"})
     awayTeam = divTeamDetails.find("div", {"id":"away-team"})
     homeScorer = homeTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
+    print homeScorer
     awayScorer = awayTeam.find_all("p", {"class":"scorer-list blq-clearfix"})
+    print awayScorer
     spanHomeScore = homeTeam.find("span", {"class":"team-score"})
     spanAwayScore = awayTeam.find("span", {"class":"team-score"})
     homeTeamBadge = homeTeam.find("img")
@@ -231,12 +233,16 @@ def matchStats(x,y,z):
 
     # Define the Function Output to the Array teamStats
     if outputFormat == 'H':
-        teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
+        teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + \
+        '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
     elif outputFormat == 'A':
-        teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
+        teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + \
+        '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
     elif outputFormat == 'B':
-        teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
-        teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
+        teamStats.append(BBC_MatchID + '|' + 'Home' + '|' + homeTeam.a.get_text() + '|' + spanHomeScore.get_text() + '|' + homeTeamBadge["src"] + '|' + statPossessionHome.get_text() + \
+        '|' + statShotsHome.get_text() + '|' + statShotsGoalHome.get_text() + '|' + statCornersHome.get_text() + '|' + statFoulsHome.get_text() + '|' + matchNotice)
+        teamStats.append(BBC_MatchID + '|' + 'Away' + '|' + awayTeam.a.get_text() + '|' + spanAwayScore.get_text() + '|' + awayTeamBadge["src"] + '|' + statPossessionAway.get_text() + \
+        '|' + statShotsAway.get_text() + '|' + statShotsGoalAway.get_text() + '|' + statCornersAway.get_text() + '|'+ statFoulsAway.get_text() + '|' + matchNotice)
     else:
         teamStats.append('INCORRECT OUTPUT FORMAT SELECTED')
 
@@ -336,7 +342,8 @@ def outputRosters(x,y,z):
             playerSub = 'N'
         
         
-        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) +  '|' + playerName + '|' + playerID + '|Starter|' + playerJersey + '|' + playerIncident + '|' + playerBooked + '|' + playerDismissed + '|' + playerSub + '|')
+        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) +  '|' + playerName + '|' + playerID + '|Starter|' + \
+        playerJersey + '|' + playerIncident + '|' + playerBooked + '|' + playerDismissed + '|' + playerSub + '|')
 
     for i in lineupSubs:
         # print i
