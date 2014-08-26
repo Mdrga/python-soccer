@@ -425,7 +425,7 @@ print localTeamFile
     downloadImage(homeBadgeURL, homeBadge)
 
 # print matchSoup.prettify()
-'''
+
 
 # Comment out to work on Team Details Parsing
 with open(outputNext, "w") as f:
@@ -442,3 +442,4 @@ for i in teamURLs:
 	with open(outputLast, "a") as f:
 		f.write(teamParse(i,'L') + '\n')
 		f.close()
+'''
