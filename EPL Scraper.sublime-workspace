@@ -1,0 +1,999 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"par",
+				"parseVersion"
+			],
+			[
+				"Out",
+				"Output"
+			],
+			[
+				"f",
+				"fixtureResults"
+			],
+			[
+				"matches",
+				"matchesReport"
+			],
+			[
+				"matc",
+				"matchesBlock"
+			],
+			[
+				"matche",
+				"matchesDate"
+			],
+			[
+				"res",
+				"resultsDate"
+			],
+			[
+				"mat",
+				"matchStatus"
+			],
+			[
+				"fixture",
+				"fixtureResults"
+			],
+			[
+				"outp",
+				"outputResults"
+			],
+			[
+				"out",
+				"outputPath"
+			],
+			[
+				"results",
+				"resultsURL"
+			],
+			[
+				"ur",
+				"urlopen"
+			],
+			[
+				"output",
+				"outputLast"
+			],
+			[
+				"da",
+				"dateOfMonth"
+			],
+			[
+				"day",
+				"dayLength"
+			],
+			[
+				"week",
+				"weekRow"
+			],
+			[
+				"find",
+				"find_all"
+			],
+			[
+				"wee",
+				"weekDate"
+			],
+			[
+				"sched",
+				"scheduleActual"
+			],
+			[
+				"sche",
+				"scheduleSoup"
+			],
+			[
+				"scheduleC",
+				"scheduleConfTXT"
+			],
+			[
+				"str",
+				"strip"
+			],
+			[
+				"scheduleU",
+				"scheduleURLConfArray"
+			],
+			[
+				"schedulCo",
+				"scheduleConfURL"
+			],
+			[
+				"schedule",
+				"scheduleConf"
+			],
+			[
+				"sc",
+				"scheduleURLArray"
+			],
+			[
+				"schedu",
+				"scheduleWeek"
+			],
+			[
+				"sch",
+				"scheduleDiv"
+			],
+			[
+				"ou",
+				"outputBase"
+			],
+			[
+				"fi",
+				"fixturesSoup"
+			],
+			[
+				"parse",
+				"parseURL"
+			],
+			[
+				"homeBadge",
+				"homeBadgeFile"
+			],
+			[
+				"hom",
+				"homeTeamBadge"
+			],
+			[
+				"ne",
+				"nextMatchTeamName"
+			],
+			[
+				"lat",
+				"lastMatchURL"
+			],
+			[
+				"la",
+				"lastMatchURL"
+			],
+			[
+				"match",
+				"matchURL"
+			],
+			[
+				"last",
+				"lastMatchURL"
+			],
+			[
+				"lastMatch",
+				"lastMatchTeam"
+			],
+			[
+				"e",
+				"encode"
+			],
+			[
+				"las",
+				"lastMatchTeam"
+			],
+			[
+				"next",
+				"nextMatchTeamName"
+			],
+			[
+				"nex",
+				"nextMatchURL"
+			],
+			[
+				"net",
+				"nextMatchDate"
+			],
+			[
+				"teamNa",
+				"teamNameHTML"
+			],
+			[
+				"dice",
+				"dice"
+			],
+			[
+				"grammyS",
+				"grammySufixURL"
+			],
+			[
+				"year",
+				"yearArray"
+			],
+			[
+				"work",
+				"worksExtended"
+			],
+			[
+				"wor",
+				"worksExtended"
+			],
+			[
+				"wo",
+				"worksExtended"
+			],
+			[
+				"grammyW",
+				"grammyWorkExt"
+			],
+			[
+				"gra",
+				"grammyWork"
+			],
+			[
+				"gr",
+				"grammyCategory"
+			],
+			[
+				"gram",
+				"grammyWork"
+			],
+			[
+				"gramm",
+				"grammyCategory"
+			],
+			[
+				"view",
+				"views-field"
+			],
+			[
+				"grammy",
+				"grammySoup"
+			],
+			[
+				"se",
+				"setLength"
+			],
+			[
+				"c",
+				"currentYear"
+			],
+			[
+				"cl",
+				"close"
+			],
+			[
+				"el",
+				"elif"
+			],
+			[
+				"retur",
+				"returnMonth"
+			],
+			[
+				"in",
+				"inputMonth"
+			],
+			[
+				"fixtr",
+				"fixtureDate"
+			],
+			[
+				"fixtru",
+				"fixturesTable"
+			],
+			[
+				"n",
+				"n"
+			],
+			[
+				"ma",
+				"matchRow"
+			],
+			[
+				"pre",
+				"prettify"
+			],
+			[
+				"article",
+				"atricle"
+			],
+			[
+				"arti",
+				"atricle"
+			],
+			[
+				"artic",
+				"articleDates"
+			],
+			[
+				"ar",
+				"articleLinks"
+			],
+			[
+				"pint",
+				"printLine"
+			],
+			[
+				"new",
+				"newsTD"
+			],
+			[
+				"news",
+				"newsSoup"
+			],
+			[
+				"en",
+				"endSpec"
+			],
+			[
+				"H",
+				"H"
+			],
+			[
+				"pa",
+				"parseURL"
+			],
+			[
+				"spec",
+				"specGoal"
+			],
+			[
+				"spe",
+				"specGoal"
+			],
+			[
+				"pars",
+				"parseSoup"
+			],
+			[
+				"text",
+				"textScorer"
+			],
+			[
+				"span",
+				"span"
+			],
+			[
+				"tex",
+				"textGoalScorer"
+			],
+			[
+				"ho",
+				"homeTeam"
+			],
+			[
+				"team",
+				"teamScore"
+			],
+			[
+				"tea",
+				"team-score"
+			],
+			[
+				"h",
+				"homeTeam"
+			],
+			[
+				"game",
+				"gameDetails"
+			],
+			[
+				"main",
+				"main-content"
+			],
+			[
+				"func",
+				"funcMatch"
+			],
+			[
+				"Player",
+				"playerID"
+			],
+			[
+				"ret",
+				"returnType"
+			],
+			[
+				"pla",
+				"playerJersey"
+			],
+			[
+				"re",
+				"returnName"
+			],
+			[
+				"player",
+				"playerID"
+			],
+			[
+				"playerI",
+				"playerID"
+			],
+			[
+				"li",
+				"lineupSubs"
+			],
+			[
+				"lineu",
+				"lineupSubs"
+			],
+			[
+				"lin",
+				"lineupStarter"
+			],
+			[
+				"return",
+				"returnType"
+			],
+			[
+				"r",
+				"returnString"
+			],
+			[
+				"retu",
+				"returnString"
+			],
+			[
+				"teamR",
+				"teamRosters"
+			],
+			[
+				"url",
+				"urlArray"
+			],
+			[
+				"play",
+				"playerUpdate"
+			],
+			[
+				"N",
+				"N"
+			],
+			[
+				"playe",
+				"playerBooked"
+			],
+			[
+				"pl",
+				"playerIncident"
+			],
+			[
+				"T",
+				"True"
+			],
+			[
+				"listAwa",
+				"listAwaySubs"
+			],
+			[
+				"listHomeS",
+				"listHomeSubs"
+			],
+			[
+				"listHome",
+				"listHomeRoster"
+			],
+			[
+				"lis",
+				"listAwayRoster"
+			],
+			[
+				"get",
+				"get_text"
+			],
+			[
+				"list",
+				"listHomeStarter"
+			],
+			[
+				"div",
+				"divAltLineup"
+			],
+			[
+				"line",
+				"line-up-wrapper"
+			],
+			[
+				"home",
+				"homeTeam"
+			],
+			[
+				"divMa",
+				"divMatchStats"
+			],
+			[
+				"fun",
+				"funcMatch"
+			],
+			[
+				"p",
+				"p"
+			],
+			[
+				"u",
+				"utf-8"
+			],
+			[
+				"scorer",
+				"scorer-list"
+			],
+			[
+				"Name",
+				"NameError"
+			],
+			[
+				"statCor",
+				"statCornersAway"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "parseBBC-PremierLeague.py",
+			"settings":
+			{
+				"buffer_size": 16943,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parseBBC-EPLMatch.py",
+			"settings":
+			{
+				"buffer_size": 20572,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "PL-Data/PL-Results.html",
+			"settings":
+			{
+				"buffer_size": 150904,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "PL-Data/match/PL-fixture.txt",
+			"settings":
+			{
+				"buffer_size": 49641,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "PL-Data/match/PlayerStats-output.txt",
+			"settings":
+			{
+				"buffer_size": 40164,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "PL-Data/match/MatchStats-output.txt",
+			"settings":
+			{
+				"buffer_size": 5374,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"command_palette":
+	{
+		"height": 311.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 536.0
+	},
+	"console":
+	{
+		"height": 343.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/rmadruga/Documents/python-soccer/PL-Data/PL-Fixtures.html",
+		"/Users/rmadruga/Documents/python-soccer/PL-Data/PL-fixture.txt",
+		"/Users/rmadruga/Desktop/ALS - stats.py",
+		"/Users/rmadruga/Documents/python-soccer/parseBBC-match.py",
+		"/Users/rmadruga/Documents/python-soccer/PL-Data/PL-next-fixture.txt",
+		"/Users/rmadruga/Documents/python-soccer/PL-Data/PL-last-fixture.txt",
+		"/Users/rmadruga/Documents/python-soccer/parseESPN-NCAA Div IA.py",
+		"/Users/rmadruga/Documents/python-soccer/NCAA-Data/NCAA-Schedule.html",
+		"/Users/rmadruga/Documents/python-soccer/NCAA-Data/NCAA-FullSchedules.html",
+		"/Users/rmadruga/Documents/python-soccer/NCAA-Data/NCAA-WeekSchedules.html",
+		"/Users/rmadruga/Documents/python-soccer/PL-fixtures.txt",
+		"/Users/rmadruga/Documents/python-soccer/PL-Data/arsenal.html",
+		"/Users/rmadruga/Documents/python-soccer/PlayerStats-output.txt",
+		"/Users/rmadruga/Documents/python-soccer/parseBBC-sports.py",
+		"/Users/rmadruga/Documents/python-soccer/parseBBC-PremierLeague.py",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/PyTraveller (Rainier.madruga@gmail.com)/pyTraveller.py",
+		"/Users/rmadruga/Documents/dungeon-crawl/dungeon-crawl.py",
+		"/Users/rmadruga/Documents/Grammys.py",
+		"/Users/rmadruga/Documents/python-soccer/PL-fixture-table.html",
+		"/Users/rmadruga/Documents/python-soccer/grammys.html",
+		"/Users/rmadruga/Documents/python/ICC-Base.html",
+		"/Users/rmadruga/Documents/python/intlchamps.py",
+		"/Users/rmadruga/Documents/python-soccer/WorldCup-MatchBase.html",
+		"/Users/rmadruga/Documents/python-soccer/MatchDetails-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/parseBBC-match.py",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/parseBBC-sports.py",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchStats-output.html",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchStats-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchRestuls-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/urlOutput.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/MatchDetails-output.txt",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/WorldCup-Base.html",
+		"/Users/rmadruga/Box Sync/Personal/Rainier/Repositories/python-learning/WorldCup-MatchBase.html",
+		"/C/Users/ca08da/Desktop/GitHub/python-learning/parseBBC-match.py",
+		"/C/Users/ca08da/Desktop/GitHub/python-learning/detailResults.html",
+		"/C/Users/ca08da/Desktop/GitHub/python-learning/WorldCup-MatchDetails.html",
+		"/C/Users/ca08da/Desktop/GitHub/python-learning/WorldCup-Results.html",
+		"/C/Users/ca08da/Desktop/GitHub/python-learning/WorlCup-MatchResults.html",
+		"/C/Users/ca08da/Desktop/GitHub/python-learning/WorldCup-Update.txt",
+		"/C/02-Work/python/parseBBC-sports.py",
+		"/C/02-Work/python/parseBBC-match.py",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/parseBBC-sports.py",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/MatchDetails-output.txt",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorlCup-MatchResults.html",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-MatchDetails.html",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Results.html",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Base.html",
+		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Update.txt",
+		"/C/02-Work/python/parsingLessons.py",
+		"/C/02-Work/python/parseBBC.py",
+		"/C/02-Work/python/WorldCup-Update.txt",
+		"/C/02-Work/python/WorldCup_results.html",
+		"/C/02-Work/python/WorlCup-MatchResults.html",
+		"/C/02-Work/python/WorldCup-MatchDetails.html",
+		"/C/02-Work/python/MatchDetails-output.txt",
+		"/C/02-Work/python/MatchDetails.txt",
+		"/C/02-Work/python/Update.txt",
+		"/C/02-Work/python/WorlCup-MatchResults.txt",
+		"/C/02-Work/python/bbc_news.html",
+		"/C/02-Work/python/Bootstrap_news.html",
+		"/C/02-Work/python/Host a Dungeon.py",
+		"/C/02-Work/python/spreadsheet.csv",
+		"/C/02-Work/python/bootstrap.html",
+		"/C/02-Work/python/dungeon_archive.txt",
+		"/C/02-Work/python/pyTraveller_v0_01.py",
+		"/C/Users/ca08da/Desktop/python2-scripts/python2/002 Web Scraping/scripts_016.py",
+		"/C/Users/ca08da/AppData/Roaming/Sublime Text 2/Packages/User/codeivate-st.sublime-settings",
+		"/C/02-Work/python/training_python.py"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"matchDate",
+			"resultURLs",
+			"png",
+			"<br/>",
+			"matchDeta",
+			"MatchStats-output.html",
+			"updated",
+			"last",
+			"update",
+			"last up",
+			"show",
+			"incident",
+			"incidents-container",
+			"match-details",
+			"ramires",
+			"tuesday",
+			"brazil",
+			"Brazil",
+			"17th",
+			"updated",
+			"results",
+			"blq-local-nav",
+			"div",
+			"<body",
+			"body",
+			"hobart.",
+			"::"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"player.",
+			"hobart",
+			"|"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "parseBBC-PremierLeague.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16943,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								93,
+								93
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 13.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "parseBBC-EPLMatch.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20572,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3831,
+								3830
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1312.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "PL-Data/PL-Results.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 150904,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 19704.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "PL-Data/match/PL-fixture.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 49641,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								56,
+								56
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "PL-Data/match/PlayerStats-output.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 40164,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "PL-Data/match/MatchStats-output.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5374,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 365.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "EPL Scraper.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

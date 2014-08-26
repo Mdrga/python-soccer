@@ -2,8 +2,8 @@
 
 '''
 Created on Jul 23, 2014
-Modified on Aug 16, 2014
-Version 0.04.c
+Modified on Aug 2$3, 2014
+Version 0.13.i
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -20,12 +20,17 @@ sys.setdefaultencoding('utf-8')
 # Establish the process Date, Time and Version Stamp of the Script
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
-parseVersion = 'Premier League 2014 - v0.04.c'
+parseVersion = 'Premier League 2014 - v0.13.i'
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
 fixturesOpen = urllib2.urlopen(fixturesURL)
 fixturesSoup = BeautifulSoup(fixturesOpen)
+
+# URLS for Main Body of Script to get Results
+resultsURL = "http://www.bbc.com/sport/football/premier-league/results"
+resultsOpen = urllib2.urlopen(resultsURL)
+resultsSoup = BeautifulSoup(resultsOpen)
 
 outputPath = 'PL-Data/'
 outputImgPath = 'PL-Data/imgs/'
@@ -35,6 +40,7 @@ prefix = "http://www.bbc.com"
 
 # Save a local copy of the Fixtures Page
 outputBase = 'PL-Fixtures.html'
+outputResults = 'PL-Results.html'
 outputTable = "PL-fixture-table.html"
 
 outputBase = os.path.join(outputPath, outputBase)
@@ -43,9 +49,17 @@ with open(outputBase, "w") as f:
      f.write(fixturesSoup.prettify("utf-8"))
      f.close()
 
+outputResults = os.path.join(outputPath, outputResults)
+with open(outputResults, "w") as f:
+     f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
+     f.write(resultsSoup.prettify("utf-8"))
+     f.close()
+
 # Find the containers with the Fixtures information within the HTML page
 fixtureList = fixturesSoup.find("div", {"class":"stats"})
 fixtureDiv = fixtureList.find("div", {"class":"fixtures-table full-table-medium"})
+resultsList = resultsSoup.find("div", {"class":"stats"})
+resultsDiv = resultsList.find("div", {"class":"fixtures-table full-table-medium"})
 
 # Parse out the main Fixture Table to a local file
 fixturesTable = fixturesSoup.find("div", {"class":"stats-body"})
@@ -59,6 +73,8 @@ with open(outputTable, "w") as f:
 counter = 0
 matchDate = fixtureDiv.find_all("h2", {"class":"table-header"})
 matches = fixtureDiv.find_all("table")
+matchesResults = resultsDiv.find_all("table")
+resultsDate = resultsDiv.find_all("h2", {"class":"table-header"})
 
 # Create a function to return the Team Name or URL
 # x = Incoming data from the HTML
@@ -163,6 +179,43 @@ TODO - Parse data to database
 teamURLs = []
 resultURLs = []
 
+def fixtureResults(x):
+	fixtureResults = x
+	matchID = fixtureResults.get("id")
+	matchID = matchID[10:len(matchID)]
+	matchKickoff = fixtureResults.find("td", {"class":"time"})
+	matchKickoff = matchKickoff.get_text(strip=True)
+	matchStatus = fixtureResults.find("td", {"class":"status"})
+	matchURL = matchStatus.find("a")
+	matchURL = matchURL["href"]
+	matchStatus = matchStatus.get_text(strip=True)
+	homeName = returnTeam(fixtureResults, 'H', 'N') 
+	homeURL = returnTeam(fixtureResults, 'H', 'H')
+	awayName = returnTeam(fixtureResults, 'A', 'N') 
+	awayURL = returnTeam(fixtureResults, 'A', 'H')
+	teamURLs.append(homeURL)
+	teamURLs.append(awayURL)
+	score = i.find("span", {"class":"score"})
+	score = score.get_text(strip=True)
+	resultURLs.append(matchURL + '|' + matchID)
+	output = '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '|' + score + '|' + matchURL + '\n'
+	return output
+
+while counter < len(resultsDate):
+	matchesDate = resultsDate[counter]
+	matchesDate = matchesDate.get_text(strip=True)
+	matchesDate = textDate(matchesDate)
+	matchesBlock = matchesResults[counter]
+	matchesReport = matchesBlock.find_all("tr", {"class":"report"})
+	for i in matchesReport:
+		# print matchesDate + fixtureResults(i)
+		with open(outputTxt, "a") as f:
+			f.write(matchesDate + '|' + (fixtureResults(i)))
+			f.close()
+	# print matchesDate
+	counter += 1 
+
+counter = 0
 while counter < len(matchDate):
 # Line below is used for Unit Testing of Code
 # while counter < 2:
@@ -177,29 +230,28 @@ while counter < len(matchDate):
 	# Parse out the components of the Fixture. Create a single line to parse the data out
 	# Matches that have Completed
 	for i in fixtureReport:
-		matchID = i.get("id")
-		matchID = matchID[10:len(matchID)]
-		matchKickoff = i.find("td", {"class":"time"})
-		matchKickoff = matchKickoff.get_text(strip=True)
-		matchStatus = i.find("td", {"class":"status"})
-		matchURL = matchStatus.find("a")
-		matchURL = matchURL["href"]
-		
-		matchStatus = matchStatus.get_text(strip=True)
-		homeName = returnTeam(i, 'H', 'N') 
-		homeURL = returnTeam(i, 'H', 'H')
-		awayName = returnTeam(i, 'A', 'N') 
-		awayURL = returnTeam(i, 'A', 'H')
-		teamURLs.append(homeURL)
-		teamURLs.append(awayURL)
-		score = i.find("span", {"class":"score"})
-		score = score.get_text(strip=True)
-		resultURLs.append(matchURL + '|' + matchID)
-		print resultURLs
+		# print fixtureResults(i)
+		# matchID = i.get("id")
+		# matchID = matchID[10:len(matchID)]
+		# matchKickoff = i.find("td", {"class":"time"})
+		# matchKickoff = matchKickoff.get_text(strip=True)
+		# matchStatus = i.find("td", {"class":"status"})
+		# matchURL = matchStatus.find("a")
+		# matchURL = matchURL["href"]
+		# matchStatus = matchStatus.get_text(strip=True)
+		# homeName = returnTeam(i, 'H', 'N') 
+		# homeURL = returnTeam(i, 'H', 'H')
+		# awayName = returnTeam(i, 'A', 'N') 
+		# awayURL = returnTeam(i, 'A', 'H')
+		# teamURLs.append(homeURL)
+		# teamURLs.append(awayURL)
+		# score = i.find("span", {"class":"score"})
+		# score = score.get_text(strip=True)
+		# print resultURLs
 		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
-		print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' ' + score + ' ' + awayName
+		# print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' ' + score + ' ' + awayName
 		with open(outputTxt, "a") as f:
-			f.write(fixtureDate + "|" + '|' + matchID + '|' + matchStatus + ' - ' + matchKickoff + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '|' + score + '|' + matchURL + '\n')
+			f.write(fixtureDate + '|' + fixtureResults(i))
 			f.close()
 	
 	# Matches In Progress
@@ -322,18 +374,19 @@ outputNext = os.path.join(outputTeamPath, outputNext)
 outputLast = os.path.join(outputTeamPath, outputLast)
 
 # Match Report URL:  /sport/football/28718345
-print resultURLs
+# print resultURLs
 
 '''
 resultsOutput = resultURLs
 teamURL = teamURLs[0]
 # print teamURL
 
-resultDetail = resultsOutput.find("|")
+resultDetail = resultsOutput.find("/")
 lenResult = resultDetail
 resultMatch = resultsOutput[lenResult+1:len(resultsOutput)]
 resultDetail = prefix + resultsOutput[0:resultDetail]
-
+'''
+'''
 matchResults = urllib2.urlopen(resultDetail)
 matchSoup = BeautifulSoup(matchResults)
 

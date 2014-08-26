@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jun 16, 2014
-Modified on Aug 16, 2014
-Version 0.13.h
+Modified on Aug 24, 2014
+Version 0.13.i
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -31,7 +31,7 @@ resultSoup = BeautifulSoup(matchResults)
 matchSoup = BeautifulSoup(gameMatch)
 
 # Program Version
-parseVersion = 'Premier League v0.13.h'
+parseVersion = 'Premier League v0.13.i'
 outputPath = 'PL-Data/'
 outputImgsPath = 'PL-Data/imgs/'
 outputMatchPath = 'PL-Data/match/'
@@ -97,7 +97,7 @@ divTeamDetails = matchSoup.find("div", {"class":"post-match"})
 outputMatch = "MatchStats-output.txt"
 outputMatch = os.path.join(outputMatchPath, outputMatch)
 with open(outputMatch, "w") as f:
-    f.write(ds + '|' + ts + '|' + parseVersion + '|' + 'Match Stats File' + '\n')
+    f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '|' + 'Match Stats File' + '\n')
     f.write('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice' + '\n')
     f.close()
 
@@ -246,6 +246,7 @@ def matchStats(x,y,z):
 playerStats = 'PlayerStats-output.txt'
 playerStats = os.path.join(outputMatchPath, playerStats)
 with open(playerStats, 'w') as f:
+    f.write(ds + ' :: ' + ts + ' :: ' + 'Premier League Player Output ' + parseVersion + '\n' + '\n')
     f.write('Match ID|Team Side|Country|Player Name|Player ID|Bench Status|Jersey #|Incident|Booked|Dismissed|Substituted|' + '\n')
     f.close()
 
