@@ -21,7 +21,8 @@ ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 
 # Create an array of URL Links.
-website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/0/football/28102403","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", "http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/premier-league/results", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
+website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/0/football/28102403","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", \
+"http://www.bbc.com/sport/0/football/25285085", "http://www.bbc.com/sport/football/premier-league/results", "http://www.bbc.com/sport/football/world-cup/results", "http://www.bbc.com/sport/football/fixtures"]
 
 # Parse out Specific Match Results
 matchResults = urllib2.urlopen(website[5])
@@ -98,7 +99,8 @@ outputMatch = "MatchStats-output.txt"
 outputMatch = os.path.join(outputMatchPath, outputMatch)
 with open(outputMatch, "w") as f:
     f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '|' + 'Match Stats File' + '\n')
-    f.write('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + '|' + 'Fouls' + '|' + 'Match Notice' + '\n')
+    f.write('MatchID' + '|' + 'Team Side' + '|' + 'Team Name' + '|' + 'Goals Scored' + '|' + 'Team Badge' + '|' + 'Possession %' + '|' + 'Shots' + '|' + 'Shots On Goal' + '|' + 'Corners' + \
+    '|' + 'Fouls' + '|' + 'Match Notice' + '\n')
     f.close()
 
 # Get the Home Team from the URL
@@ -442,7 +444,7 @@ for i in urlArray:
     parseMatch = urllib2.urlopen(parseURL)
     parseSoup = BeautifulSoup(parseMatch)
     parseSoup.prettify()
-    print outputRosters(parseSoup,parseURL,'H')
+    # print outputRosters(parseSoup,parseURL,'H')
     print parseSoup.title.get_text() + ' :: ' + parseURL
     for i in goalScorer(parseSoup,parseURL,'H'):
         if i != None:

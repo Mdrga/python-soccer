@@ -223,6 +223,7 @@ while counter < len(matchDate):
 	fixtureDate = matchDate[counter]
 	fixtureDate = fixtureDate.get_text(strip=True)
 	fixtureDate = textDate(fixtureDate)
+	print fixtureDate
 	fixtureBlock = matches[counter]
 	fixtureReport = fixtureBlock.find_all("tr", {"class":"report"})
 	fixtureLive = fixtureBlock.find_all("tr", {"class":"live"})
@@ -275,7 +276,8 @@ while counter < len(matchDate):
 		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
 		# print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' ' + score + ' ' + awayName
 		with open(outputTxt, "a") as f:
-			f.write(fixtureDate + "|" + '|' + matchID + '|' + matchStatus + ' - ' + matchKickoff + '|' + homeName + '|' + awayName + '|' + prefix + homeURL + '|' + prefix + awayURL + '|' + score + '|' + prefix + matchURL + '\n')
+			f.write(fixtureDate + "|" + '|' + matchID + '|' + matchStatus + ' - ' + matchKickoff + '|' + homeName + '|' + awayName + '|' + prefix \
+			+ homeURL + '|' + prefix + awayURL + '|' + score + '|' + prefix + matchURL + '\n')
 			f.close()
 	# Matches To Be Played
 	for i in fixturePreview:
