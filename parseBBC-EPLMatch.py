@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jun 16, 2014
-Modified on Aug 24, 2014
-Version 0.13.i
+Modified on Sep 04, 2014
+Version 0.13.j
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -19,6 +19,7 @@ sys.setdefaultencoding('utf-8')
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
+date = datetime.datetime.now().strftime("%Y%m%d")
 
 # Create an array of URL Links.
 website = ["http://www.bbc.com/sport/football/27961190","http://www.bbc.com/sport/0/football/28102403","http://www.bbc.com/sport/football/25285249", "http://www.bbc.com/sport/0/football/25285092", \

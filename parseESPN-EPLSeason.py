@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 28, 2014
-Modified on Aug 28, 2014
-Version 0.01.a
+Modified on Sep 06, 2014
+Version 0.02.a
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -19,6 +19,24 @@ sys.setdefaultencoding('utf-8')
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
+date = datetime.datetime.now().strftime("%Y%m%d")
+
+# Updates the Time Stamp
+def updateTS():
+    update = datetime.datetime.now().strftime("%H:%M:%S")
+    return update
+
+# Download Image
+def downloadImage(imageURL, localFileName):
+    response = requests.get(imageURL)
+    if response.status_code == 200:
+        print 'Downloading %s...' % (localFileName)
+    with open(localFileName, 'wb') as fo:
+        for chunk in response.iter_content(4096):
+            fo.write(chunk)
+    return True
+
+print date + ' :: ' + ts
 
 # Set Base EPL Link for ESPN
 eplURL = 'http://www.espnfc.us/barclays-premier-league/23/index'
@@ -28,7 +46,7 @@ eplSoup = BeautifulSoup(eplHTML)
 # print eplSoup.prettify()
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League v0.01.a'
+parseVersion = 'ESPN Premier League v0.02.a'
 outputPath = 'PL-Data/'
 outputImgsPath = 'PL-Data/imgs/'
 outputMatchPath = 'PL-Data/match/'
@@ -62,7 +80,7 @@ for i in teamList:
 # http://www.espnfc.us/barclays-premier-league/23/scores?date=20140816
 eplMatchesURL = "http://www.espnfc.us/barclays-premier-league/23/scores?date=20140816"
 eplMatchBaseURL = "http://www.espnfc.us/barclays-premier-league/23/scores?date="
-matchDateArray = ['20140816']# ,'20140817','20140818','20140823','20140824','20140825','20140830','20140831'] #,'20140830']
+matchDateArray = ['20140816' ,'20140817','20140818','20140823','20140824','20140825','20140830','20140831'] #,'20140830']
 matchReportURL = []
 matchReportID = []
 
@@ -83,7 +101,7 @@ for i in matchDateArray:
     #    f.write(ds + ' :: ' + ts + ' :: ' + parseVersion)
     #    f.close()
     counter = 0
-    print len(scores)    
+    print "Number of Matches is: " + str(len(scores))    
     boxScore = scores.find_all("div", {"class":"score-box"})
     for i in boxScore:
         print hr
@@ -131,7 +149,7 @@ for i in matchDateArray:
         matchDuration = gameInfo.get_text(strip=True)
         matchReportURL.append(gameURL["href"])
         # print gameURL["href"]
-        print hr
+        # print hr
         counter += 1
     
 '''for i in matchReportURL:
@@ -147,7 +165,7 @@ for i in matchDateArray:
 matchPrefix = 'http://www.espnfc.us/gamecast/statistics/id/'
 matchSuffix = '/statistics.html'
 
-print matchReportID[0]
+# print matchReportID[0]
 
 for i in matchReportID:    
     reportURL = matchPrefix + i + matchSuffix
@@ -156,54 +174,80 @@ for i in matchReportID:
     print reportURL
     reportOpen = urllib2.urlopen(reportURL)
     reportSoup = BeautifulSoup(reportOpen)
-    reportTXT = 'espn-scores-' + i + '.txt'
+    reportTXT = 'espn-scores-' + i + '.html'
     outputReportText = os.path.join(outputMatchPath, reportTXT)
-    #with open(outputReportText, "w") as f:
-    #    f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
-    #    f.write(reportSoup.prettify())
-    #    f.write('\n' + hr + '\n')
-    #    f.close()
+    print updateTS()
+    with open(outputReportText, "w") as f:
+        f.write(ds + ' :: ' + updateTS() + ' :: ' + parseVersion + '\n')
+        f.write(reportSoup.prettify())
+        f.write('\n' + hr + '\n')
+        f.close()
     reportTitle = reportSoup.find("title")
     reportSummary = reportSoup.find_all("section", {"class":"match final gamecast-match"})
     # Summary of Match Stats
     reportMatchSummary = reportSoup.find_all("section", {"class":"mod-container gc-stat-list"})
+    reportMatchTeams = reportSoup.find_all("section", {"class":"mod-container"})
     reportHomeTeam = reportSoup.find("div", {"class":"team home"})
     reportAwayTeam = reportSoup.find("div", {"class":"team away"})
     reportPlayerDetails = reportSoup.find_all("div", {"class":"span-12 column"})
     reportDetails = reportSoup.find_all("div", {"class":"match-details"})
+    homeTeam = reportHomeTeam.find("p", {"class":"team-name floatleft"})
+    homeTeam = homeTeam.get_text(strip=True)
+    awayTeam = reportAwayTeam.find("p", {"class":"team-name floatright"})
+    awayTeam = awayTeam.get_text(strip=True)
+    homeTeamBadge = reportHomeTeam.find("img")
+    homeTeamBadge = homeTeamBadge["src"]
+    homeTeamBadge = homeTeamBadge[0:len(homeTeamBadge[0:len(homeTeamBadge)-5])]
+    awayTeamBadge = reportAwayTeam.find("img")
+    awayTeamBadge = awayTeamBadge["src"]
+    awayTeamBadge = awayTeamBadge[0:len(awayTeamBadge)-5]
+    downloadImage(homeTeamBadge, outputImgsPath + homeTeam + '.png')
+    # downloadImage(homeTeamBadge + '&amp;h=55', outputImgsPath + homeTeam + '-thumb.png')
+    downloadImage(awayTeamBadge, outputImgsPath + awayTeam + '.png')
+    # downloadImage(awayTeamBadge + '&amp;h=55', outputImgsPath + awayTeam + '-thumb.png')
     # print reportTitle.get_text()
     # print reportHomeTeam
     # print hr
     # print reportAwayTeam
     # print hr
-    playerTXT = 'espn-players' + i + '.txt'
+    playerTXT = 'espn-players-' + i + '.html'
     outputPlayerText = os.path.join(outputMatchPath, playerTXT)
     with open(outputPlayerText, "w") as f:
-         f.write(ds + ' :: ' + ts + ' :: Player Parser :: ' + parseVersion + '\n')
+         f.write(ds + ' :: ' + updateTS() + ' :: Player Parser :: ' + parseVersion + '\n')
          f.write(hr + '\n')
          # f.write(reportPlayerDetails)
          f.close()
-    
+    print "Length of reportMatchTeams is: " + str(len(reportMatchTeams)) + '\n' + " Record read at: " + updateTS()
+    for i in reportMatchTeams:
+        print hr
+        print homeTeam + " vs " + awayTeam
+        print "Length of i in reportMatchTeams is: " + str(len(i))
+        with open(outputPlayerText, "a") as f:
+            f.write(i.prettify())
+            f.close()
+        print hr
+
     # for i in reportMatchSummary:
         # print hr
         # print i
         # print hr
+    print "Lenght of reportPlayerDetails: " + str(len(reportPlayerDetails))
+    
+    '''
     for i in reportPlayerDetails:
         teamTable = i.find_all("section")
+        print "Length of i: " + str(len(i))
         for i in teamTable:
             homeSide = i.find("h1", {"id":"home-team"})
             awaySide = i.find("h1", {"id":"away-team"})
-            print homeSide
-            print awaySide
+            # print homeSide
+            # print awaySide
             playerTable = i.find_all("table")
             #print len(playerTable)
             # print playerTable
         with open(outputPlayerText, "a") as f:
             f.write(i.prettify())
             f.close()
-                
-                                
-        '''
         with open(outputPlayerText, "a") as f:
             f.write(playerTable.prettify())
             f.close()
