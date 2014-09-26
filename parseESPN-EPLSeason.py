@@ -198,13 +198,31 @@ for i in matchReportID:
     homeTeamBadge = reportHomeTeam.find("img")
     homeTeamBadge = homeTeamBadge["src"]
     homeTeamBadge = homeTeamBadge[0:len(homeTeamBadge[0:len(homeTeamBadge)-5])]
+    outputHomeTeamBadge = outputImgsPath + homeTeam + '.png'
     awayTeamBadge = reportAwayTeam.find("img")
     awayTeamBadge = awayTeamBadge["src"]
     awayTeamBadge = awayTeamBadge[0:len(awayTeamBadge)-5]
-    downloadImage(homeTeamBadge, outputImgsPath + homeTeam + '.png')
-    # downloadImage(homeTeamBadge + '&amp;h=55', outputImgsPath + homeTeam + '-thumb.png')
-    downloadImage(awayTeamBadge, outputImgsPath + awayTeam + '.png')
-    # downloadImage(awayTeamBadge + '&amp;h=55', outputImgsPath + awayTeam + '-thumb.png')
+    outputAwayTeamBadge = outputImgsPath + awayTeam + '.png'
+    
+    # Output Team Badges
+    if os.path.isfile(outputHomeTeamBadge):
+        with open(outputHomeTeamBadge) as file:
+            pass
+    else:
+        downloadImage(homeTeamBadge, outputHomeTeamBadge)
+    if os.path.isfile(outputAwayTeamBadge):
+        with open(outputAwayTeamBadge) as file:
+            pass
+    else:
+        downloadImage(awayTeamBadge, outputAwayTeamBadge)
+    
+    '''
+    if os.path.isfile('my_settings.dat'):
+        #...
+        with open('my_settings.dat') as file:
+            pass  #Potential for unhandled exception
+    True
+    '''
     # print reportTitle.get_text()
     # print reportHomeTeam
     # print hr
@@ -225,6 +243,14 @@ for i in matchReportID:
         with open(outputPlayerText, "a") as f:
             f.write(i.prettify())
             f.close()
+        reportMatchDetails = i
+        counter = 0
+        for i in reportMatchDetails:
+            print i
+            print "Container #: " + str(counter)
+            print "*** >>>=========<<< ***"
+            counter += 1
+
         print hr
 
     # for i in reportMatchSummary:
