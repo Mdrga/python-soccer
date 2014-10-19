@@ -34,7 +34,7 @@ resultSoup = BeautifulSoup(matchResults)
 matchSoup = BeautifulSoup(gameMatch)
 
 # Program Version
-parseVersion = 'Premier League v0.13.i'
+parseVersion = 'Premier League v0.13.j'
 
 
 # Set Output Path for Windows or Mac environments
@@ -46,7 +46,7 @@ if os_System == "Windows":
     outputImgPath = win_BasePath + "/PL-Data/imgs/"
     outputTeamPath = win_BasePath + "/PL-Data/teams/"
     outputMatchPath = win_BasePath + "/PL-Data/match/"
-else:
+elif os_System == "Darwin":
     outputPath = 'PL-Data/'
     outputImgPath = 'PL-Data/imgs/'
     outputTeamPath = 'PL-Data/teams/'
