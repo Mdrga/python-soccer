@@ -12,6 +12,7 @@ import urllib2
 import datetime
 import requests
 import os
+import platform
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -34,9 +35,22 @@ matchSoup = BeautifulSoup(gameMatch)
 
 # Program Version
 parseVersion = 'Premier League v0.13.i'
-outputPath = 'PL-Data/'
-outputImgsPath = 'PL-Data/imgs/'
-outputMatchPath = 'PL-Data/match/'
+
+
+# Set Output Path for Windows or Mac environments
+os_System = platform.system()
+win_BasePath = "C:/Users/Rainier/Documents/GitHub/python-soccer"
+
+if os_System == "Windows":
+    outputPath = win_BasePath + "/PL-Data/"
+    outputImgPath = win_BasePath + "/PL-Data/imgs/"
+    outputTeamPath = win_BasePath + "/PL-Data/teams/"
+    outputMatchPath = win_BasePath + "/PL-Data/match/"
+else:
+    outputPath = 'PL-Data/'
+    outputImgPath = 'PL-Data/imgs/'
+    outputTeamPath = 'PL-Data/teams/'
+    outputMatchPath = 'PL-Data/match/'
 
 outputBase = 'EPL-MatchBase.html'
 outputBase = os.path.join(outputMatchPath, outputBase)
@@ -164,9 +178,12 @@ def matchStats(x,y,z):
     # Create a local copy of the Match HTML page
     matchStats = BBC_MatchID + '.html'
     matchStats = os.path.join(outputMatchPath, matchStats)
-    with open (matchStats, "w") as f:
-        f.write(funcMatch.prettify('utf-8'))
-        f.close()
+    
+    # Write Out File if Not Already there
+    if os.path.isfile(matchStats) == False:
+        with open (matchStats, "w") as f:
+            f.write(funcMatch.prettify('utf-8'))
+            f.close()
 
     # Parse out the two main sections of the Match (Roster & Stats)
     divTeamDetails = funcMatch.find("div", {"class":"post-match"})
@@ -204,12 +221,14 @@ def matchStats(x,y,z):
     # Download Badge from Site
     homeBadgeURL = homeTeamBadge["src"]
     homeBadgeFile = homeBadgeURL[64:len(homeBadgeURL)]
-    homeBadge = os.path.join(outputImgsPath, homeBadgeFile)
-    downloadImage(homeBadgeURL, homeBadge)
+    homeBadge = os.path.join(outputImgPath, homeBadgeFile)
+    if os.path.isfile(homeBadge) == False:
+        downloadImage(homeBadgeURL, homeBadge)
     awayBadgeURL = awayTeamBadge["src"]
     awayBadgeFile = awayBadgeURL[64:len(awayBadgeURL)]
-    awayBadge = os.path.join(outputImgsPath, awayBadgeFile)
-    downloadImage(awayBadgeURL, awayBadge)
+    awayBadge = os.path.join(outputImgPath, awayBadgeFile)
+    if os.path.isfile(awayBadge) == False:
+        downloadImage(awayBadgeURL, awayBadge)
     
     # Create an array to store the Team-Level Statistics that will be returned
     teamStats = []
@@ -256,7 +275,7 @@ playerStats = 'PlayerStats-output.txt'
 playerStats = os.path.join(outputMatchPath, playerStats)
 with open(playerStats, 'w') as f:
     f.write(ds + ' :: ' + ts + ' :: ' + 'Premier League Player Output ' + parseVersion + '\n' + '\n')
-    f.write('Match ID|Team Side|Country|Player Name|Player ID|Bench Status|Jersey #|Incident|Booked|Dismissed|Substituted|' + '\n')
+    f.write('Match ID|Team Side|Team Name|Player Name|Player ID|Bench Status|Jersey #|Incident|Booked|Dismissed|Substituted|' + '\n')
     f.close()
 
 # Function to return the Individual Team Members
@@ -336,7 +355,7 @@ def outputRosters(x,y,z):
             if playerSub > 0:
                 playerSub = playerUpdate[playerSub + 1:len(playerUpdate) - 4]
             else:
-                playerSub = ''
+                playerSub = 'N'
         else:
             playerIncident = 'N'
             playerDismissed = 'N'
@@ -356,9 +375,11 @@ def outputRosters(x,y,z):
         playerJersey = i.text[3:5]
         playerDetails =  i.text[7:len(i.text)]
         playerStart = playerDetails.find("  ")
+        playerString = len(playerDetails)
         playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
-
-        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) + '|' + playerName + '|' + playerID + '|Bench|' + playerJersey + '|||||')
+        playerUpdate = i.text[7+len(playerName):7+playerString]
+        print 'Sub Player Update: ' + playerUpdate
+        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) + '|' + playerName + '|' + playerID + '|Bench|' + playerJersey + '|' + playerUpdate + '||||')
 
     #for i in teamRoster:
     #    print i.encode('utf-8')
@@ -440,39 +461,14 @@ urlArray = resultsURL(resultSoup)
 print len(urlArray)
 print '***- - - - - - - - - - - - - - - - -***'
 
+'''
 for i in urlArray:
     parseURL = i # "http://www.bbc.com/sport/football/25285106"
     parseMatch = urllib2.urlopen(parseURL)
     parseSoup = BeautifulSoup(parseMatch)
     parseSoup.prettify()
     # print outputRosters(parseSoup,parseURL,'H')
-    print parseSoup.title.get_text() + ' :: ' + parseURL
-    for i in goalScorer(parseSoup,parseURL,'H'):
-        if i != None:
-            specGoal = i.find("(")
-            if specGoal > 0:
-            #    print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i)) + ' Special Character Length is: ' + str(len(i)-specGoal)
-                if (len(i)-specGoal) > 6:
-                    endSpec = i.find(")")
-                    print i[0:specGoal] + i[endSpec+1:len(i)] + ' :: ' + i[specGoal:endSpec+1]
-                else:
-                    print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
-            else:
-                print i
-    for i in goalScorer(parseSoup,parseURL,'A'):
-        if i != None:
-            specGoal = i.find("(")
-            if specGoal > 0:
-            #    print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i)) + ' Special Character Length is: ' + str(len(i)-specGoal)
-                if (len(i)-specGoal) > 6:
-                    endSpec = i.find(")")
-                    print i[0:specGoal] + i[endSpec+1:len(i)] + ' :: ' + i[specGoal:endSpec+1]
-                else:
-                    print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
-            else:
-                print i
-
-
+'''
 
 counter = 0
 while counter < 1:
@@ -488,6 +484,7 @@ while counter < 1:
         parseURL = i
         parseMatch = urllib2.urlopen(parseURL)
         parseSoup = BeautifulSoup(parseMatch)
+        print parseSoup.title.get_text() + ' :: ' + parseURL
         print teamName(parseSoup,0,'H') + ' vs ' + teamName(parseSoup,0,'A') + ' ' + datetime.datetime.now().strftime("%H:%M:%S") + " Record Read"
         # counter += 1
         # print teamRosters(parseSoup,parseURL)
@@ -502,7 +499,18 @@ while counter < 1:
                     with open(playerStats, "a") as f:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()
-
+                for i in goalScorer(parseSoup,parseURL,'H'):
+                    if i != None:
+                        specGoal = i.find("(")
+                    if specGoal > 0:
+                            #    print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i)) + ' Special Character Length is: ' + str(len(i)-specGoal)
+                        if (len(i)-specGoal) > 6:
+                            endSpec = i.find(")")
+                            print i[0:specGoal] + i[endSpec+1:len(i)] + ' :: ' + i[specGoal:endSpec+1]
+                        else:
+                            print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
+                    else:
+                        print i
                     # print i.encode('utf-8')
             else:
                 print "Record Saved for " + teamName(parseSoup,0,'A') + ' ' + datetime.datetime.now().strftime("%H:%M:%S")
@@ -513,6 +521,19 @@ while counter < 1:
                     with open(playerStats, "a") as f:
                         f.write(i.encode('utf-8') + '\n')
                         f.close()                    
+                    for i in goalScorer(parseSoup,parseURL,'A'):
+                        if i != None:
+                            specGoal = i.find("(")
+                        if specGoal > 0:
+                        #    print 'Special Character Begins @: ' + str(specGoal) + ' Total Length is: ' + str(len(i)) + ' Special Character Length is: ' + str(len(i)-specGoal)
+                            if (len(i)-specGoal) > 6:
+                                endSpec = i.find(")")
+                                print i[0:specGoal] + i[endSpec+1:len(i)] + ' :: ' + i[specGoal:endSpec+1]
+                            else:
+                                print i[0:specGoal] + ' :: ' + i[specGoal:len(i)]
+                        # else:
+                            # print i
+                            # print "ELSE STATEMENT"
                     # print i.encode('utf-8')  
 
 

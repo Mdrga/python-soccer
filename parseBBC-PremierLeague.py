@@ -13,6 +13,7 @@ import urllib2
 import datetime
 import requests
 import os
+import platform
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -32,10 +33,21 @@ resultsURL = "http://www.bbc.com/sport/football/premier-league/results"
 resultsOpen = urllib2.urlopen(resultsURL)
 resultsSoup = BeautifulSoup(resultsOpen)
 
-outputPath = 'PL-Data/'
-outputImgPath = 'PL-Data/imgs/'
-outputTeamPath = 'PL-Data/teams/'
-outputMatchPath = 'PL-Data/match/'
+# Set Output Path for Windows or Mac environments
+os_System = platform.system()
+win_BasePath = "C:/Users/Rainier/Documents/GitHub/python-soccer"
+
+if os_System == "Windows":
+	outputPath = win_BasePath + "/PL-Data/"
+	outputImgPath = win_BasePath + "/PL-Data/imgs/"
+	outputTeamPath = win_BasePath + "/PL-Data/teams/"
+	outputMatchPath = win_BasePath + "/PL-Data/match/"
+else:
+	outputPath = 'PL-Data/'
+	outputImgPath = 'PL-Data/imgs/'
+	outputTeamPath = 'PL-Data/teams/'
+	outputMatchPath = 'PL-Data/match/'
+	
 prefix = "http://www.bbc.com"
 
 # Save a local copy of the Fixtures Page
@@ -197,8 +209,14 @@ def fixtureResults(x):
 	teamURLs.append(awayURL)
 	score = i.find("span", {"class":"score"})
 	score = score.get_text(strip=True)
+	if len(score) <= 3:
+		homeScore = score[0]
+		awayScore = score[2]
+	else:
+		homeScore = '99'
+		awayScore = '99'
 	resultURLs.append(matchURL + '|' + matchID)
-	output = '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '|' + score + '|' + matchURL + '\n'
+	output = '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '|' + score + '|' + matchURL + '|' +homeScore + '|' + awayScore + '\n'
 	return output
 
 while counter < len(resultsDate):
