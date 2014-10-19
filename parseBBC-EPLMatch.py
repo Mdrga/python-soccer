@@ -378,8 +378,7 @@ def outputRosters(x,y,z):
         playerString = len(playerDetails)
         playerName = i.text[7:(len(i.text)-(len(playerDetails) - playerStart))]
         playerUpdate = i.text[7+len(playerName):7+playerString]
-        print 'Sub Player Update: ' + playerUpdate
-        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) + '|' + playerName + '|' + playerID + '|Bench|' + playerJersey + '|' + playerUpdate + '||||')
+        teamRoster.append(BBC_MatchID + '|' + teamSide + '|' + teamName(funcMatch,0,returnType) + '|' + playerName + '|' + playerID + '|Bench|' + playerJersey + '|||||')
 
     #for i in teamRoster:
     #    print i.encode('utf-8')

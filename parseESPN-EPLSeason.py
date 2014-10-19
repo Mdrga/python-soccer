@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 28, 2014
-Modified on Sep 06, 2014
-Version 0.02.a
+Modified on Oct 19, 2014
+Version 0.03.a
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -12,6 +12,7 @@ import urllib2
 import datetime
 import requests
 import os
+import platform
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -46,10 +47,22 @@ eplSoup = BeautifulSoup(eplHTML)
 # print eplSoup.prettify()
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League v0.02.a'
-outputPath = 'PL-Data/'
-outputImgsPath = 'PL-Data/imgs/'
-outputMatchPath = 'PL-Data/match/'
+parseVersion = 'ESPN Premier League v0.03.a'
+# Set Output Path for Windows or Mac environments
+os_System = platform.system()
+win_BasePath = "C:/Users/Rainier/Documents/GitHub/python-soccer"
+
+if os_System == "Windows":
+    outputPath = win_BasePath + "/PL-Data/"
+    outputImgPath = win_BasePath + "/PL-Data/imgs/"
+    outputTeamPath = win_BasePath + "/PL-Data/teams/"
+    outputMatchPath = win_BasePath + "/PL-Data/match/"
+else:
+    outputPath = 'PL-Data/'
+    outputImgPath = 'PL-Data/imgs/'
+    outputTeamPath = 'PL-Data/teams/'
+    outputMatchPath = 'PL-Data/match/'
+
 hr = " >>> *** ====================================================== *** <<<"
 
 # Output a local copy of the FULL ESPN page to the local drive
@@ -80,7 +93,7 @@ for i in teamList:
 # http://www.espnfc.us/barclays-premier-league/23/scores?date=20140816
 eplMatchesURL = "http://www.espnfc.us/barclays-premier-league/23/scores?date=20140816"
 eplMatchBaseURL = "http://www.espnfc.us/barclays-premier-league/23/scores?date="
-matchDateArray = ['20140816' ,'20140817','20140818','20140823','20140824','20140825','20140830','20140831'] #,'20140830']
+matchDateArray = ['20140816'] # ,'20140817','20140818','20140823','20140824','20140825','20140830','20140831'] #,'20140830']
 matchReportURL = []
 matchReportID = []
 
@@ -167,6 +180,7 @@ matchSuffix = '/statistics.html'
 
 # print matchReportID[0]
 
+# This is the PARSER for Stats from a Match
 for i in matchReportID:    
     reportURL = matchPrefix + i + matchSuffix
     matchID = i
