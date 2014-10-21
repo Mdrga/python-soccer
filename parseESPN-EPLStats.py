@@ -43,7 +43,7 @@ parseVersion = 'ESPN Premier League Match Stats v0.01.a'
 print date + ' :: ' + ts + ' :: ' + parseVersion
 
 # Set Base EPL Link for ESPN
-eplURL = 'http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html'
+eplURL = 'http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html' # 'http://www.espnfc.us/gamecast/statistics/id/395753/statistics.html' # 
 eplHTML = urllib2.urlopen(eplURL)
 eplSoup = BeautifulSoup(eplHTML)
 
@@ -72,17 +72,13 @@ with open(outputBase, "w") as f:
      f.write(eplSoup.prettify("utf-8"))
      f.close()
 
-print hr
-print eplURL + ' | ' + eplSoup.title.get_text() 
-print hr
-
 #  <div class="container clearfix" id="content-wrap">
 header = eplSoup.find("div", {"class":"container clearfix"})
 
 # <section class="match final gamecast-match" id="matchcenter-395758">
 gameMatch = header.find("section", {"class":"match final gamecast-match"})
-reportHomeTeam = gameMatch.find("div", {"class":"team home"})
-reportAwayTeam = gameMatch.find("div", {"class":"team away"})
+reportAwayTeam = gameMatch.find("div", {"class":"team home"})
+reportHomeTeam = gameMatch.find("div", {"class":"team away"})
 
 # Return Team Name or Team URL
 def teamName (x, y, z):
@@ -91,7 +87,7 @@ def teamName (x, y, z):
 	teamSide = z
 	returnOutput = ''
 
-	if teamSide == 'H':
+	if teamSide == 'A':
 		if outputOption == 'N': 
 			passHTML = passHTML.find("p", {"class":"team-name floatleft"})
 			passHTML = passHTML.get_text(strip=True)
@@ -100,7 +96,7 @@ def teamName (x, y, z):
 			passHTML = passHTML.find("a")
 			passHTML = passHTML["href"]
 			returnOutput = passHTML
-	else:
+	elif teamSide == 'H':
 		if outputOption == 'N': 
 			passHTML = passHTML.find("p", {"class":"team-name floatright"})
 			passHTML = passHTML.get_text(strip=True)
@@ -137,7 +133,7 @@ def goalScorer(x,y):
 	teamInfo = x
 	teamSide = y
 	goalsScored = []
-	if teamSide == 'H':
+	if teamSide == 'A':
 		goalScorer = teamInfo.find_all("ul", {"class":"goal-scorers"})
 		# print goalScorer
 		for i in goalScorer:
@@ -148,7 +144,7 @@ def goalScorer(x,y):
 				scorer = scorer[1:(len(scorer)-3)] + ' ' + scorer[len(scorer)-3:len(scorer)]
 				print scorer
 				goalsScored.append(scorer)
-	elif teamSide == 'A':
+	elif teamSide == 'H':
 		goalScorer = teamInfo.find_all("ul", {"class":"goal-scorers"})
 		for i in goalScorer:
 			goalScored = i.find_all("li")
@@ -160,28 +156,153 @@ def goalScorer(x,y):
 				print scorer
 	return goalsScored
 
-print homeSide + '|' + homeURL + '|' + homeBadge
-print shr
-print goalScorer(reportHomeTeam, 'H')
-print hr
-print awaySide + '|' + awayURL + '|' + awayBadge
-print shr
-print goalScorer(reportAwayTeam, 'A')
-print hr
-
 matchSummary = header.find("section", {"class":"mod-container gc-stat-list"})
 matchStats = matchSummary.find_all("ul")
-for i in matchStats:
-	matchDetail = i.find_all("li")
-	for i in matchDetail:
-		print i
-	print shr
+rsCounter = 0
+
+playerSummary = header.find("div", {"class":"span-12 column"})
+
 # print matchStats
 
-''''
-homeTeamBadge = homeTeam.find("img")
-homeTeamBadge = homeTeamBadge["src"]
-homeTeamBadge = homeTeamBadge[0:len(homeTeamBadge[0:len(homeTeamBadge)-5])]
-outputHomeTeamBadge = outputImgsPath + homeTeam + '.png'	
-print outputHomeTeamBadge
-'''
+def teamStats(x, y, z):
+	teamInfo = x
+	teamSide = y
+	outputType = z
+	if teamSide == 'A':
+		teamStats = teamInfo[2].find_all("li")
+	elif teamSide == 'H':
+		teamStats = teamInfo[1].find_all("li")
+	teamName = teamStats[0].get_text()
+	teamShots = teamStats[1].get_text()
+	findSOGstart = teamShots.find("(")
+	findSOGend = teamShots.find(")")
+	teamTotalShots = teamShots[0:findSOGstart]
+	teamShotsOnGoal = teamShots[findSOGstart+1:findSOGend]
+	teamTackles = teamStats[2].get_text()
+	teamFouls = teamStats[3].get_text()
+	if outputType == 0:
+		statOutput = teamTotalShots
+	elif outputType == 1:
+		statOutput = teamShotsOnGoal
+	elif outputType == 2:
+		statOutput = teamTackles
+	elif outputType == 3:
+		statOutput = teamFouls
+	else:
+		statOutput = 'Invalid Option'
+	return statOutput
+matchID = eplURL[44:len(eplURL)-16]
+print hr
+print eplSoup.title.get_text() 
+print eplURL 
+print hr
+
+# print len(goalScorer(reportHomeTeam, 'H'))
+# print len(goalScorer(reportAwayTeam, 'A'))
+# print homeSide + '|' + homeURL + '|' + homeBadge + '|' 
+# print awaySide + '|' + awayURL + '|' + awayBadge + '|' 
+# print hr
+
+#print "Team Name|Total Shots|Shots On Goal|Tackles|Fouls"
+#print homeSide + '|' + teamStats(matchStats, 'H', 0) + '|' + teamStats(matchStats, 'H', 1) + '|' + teamStats(matchStats, 'H', 2) + '|' + teamStats(matchStats, 'H', 3)
+#print awaySide + '|' + teamStats(matchStats, 'A', 0) + '|' + teamStats(matchStats, 'A', 1) + '|' + teamStats(matchStats, 'A', 2) + '|' + teamStats(matchStats, 'A', 3)
+#print hr
+# print matchStats
+# print playerSummary
+# print playerSummary.prettify()
+playerStats = playerSummary.find_all("table")
+homeStats = playerStats[0]
+homePlayers = homeStats.find_all("tr")
+awayStats = playerStats[1]
+awayPlayers = awayStats.find_all("tr")
+
+
+def statParse(x):
+	statResult = x
+	if statResult == '-':
+		statResult = 0
+
+	return statResult
+
+def squadParse(x, y):
+	# Receive a table and parse out the player stats
+	squad = x
+	teamSide = y
+	starterCount = 2
+	subCount = 16
+	if teamSide == 'A':
+		teamSide = awaySide
+	elif teamSide == 'H':
+		teamSide = homeSide
+	while starterCount < 13:
+	#	Parse out the Stat Line for the Players
+		currentRow = squad[starterCount]
+		playerData = currentRow.find_all("td")
+		playerPOS = playerData[0].get_text()
+		playerJersey = playerData[1].get_text()
+		playerName = playerData[2].get_text(strip=True)
+		playerURL = playerData[2].find("a")
+		playerURL = playerURL["href"]
+		playerStartID = playerURL.find("r/")
+		playerID = playerURL[8:(len(playerURL)-len(playerName)-1)]
+		playerShots = statParse(playerData[3].get_text(strip=True))
+		playerSOG = statParse(playerData[4].get_text(strip=True))
+		playerGoals = statParse(playerData[5].get_text(strip=True))
+		playerAssists = statParse(playerData[6].get_text(strip=True))
+		playerOffsides = statParse(playerData[7].get_text(strip=True))
+		playerFoulsDrawn = statParse(playerData[8].get_text(strip=True))
+		playerFoulsCommitted = statParse(playerData[9].get_text(strip=True))
+		playerSaves = statParse(playerData[10].get_text(strip=True))
+		playerYellowCards = statParse(playerData[11].get_text(strip=True))
+		playerRedCards = statParse(playerData[12].get_text(strip=True))
+		outputRow = teamSide + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
+		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
+		      + '|' + str(playerRedCards) + '|Starter|' + 'N'
+		# print shr
+		print outputRow
+		starterCount += 1
+	while subCount < 23:
+		currentRow = squad[subCount]
+		subCount += 1
+		playerData = currentRow.find_all("td")
+		playerPOS = playerData[0].get_text()
+		playerJersey = playerData[1].get_text()
+		playerName = playerData[2].get_text(strip=True)
+		playerURL = playerData[2].find("a")
+		playerURL = playerURL["href"]
+		playerStartID = playerURL.find("r/")
+		playerID = playerURL[8:(len(playerURL)-len(playerName)-1)]
+		playerSubbed = playerData[2].find("div", {"class":"soccer-icons soccer-icons-subinout"})
+		playerShots = statParse(playerData[3].get_text(strip=True))
+		playerSOG = statParse(playerData[4].get_text(strip=True))
+		playerGoals = statParse(playerData[5].get_text(strip=True))
+		playerAssists = statParse(playerData[6].get_text(strip=True))
+		playerOffsides = statParse(playerData[7].get_text(strip=True))
+		playerFoulsDrawn = statParse(playerData[8].get_text(strip=True))
+		playerFoulsCommitted = statParse(playerData[9].get_text(strip=True))
+		playerSaves = statParse(playerData[10].get_text(strip=True))
+		playerYellowCards = statParse(playerData[11].get_text(strip=True))
+		playerRedCards = statParse(playerData[12].get_text(strip=True))
+		if playerSubbed != None:
+			playerSubbed = 'Y'
+		else:
+			playerSubbed = 'N'
+		outputRow = teamSide + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
+		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
+		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed
+		print outputRow
+
+playerTXT = matchID + '.txt'
+#outputPlayerText = os.path.join(outputMatchPath, playerTXT)
+#	with open(outputPlayerText, "w") as f:
+#        f.write(ds + ' :: ' + updateTS() + ' :: Player Parser :: ' + parseVersion + '\n')
+#         f.write(hr + '\n')
+         # f.write(reportPlayerDetails)
+#         f.close()
+   
+
+print 'Tean|Match ID|Player ID|POS|#|Name|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed In?'
+squadParse(homePlayers, 'H')
+print hr
+squadParse(awayPlayers, 'A')
+

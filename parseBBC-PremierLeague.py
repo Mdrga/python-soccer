@@ -21,7 +21,7 @@ sys.setdefaultencoding('utf-8')
 # Establish the process Date, Time and Version Stamp of the Script
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
-parseVersion = 'Premier League 2014 - v0.13.i'
+parseVersion = 'Premier League 2014 - v0.13.j'
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"

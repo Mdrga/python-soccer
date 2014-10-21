@@ -4,8 +4,116 @@
 		"selected_items":
 		[
 			[
-				"matc",
+				"go",
+				"goalScored"
+			],
+			[
+				"mat",
 				"matchStats"
+			],
+			[
+				"team",
+				"teamInfo"
+			],
+			[
+				"matchS",
+				"matchStats"
+			],
+			[
+				"tea",
+				"teamShotsOnGoal"
+			],
+			[
+				"stat",
+				"statOutput"
+			],
+			[
+				"out",
+				"outputType"
+			],
+			[
+				"pla",
+				"playerSummary"
+			],
+			[
+				"ma",
+				"matchStats"
+			],
+			[
+				"teamS",
+				"teamSide"
+			],
+			[
+				"fin",
+				"findSOGend"
+			],
+			[
+				"get",
+				"get_text"
+			],
+			[
+				"s",
+				"s"
+			],
+			[
+				"matc",
+				"matchSummary"
+			],
+			[
+				"goa",
+				"goalsScored"
+			],
+			[
+				"A",
+				"A"
+			],
+			[
+				"h",
+				"H"
+			],
+			[
+				"ret",
+				"return"
+			],
+			[
+				"goal",
+				"goalScored"
+			],
+			[
+				"goalS",
+				"goalScored"
+			],
+			[
+				"report",
+				"reportHomeTeam"
+			],
+			[
+				"awa",
+				"awayBadge"
+			],
+			[
+				"hom",
+				"homeSide"
+			],
+			[
+				"home",
+				"homeURL"
+			],
+			[
+				"output",
+				"outputImgsPath"
+			],
+			[
+				"f",
+				"floatleft"
+			],
+			[
+				"game",
+				"gameMatch"
+			],
+			[
+				"ep",
+				"eplURL"
 			],
 			[
 				"aw",
@@ -18,18 +126,6 @@
 			[
 				"homeB",
 				"homeBadge"
-			],
-			[
-				"awa",
-				"awayScore"
-			],
-			[
-				"home",
-				"homeName"
-			],
-			[
-				"mat",
-				"match"
 			],
 			[
 				"outputM",
@@ -46,10 +142,6 @@
 			[
 				"Out",
 				"Output"
-			],
-			[
-				"f",
-				"fixtureResults"
 			],
 			[
 				"matches",
@@ -72,20 +164,12 @@
 				"outputResults"
 			],
 			[
-				"out",
-				"outputPath"
-			],
-			[
 				"results",
 				"resultsURL"
 			],
 			[
 				"ur",
 				"urlopen"
-			],
-			[
-				"output",
-				"outputLast"
 			],
 			[
 				"da",
@@ -162,10 +246,6 @@
 			[
 				"homeBadge",
 				"homeBadgeFile"
-			],
-			[
-				"hom",
-				"homeTeamBadge"
 			],
 			[
 				"ne",
@@ -304,10 +384,6 @@
 				"n"
 			],
 			[
-				"ma",
-				"matchRow"
-			],
-			[
 				"pre",
 				"prettify"
 			],
@@ -380,22 +456,6 @@
 				"homeTeam"
 			],
 			[
-				"team",
-				"teamScore"
-			],
-			[
-				"tea",
-				"team-score"
-			],
-			[
-				"h",
-				"homeTeam"
-			],
-			[
-				"game",
-				"gameDetails"
-			],
-			[
 				"main",
 				"main-content"
 			],
@@ -406,14 +466,6 @@
 			[
 				"Player",
 				"playerID"
-			],
-			[
-				"ret",
-				"returnType"
-			],
-			[
-				"pla",
-				"playerJersey"
 			],
 			[
 				"re",
@@ -462,58 +514,6 @@
 			[
 				"play",
 				"playerUpdate"
-			],
-			[
-				"N",
-				"N"
-			],
-			[
-				"playe",
-				"playerBooked"
-			],
-			[
-				"T",
-				"True"
-			],
-			[
-				"listAwa",
-				"listAwaySubs"
-			],
-			[
-				"listHomeS",
-				"listHomeSubs"
-			],
-			[
-				"listHome",
-				"listHomeRoster"
-			],
-			[
-				"lis",
-				"listAwayRoster"
-			],
-			[
-				"get",
-				"get_text"
-			],
-			[
-				"list",
-				"listHomeStarter"
-			],
-			[
-				"div",
-				"divAltLineup"
-			],
-			[
-				"line",
-				"line-up-wrapper"
-			],
-			[
-				"divMa",
-				"divMatchStats"
-			],
-			[
-				"fun",
-				"funcMatch"
 			]
 		]
 	},
@@ -531,15 +531,23 @@
 			"file": "parseBBC-EPLMatch.py",
 			"settings":
 			{
-				"buffer_size": 21887,
+				"buffer_size": 21838,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "PL-Data/match/PlayerStats-output.txt",
+			"file": "parseESPN-EPLSeason.py",
 			"settings":
 			{
-				"buffer_size": 0,
+				"buffer_size": 13719,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "parseESPN-EPLStats.py",
+			"settings":
+			{
+				"buffer_size": 6751,
 				"line_ending": "Windows"
 			}
 		}
@@ -579,9 +587,9 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/match/PlayerStats-output.txt",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/PL-Results.html",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/match/MatchStats-output.txt",
-		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/match/PlayerStats-output.txt",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/match/PL-fixture.txt",
 		"/Users/rmadruga/Documents/python-soccer/PL-Data/PL-Fixtures.html",
 		"/Users/rmadruga/Documents/python-soccer/PL-Data/PL-fixture.txt",
@@ -668,6 +676,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"pl-fix",
+			"fixture",
 			"matchI",
 			"matchDate",
 			"resultURLs",
@@ -716,7 +726,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -732,8 +742,8 @@
 						"selection":
 						[
 							[
-								366,
-								351
+								585,
+								585
 							]
 						],
 						"settings":
@@ -742,10 +752,10 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 101.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -754,15 +764,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21887,
+						"buffer_size": 21838,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15676,
-								15676
+								12064,
+								12064
 							]
 						],
 						"settings":
@@ -773,38 +783,69 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5496.0,
+						"translation.y": 1008.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "PL-Data/match/PlayerStats-output.txt",
+					"file": "parseESPN-EPLSeason.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 13719,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								8475,
+								8122
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "parseESPN-EPLStats.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6751,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4390,
+								4390
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 825.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -843,7 +884,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 368.0
+		"height": 402.0
 	},
 	"output.find_results":
 	{
