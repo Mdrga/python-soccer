@@ -135,7 +135,7 @@ def textDate(x):
 	    day = '0' + str(day)
 	month = monthDay[monthSpace+1:len(monthDay)-1]
 	month = returnMonth(month)
-	output = dayOfWeek + '|' + year +'-' + month + '-' + day
+	output = dayOfWeek + '|' + year +'' + month + '' + day
 	return output
 
 # Function to return a two digit month for a literal Month (i.e., change "August" to "08").
@@ -371,7 +371,8 @@ def teamParse(x, y):
         	matchURL = 1
         else:
         	matchURL = 2
-        output = teamTitle.encode('utf-8') + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeamName + " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + prefix + lastMatchURL[matchURL]["href"]
+        output = teamTitle.encode('utf-8') + "|" + lastMatchLeague + "|" + lastMatchDate + "|" + lastMatchTeam[0:2] + ' ' + lastMatchTeamName + " " + lastMatchTeam[len(lastMatchTeam)-6:len(lastMatchTeam)] + \
+         '|' + lastMatchOutcome + '|' + lastMatchScore + '|' + prefix + lastMatchURL[matchURL]["href"]
     elif outputFormat == 'N':
         nextMatch = matchData.find("div", {"id":"next-match"})
         nextMatchTeam = nextMatch.find("span", {"class":"match-against"})
@@ -385,7 +386,8 @@ def teamParse(x, y):
         nextMatchLeague = nextMatchLeague.get_text(strip=True)
         nextMatchStatus = nextMatch.find("span", {"class":"match-status"})
         nextMatchStatus = nextMatchStatus.get_text(strip=True)
-        output = teamTitle.encode('utf-8') + '|' + nextMatchLeague + '|' + nextMatchDate + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeamName + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)] + '|' +nextMatchStatus + '||'
+        output = teamTitle.encode('utf-8') + '|' + nextMatchLeague + '|' + nextMatchDate + '|' + nextMatchTeam[0:2] + ' ' + nextMatchTeamName + ' ' + nextMatchTeam[len(nextMatchTeam)-6:len(nextMatchTeam)] + \
+        '|' +nextMatchStatus + '||' 
     return output
 
 outputNext = "PL-next-fixture.txt"

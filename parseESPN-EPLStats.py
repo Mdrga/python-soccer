@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Oct 19, 2014
-Version 0.01.a
+Modified on Oct 26, 2014
+Version 0.02.a
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -21,7 +21,6 @@ sys.setdefaultencoding('utf-8')
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 date = datetime.datetime.now().strftime("%Y%m%d")
-siteBasePath = "http://www.espnfc.us"
 
 # Updates the Time Stamp
 def updateTS():
@@ -39,13 +38,8 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.01.a'
+parseVersion = 'ESPN Premier League Match Stats v0.02.a'
 print date + ' :: ' + ts + ' :: ' + parseVersion
-
-# Set Base EPL Link for ESPN
-eplURL = 'http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html' # 'http://www.espnfc.us/gamecast/statistics/id/395753/statistics.html' # 
-eplHTML = urllib2.urlopen(eplURL)
-eplSoup = BeautifulSoup(eplHTML)
 
 # Set Output Path for Windows or Mac environments
 os_System = platform.system()
@@ -64,21 +58,6 @@ else:
 
 hr = " >>> *** ====================================================== *** <<<"
 shr = " >>> *** ==================== *** <<<"
-
-# Output a local copy of the FULL ESPN page to the local drive
-outputBase = 'ESPN-EPL-MatchBase.html'
-outputBase = os.path.join(outputPath, outputBase)
-with open(outputBase, "w") as f:
-     f.write(eplSoup.prettify("utf-8"))
-     f.close()
-
-#  <div class="container clearfix" id="content-wrap">
-header = eplSoup.find("div", {"class":"container clearfix"})
-
-# <section class="match final gamecast-match" id="matchcenter-395758">
-gameMatch = header.find("section", {"class":"match final gamecast-match"})
-reportAwayTeam = gameMatch.find("div", {"class":"team home"})
-reportHomeTeam = gameMatch.find("div", {"class":"team away"})
 
 # Return Team Name or Team URL
 def teamName (x, y, z):
@@ -122,13 +101,6 @@ def teamBadge (x,y):
 		downloadImage(teamBadge, outputTeamBadge)
 	return outputTeamBadge 
 
-homeSide = teamName(reportHomeTeam, 'N', 'H')
-homeURL =  siteBasePath + teamName(reportHomeTeam, 'U', 'H')
-homeBadge = teamBadge(reportHomeTeam, 'H')
-awaySide = teamName(reportAwayTeam, 'N', 'A')
-awayURL = siteBasePath + teamName(reportAwayTeam, 'U', 'H')
-awayBadge = teamBadge(reportAwayTeam, 'A')
-
 def goalScorer(x,y):
 	teamInfo = x
 	teamSide = y
@@ -156,14 +128,7 @@ def goalScorer(x,y):
 				print scorer
 	return goalsScored
 
-matchSummary = header.find("section", {"class":"mod-container gc-stat-list"})
-matchStats = matchSummary.find_all("ul")
-rsCounter = 0
-
-playerSummary = header.find("div", {"class":"span-12 column"})
-
-# print matchStats
-
+# Returns the team stats based upon the parameters given.
 def teamStats(x, y, z):
 	teamInfo = x
 	teamSide = y
@@ -191,31 +156,6 @@ def teamStats(x, y, z):
 	else:
 		statOutput = 'Invalid Option'
 	return statOutput
-matchID = eplURL[44:len(eplURL)-16]
-print hr
-print eplSoup.title.get_text() 
-print eplURL 
-print hr
-
-# print len(goalScorer(reportHomeTeam, 'H'))
-# print len(goalScorer(reportAwayTeam, 'A'))
-# print homeSide + '|' + homeURL + '|' + homeBadge + '|' 
-# print awaySide + '|' + awayURL + '|' + awayBadge + '|' 
-# print hr
-
-#print "Team Name|Total Shots|Shots On Goal|Tackles|Fouls"
-#print homeSide + '|' + teamStats(matchStats, 'H', 0) + '|' + teamStats(matchStats, 'H', 1) + '|' + teamStats(matchStats, 'H', 2) + '|' + teamStats(matchStats, 'H', 3)
-#print awaySide + '|' + teamStats(matchStats, 'A', 0) + '|' + teamStats(matchStats, 'A', 1) + '|' + teamStats(matchStats, 'A', 2) + '|' + teamStats(matchStats, 'A', 3)
-#print hr
-# print matchStats
-# print playerSummary
-# print playerSummary.prettify()
-playerStats = playerSummary.find_all("table")
-homeStats = playerStats[0]
-homePlayers = homeStats.find_all("tr")
-awayStats = playerStats[1]
-awayPlayers = awayStats.find_all("tr")
-
 
 def statParse(x):
 	statResult = x
@@ -224,16 +164,21 @@ def statParse(x):
 
 	return statResult
 
+# Parses out the Squad based upon the parameters given.
 def squadParse(x, y):
 	# Receive a table and parse out the player stats
 	squad = x
+	# print 'Squad Length is: ' + str(len(squad))
 	teamSide = y
+	maxLength = len(squad)
 	starterCount = 2
 	subCount = 16
 	if teamSide == 'A':
 		teamSide = awaySide
+		side = 'Away'
 	elif teamSide == 'H':
 		teamSide = homeSide
+		side = 'Home'
 	while starterCount < 13:
 	#	Parse out the Stat Line for the Players
 		currentRow = squad[starterCount]
@@ -241,35 +186,55 @@ def squadParse(x, y):
 		playerPOS = playerData[0].get_text()
 		playerJersey = playerData[1].get_text()
 		playerName = playerData[2].get_text(strip=True)
+
 		playerURL = playerData[2].find("a")
 		playerURL = playerURL["href"]
 		playerStartID = playerURL.find("r/")
 		playerID = playerURL[8:(len(playerURL)-len(playerName)-1)]
+	
 		playerShots = statParse(playerData[3].get_text(strip=True))
 		playerSOG = statParse(playerData[4].get_text(strip=True))
 		playerGoals = statParse(playerData[5].get_text(strip=True))
 		playerAssists = statParse(playerData[6].get_text(strip=True))
+		playerPoints = (playerSOG * 3) + (playerGoals * 10) + (playerAssists * 4)
+
 		playerOffsides = statParse(playerData[7].get_text(strip=True))
 		playerFoulsDrawn = statParse(playerData[8].get_text(strip=True))
 		playerFoulsCommitted = statParse(playerData[9].get_text(strip=True))
 		playerSaves = statParse(playerData[10].get_text(strip=True))
 		playerYellowCards = statParse(playerData[11].get_text(strip=True))
 		playerRedCards = statParse(playerData[12].get_text(strip=True))
-		outputRow = teamSide + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
+		outputRow = teamSide + '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
-		      + '|' + str(playerRedCards) + '|Starter|' + 'N'
+		      + '|' + str(playerRedCards) + '|Starter|' + 'N'+ '|' + '|' + str(playerPoints) + '\n'
 		# print shr
-		print outputRow
+		playerData = 'epl-playerstats.txt'
+		outputPlayerData = os.path.join(outputMatchPath, playerData)
+		with open(outputPlayerData, "a") as f:
+			f.write(outputRow)
+			f.close()
+		# print outputRow
+
 		starterCount += 1
-	while subCount < 23:
+	while subCount < maxLength:
 		currentRow = squad[subCount]
+		# print currentRow
 		subCount += 1
 		playerData = currentRow.find_all("td")
 		playerPOS = playerData[0].get_text()
 		playerJersey = playerData[1].get_text()
 		playerName = playerData[2].get_text(strip=True)
+		playerAttrs = playerData[2]
+		playerAttrs = playerAttrs.div
+		if playerAttrs != None:
+			playerSubbing = str(playerAttrs)
+			playerTimeOn = playerSubbing[147:150]
+			playerSubbedName = playerSubbing[150+19:len(playerSubbing)-11]
+		else:
+			playerSubbedName = ''
+			playerTimeOn = ''
 		playerURL = playerData[2].find("a")
-		playerURL = playerURL["href"]
+		playerURL =  playerURL["href"]
 		playerStartID = playerURL.find("r/")
 		playerID = playerURL[8:(len(playerURL)-len(playerName)-1)]
 		playerSubbed = playerData[2].find("div", {"class":"soccer-icons soccer-icons-subinout"})
@@ -287,22 +252,233 @@ def squadParse(x, y):
 			playerSubbed = 'Y'
 		else:
 			playerSubbed = 'N'
-		outputRow = teamSide + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
+		outputRow = teamSide +  '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
-		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed
-		print outputRow
+		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + str(playerPoints) + '\n'
+		# print outputRow
+		playerData = 'epl-playerstats.txt'
+		outputPlayerData = os.path.join(outputMatchPath, playerData)
+		with open(outputPlayerData, "a") as f:
+			f.write(outputRow)
+			f.close()
 
-playerTXT = matchID + '.txt'
-#outputPlayerText = os.path.join(outputMatchPath, playerTXT)
-#	with open(outputPlayerText, "w") as f:
-#        f.write(ds + ' :: ' + updateTS() + ' :: Player Parser :: ' + parseVersion + '\n')
-#         f.write(hr + '\n')
-         # f.write(reportPlayerDetails)
-#         f.close()
-   
+# Function to receive a Text Date (i.e., Saturday 16th August 2014) and return 2014-08-16
+def textDate(x):
+	stringDate = x
+	dayOfWeek = stringDate[0:3]
+	length = len(stringDate)
+	output = ''
+	dateSpace = stringDate.find(" ")
+	# print dateSpace
+	year = stringDate[length-4:length]
+	monthDay = stringDate[dateSpace+1:length-4]
+	monthSpace = monthDay.find(" ")
+	# print monthSpace
+	day = monthDay[0:monthSpace-2]
+	if int(day) < 10:
+	    day = '0' + str(day)
+	month = monthDay[monthSpace+1:len(monthDay)-1]
+	month = returnMonth(month)
+	output = year + '' + month + '' + day
+	return output
 
-print 'Tean|Match ID|Player ID|POS|#|Name|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed In?'
-squadParse(homePlayers, 'H')
+# Function to return a two digit month for a literal Month (i.e., change "August" to "08").
+def returnMonth(x):
+	inputMonth = x
+	inputMonth = inputMonth[0:3]
+	outputMonth = ''
+	# print inputMonth
+	if inputMonth == 'Aug':
+		outputMonth = '08'
+	elif inputMonth == 'Sep':
+		outputMonth = '09'
+	elif inputMonth == 'Oct':
+		outputMonth = '10'
+	elif inputMonth == 'Nov':
+		outputMonth = '11'
+	elif inputMonth == 'Dec':
+		outputMonth = '12'
+	elif inputMonth == 'Jan':
+		outputMonth = '01'
+	elif inputMonth == 'Feb':
+		outputMonth = '02'
+	elif inputMonth == 'Mar':
+		outputMonth = '03'
+	elif inputMonth == 'Apr':
+		outputMonth = '04'
+	elif inputMonth == 'May':
+		outputMonth = '05'
+	elif inputMonth == 'Jun':
+		outputMonth = '06'
+	else:
+		outputMonth = '07'
+	return outputMonth
+
+# ESPN Scores & Fixtures Date URL = 
+# http://www.espnfc.us/barclays-premier-league/23/scores?date=20141026
+
 print hr
-squadParse(awayPlayers, 'A')
+playerData = 'epl-playerstats.txt'
+outputPlayerData = os.path.join(outputMatchPath, playerData)
+with open(outputPlayerData, "w") as f:
+			f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
+			f.write('Tean|Side|Match ID|Player ID|POS|#|Name|URL|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed Player|SubName|TimeOn|Points' + '\n' )
+			f.close()
 
+matchURLs = ['http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395753/statistics.html']
+
+# URLs for Main Body of Script to work through
+fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
+fixturesOpen = urllib2.urlopen(fixturesURL)
+fixturesSoup = BeautifulSoup(fixturesOpen)
+print updateTS() + ' Fixtures Read'
+print shr
+
+# URLS for Main Body of Script to get Results
+resultsURL = "http://www.bbc.com/sport/football/premier-league/results"
+resultsOpen = urllib2.urlopen(resultsURL)
+resultsSoup = BeautifulSoup(resultsOpen)
+print updateTS() + ' Results Read'
+print shr
+
+prefixBBC = "http://www.bbc.com"
+prefixESPN = "http://www.espnfc.us"
+
+# Save a local copy of the Fixtures Page
+outputBase = 'PL-Fixtures.html'
+outputResults = 'PL-Results.html'
+outputTable = "PL-fixture-table.html"
+
+# Find the containers with the Fixtures information within the HTML page
+fixtureList = fixturesSoup.find("div", {"class":"stats"})
+fixtureDiv = fixtureList.find("div", {"class":"fixtures-table full-table-medium"})
+resultsList = resultsSoup.find("div", {"class":"stats"})
+resultsDiv = resultsList.find("div", {"class":"fixtures-table full-table-medium"})
+
+# Parse out the main Fixture Table to a local file
+fixturesTable = fixturesSoup.find("div", {"class":"stats-body"})
+matchesResults = resultsDiv.find_all("table")
+resultsDate = resultsDiv.find_all("h2", {"class":"table-header"})
+
+matchDates = []
+teamURLs = []
+counter = 0
+matchDate = fixtureDiv.find_all("h2", {"class":"table-header"})
+matches = fixtureDiv.find_all("table")
+
+while counter < len(resultsDate):
+	matchesDate = resultsDate[counter]
+	matchesDate = matchesDate.get_text(strip=True)
+	# print matchesDate
+	matchesDate = textDate(matchesDate)
+	# print matchesDate
+	matchDates.append(matchesDate)
+	counter += 1
+
+'''
+while counter < len(matchDate):
+	fixtureDate = matchDate[counter]
+	fixtureDate = fixtureDate.get_text(strip=True)
+	fixtureDate = textDate(fixtureDate)
+	matchDates.append(fixtureDate)
+	counter += 1
+'''
+eplMatchBaseURL = "http://www.espnfc.us/barclays-premier-league/23/scores?date="
+matchReportURL = []
+matchReportID = []
+
+for i in matchDates:
+    matchDate = i
+    matchURL = eplMatchBaseURL + matchDate
+    matchOpen = urllib2.urlopen(matchURL)
+    matchSoup = BeautifulSoup(matchOpen)
+    matchTXT = 'espn-scores-' + matchDate + '.txt'
+    matchHTML = 'espn-scores-' + matchDate + '.html'
+    outputMatch = os.path.join(outputMatchPath, matchHTML)
+    # outputMatchText = os.path.join(outputMatchPath, matchTXT)
+    scores = matchSoup.find("div", {"class":"scores"})
+    # with open(outputMatch, "w") as f:
+    #    f.write(ds + ' :: ' + ts + ' :: ' + parseVersion)
+    #    f.write(scores.prettify())
+    #     f.close()   
+    counter = 0
+    # print "Number of Matches is: " + str(len(scores))    
+    boxScore = scores.find_all("div", {"class":"score-box"})
+    for i in boxScore:
+        # print shr
+        # print i
+        matchID = i.find("div", {"class":"score full"})
+        matchID = str(matchID)
+        matchReportID.append(matchID[37:43])
+        # print updateTS()
+        # print hr
+        counter += 1
+
+print hr
+
+for i in matchReportID:
+	matchPrefix = 'http://www.espnfc.us/gamecast/statistics/id/'
+	matchSuffix = '/statistics.html'
+	matchReportURL.append(matchPrefix + i + matchSuffix)
+
+# matchReportURL = ['http://www.espnfc.us/gamecast/statistics/id/395696/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395689/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395688/statistics.html', \
+# 'http://www.espnfc.us/gamecast/statistics/id/395693/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395695/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395690/statistics.html']
+
+countArray = len(matchReportURL)
+countDown = 0
+
+for i in matchReportURL:
+	matchPrefix = 'http://www.espnfc.us/gamecast/statistics/id/'
+	matchSuffix = '/statistics.html'
+
+	gameURL = i
+	gameHTML = urllib2.urlopen(gameURL)
+	gameSoup = BeautifulSoup(gameHTML)	
+	matchID = gameURL[44:len(gameURL)-16]
+
+
+	# Output a local copy of the FULL ESPN page to the local drive
+	outputBase = 'ESPN-EPL-' + matchID + '.html'
+	outputBase = os.path.join(outputPath, outputBase)
+	with open(outputBase, "w") as f:
+    	 f.write(gameSoup.prettify("utf-8"))
+     	f.close()
+
+	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
+
+	# <section class="match final gamecast-match" id="matchcenter-395758">
+	gameMatch = gameHeader.find("section", {"class":"match final gamecast-match"})
+	reportAwayTeam = gameMatch.find("div", {"class":"team home"})
+	reportHomeTeam = gameMatch.find("div", {"class":"team away"})     
+
+	# Finds the Home and Away Sides in the Results Page
+	homeSide = teamName(reportHomeTeam, 'N', 'H')
+	homeURL =  prefixESPN + teamName(reportHomeTeam, 'U', 'H')
+	homeBadge = teamBadge(reportHomeTeam, 'H')
+	awaySide = teamName(reportAwayTeam, 'N', 'A')
+	awayURL = prefixESPN + teamName(reportAwayTeam, 'U', 'H')
+	awayBadge = teamBadge(reportAwayTeam, 'A')
+
+	# Finds Match Info from Results Page
+	matchSummary = gameHeader.find("section", {"class":"mod-container gc-stat-list"})
+	matchStats = matchSummary.find_all("ul")
+	rsCounter = 0
+
+	#Finds Player Info from Results Page
+	playerSummary = gameHeader.find("div", {"class":"span-12 column"})
+
+	playerStats = playerSummary.find_all("table")
+	homeStats = playerStats[0]
+	homePlayers = homeStats.find_all("tr")
+	awayStats = playerStats[1]
+	awayPlayers = awayStats.find_all("tr")   
+
+	squadParse(homePlayers, 'H')
+	squadParse(awayPlayers, 'A')
+
+	# Identifies the Match ID
+	print gameSoup.title.get_text() 
+	print gameURL 
+	countDown += 1
+	print "Games left to parse = " + str(countArray - countDown)
+	print hr
