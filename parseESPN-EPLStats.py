@@ -196,7 +196,7 @@ def squadParse(x, y):
 		playerSOG = statParse(playerData[4].get_text(strip=True))
 		playerGoals = statParse(playerData[5].get_text(strip=True))
 		playerAssists = statParse(playerData[6].get_text(strip=True))
-		playerPoints = (playerSOG * 3) + (playerGoals * 10) + (playerAssists * 4)
+		# playerPoints = (playerSOG * 3) + (playerGoals * 10) + (playerAssists * 4)
 
 		playerOffsides = statParse(playerData[7].get_text(strip=True))
 		playerFoulsDrawn = statParse(playerData[8].get_text(strip=True))
@@ -206,7 +206,7 @@ def squadParse(x, y):
 		playerRedCards = statParse(playerData[12].get_text(strip=True))
 		outputRow = teamSide + '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
-		      + '|' + str(playerRedCards) + '|Starter|' + 'N'+ '|' + '|' + str(playerPoints) + '\n'
+		      + '|' + str(playerRedCards) + '|Starter|' + 'N'+ '|' + '|' + '\n' # str(playerPoints) + 
 		# print shr
 		playerData = 'epl-playerstats.txt'
 		outputPlayerData = os.path.join(outputMatchPath, playerData)
@@ -254,7 +254,7 @@ def squadParse(x, y):
 			playerSubbed = 'N'
 		outputRow = teamSide +  '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
-		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + str(playerPoints) + '\n'
+		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + '\n' # str(playerPoints) + '\n'
 		# print outputRow
 		playerData = 'epl-playerstats.txt'
 		outputPlayerData = os.path.join(outputMatchPath, playerData)
@@ -481,4 +481,5 @@ for i in matchReportURL:
 	print gameURL 
 	countDown += 1
 	print "Games left to parse = " + str(countArray - countDown)
+	print "Games that have been parsed = " + str(countDown)
 	print hr
