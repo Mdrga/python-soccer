@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Oct 26, 2014
-Version 0.02.a
+Modified on Oct 30, 2014
+Version 0.02.b
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -38,7 +38,7 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.02.a'
+parseVersion = 'ESPN Premier League Match Stats v0.02.b'
 print date + ' :: ' + ts + ' :: ' + parseVersion
 
 # Set Output Path for Windows or Mac environments
@@ -427,6 +427,11 @@ for i in matchReportID:
 countArray = len(matchReportURL)
 countDown = 0
 
+outputTxt = 'teamNews.txt'
+with open(outputTxt, "w") as f:
+   	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
+   	f.close()
+
 for i in matchReportURL:
 	matchPrefix = 'http://www.espnfc.us/gamecast/statistics/id/'
 	matchSuffix = '/statistics.html'
@@ -435,7 +440,7 @@ for i in matchReportURL:
 	gameHTML = urllib2.urlopen(gameURL)
 	gameSoup = BeautifulSoup(gameHTML)	
 	matchID = gameURL[44:len(gameURL)-16]
-
+	print "The Game URL is: " +  gameURL
 
 	# Output a local copy of the FULL ESPN page to the local drive
 	outputBase = 'ESPN-EPL-' + matchID + '.html'
@@ -449,6 +454,8 @@ for i in matchReportURL:
 	# <section class="match final gamecast-match" id="matchcenter-395758">
 	gameMatch = gameHeader.find("section", {"class":"match final gamecast-match"})
 	reportAwayTeam = gameMatch.find("div", {"class":"team home"})
+	getURLAwayTeam = reportAwayTeam.find("a")
+	teamURLs.append(getURLAwayTeam["href"])
 	reportHomeTeam = gameMatch.find("div", {"class":"team away"})     
 
 	# Finds the Home and Away Sides in the Results Page
@@ -478,8 +485,83 @@ for i in matchReportURL:
 
 	# Identifies the Match ID
 	print gameSoup.title.get_text() 
-	print gameURL 
+	# print gameURL 
 	countDown += 1
 	print "Games left to parse = " + str(countArray - countDown)
-	print "Games that have been parsed = " + str(countDown)
+	print "Games that have been parsed = " + str(countDown) 
+	print ds + " :: " + updateTS()
 	print hr
+
+def teamNews(x):
+	teamURL = x
+	teamName = x
+	teamName = teamName[6:len(teamName)-10]
+	teamURL = prefixESPN + teamURL
+	teamHTML = urllib2.urlopen(teamURL)
+	teamSoup = BeautifulSoup(teamHTML)	
+	recentNews = teamSoup.find("div", {"id":"feed"})
+	recentNewsItems = recentNews.find_all("div", {"class":"feed-item-content"})
+	recapOutput = []
+	for i in recentNewsItems:
+		recapPhotoItem = i.find("div", {"class":"thumbnail picture"})
+
+		if len(i) > 3:
+			# recapPhotoItem = recapPhotoItem.find("img")
+			# print recapPhotoItem["src"]
+			# with open(outputTxt, "a") as f:
+			#	f.write('\n' + shr + '\n')
+			#	f.write(i.prettify())
+			#	f.write('\n' + shr + '\n')
+			#	f.close()
+			# print shr
+			recapHeadline = i.find("h2")
+			recapHeadline = recapHeadline.get_text(strip=True)
+			recapAge = i.find("span", {"class":"age"})
+			recapAge = recapAge.get_text(strip=True)
+			recapOutput.append(date + "|" + teamName + "|" + recapHeadline + "|" + recapAge)
+			#recapDetails = recapHeadline.find("a")
+			#recapDetails = recapDetails["href"]
+			#print recapDetails
+			# print recapAge.get_text(strip=True)
+			
+			#print updateTS()
+			#print shr
+			# print i
+		else:
+			recapGameOpponents = i.find_all("div", {"class":"team-name"})
+			recapGameScore = i.find_all("div", {"class":"team-score"})
+			recapGameStatus = i.find("div", {"class":"game-info"})
+			recapGameHome = recapGameOpponents[0].get_text(strip=True)
+			recapGameAway = recapGameOpponents[1].get_text(strip=True)
+			recapHomeScore = recapGameScore[0].get_text(strip=True)
+			recapAwayScore = recapGameScore[1].get_text(strip=True)
+			#recapGameInfo = i.find("div", {"clas=":"game-info"})
+			recapOutput.append(date + "|" + teamName + "|" + recapGameHome + " " + recapHomeScore +  " v. " + recapAwayScore + " "+ recapGameAway)
+			print i
+			print " :: " + teamName
+	print hr 
+	return recapOutput
+
+teamURLs = sorted(set(teamURLs))
+teamURLtxt = 'teamURLs.txt'
+with open(teamURLtxt, "w") as f:
+   	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
+   	f.close()
+
+
+for i in teamURLs:
+	with open(teamURLtxt, "a") as f:
+		f.write(i)
+		f.write('\n')
+		f.close()
+
+teamNewstxt = 'teamNews.txt'
+with open(teamNewstxt, "w") as f:
+   	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
+   	f.close()
+
+for i in teamURLs:
+	for x in teamNews(i):
+		with open(teamNewstxt, "a") as f:
+			f.write(x + '\n')
+			f.close()
