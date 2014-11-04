@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Oct 30, 2014
-Version 0.02.b
+Modified on Nov 03, 2014
+Version 0.02.c
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -38,8 +38,8 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.02.b'
-print date + ' :: ' + ts + ' :: ' + parseVersion
+parseVersion = 'ESPN Premier League Match Stats v0.02.c'
+print ds + ' :: ' + ts + ' :: ' + parseVersion
 
 # Set Output Path for Windows or Mac environments
 os_System = platform.system()
@@ -433,9 +433,9 @@ with open(outputTxt, "w") as f:
    	f.close()
 
 for i in matchReportURL:
-	matchPrefix = 'http://www.espnfc.us/gamecast/statistics/id/'
-	matchSuffix = '/statistics.html'
 
+	if i == "http://www.espnfc.us/gamecast/statistics/id/395672/statistics.html":
+		i = "http://www.espnfc.us/gamecast/statistics/id/395675/statistics.html"
 	gameURL = i
 	gameHTML = urllib2.urlopen(gameURL)
 	gameSoup = BeautifulSoup(gameHTML)	
@@ -449,6 +449,7 @@ for i in matchReportURL:
     	 f.write(gameSoup.prettify("utf-8"))
      	f.close()
 
+    # Main Container for Game Stats
 	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
 
 	# <section class="match final gamecast-match" id="matchcenter-395758">
@@ -467,8 +468,13 @@ for i in matchReportURL:
 	awayBadge = teamBadge(reportAwayTeam, 'A')
 
 	# Finds Match Info from Results Page
+	# ESPN Changed their Match Stat Page Format 
+	# This portion is deprecated as of 2014-Nov-03
 	matchSummary = gameHeader.find("section", {"class":"mod-container gc-stat-list"})
+	#matchSummary = gameHeader.find("div", {"class":"tab-cont matchstats"})
 	matchStats = matchSummary.find_all("ul")
+	
+	# Counter to Iterate through Game Roster and Stats
 	rsCounter = 0
 
 	#Finds Player Info from Results Page
@@ -502,6 +508,7 @@ def teamNews(x):
 	recentNews = teamSoup.find("div", {"id":"feed"})
 	recentNewsItems = recentNews.find_all("div", {"class":"feed-item-content"})
 	recapOutput = []
+	print "Team News Parsed :: " + teamName
 	for i in recentNewsItems:
 		recapPhotoItem = i.find("div", {"class":"thumbnail picture"})
 
@@ -537,8 +544,7 @@ def teamNews(x):
 			recapAwayScore = recapGameScore[1].get_text(strip=True)
 			#recapGameInfo = i.find("div", {"clas=":"game-info"})
 			recapOutput.append(date + "|" + teamName + "|" + recapGameHome + " " + recapHomeScore +  " v. " + recapAwayScore + " "+ recapGameAway)
-			print i
-			print " :: " + teamName
+			# print i
 	print hr 
 	return recapOutput
 
