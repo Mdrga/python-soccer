@@ -494,8 +494,8 @@ for i in matchReportURL:
 	awayPlayers = awayStats.find_all("tr")   
 
 	# Need to add a Parse of the Game Date to this player output.
-	squadParse(homePlayers, 'H')
-	squadParse(awayPlayers, 'A')
+	squadParse(homePlayers, 'H', gameDate)
+	squadParse(awayPlayers, 'A', gameDate)
 
 	# Identifies the Match ID
 	print gameSoup.title.get_text() 
