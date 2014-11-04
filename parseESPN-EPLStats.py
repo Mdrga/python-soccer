@@ -165,11 +165,12 @@ def statParse(x):
 	return statResult
 
 # Parses out the Squad based upon the parameters given.
-def squadParse(x, y):
+def squadParse(x, y, z):
 	# Receive a table and parse out the player stats
 	squad = x
 	# print 'Squad Length is: ' + str(len(squad))
 	teamSide = y
+	gameDate = z
 	maxLength = len(squad)
 	starterCount = 2
 	subCount = 16
@@ -204,7 +205,7 @@ def squadParse(x, y):
 		playerSaves = statParse(playerData[10].get_text(strip=True))
 		playerYellowCards = statParse(playerData[11].get_text(strip=True))
 		playerRedCards = statParse(playerData[12].get_text(strip=True))
-		outputRow = teamSide + '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
+		outputRow = gameDate + '|' + teamSide + '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
 		      + '|' + str(playerRedCards) + '|Starter|' + 'N'+ '|' + '|' + '\n' # str(playerPoints) + 
 		# print shr
@@ -252,7 +253,7 @@ def squadParse(x, y):
 			playerSubbed = 'Y'
 		else:
 			playerSubbed = 'N'
-		outputRow = teamSide +  '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
+		outputRow = gameDate + '|' + teamSide +  '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
 		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + '\n' # str(playerPoints) + '\n'
 		# print outputRow
@@ -409,7 +410,7 @@ for i in matchDates:
         # print i
         matchID = i.find("div", {"class":"score full"})
         matchID = str(matchID)
-        matchReportID.append(matchID[37:43])
+        matchReportID.append(matchID[37:43] + "|" + matchDate)
         # print updateTS()
         # print hr
         counter += 1
@@ -417,9 +418,13 @@ for i in matchDates:
 print hr
 
 for i in matchReportID:
+	matchID = i[0:6]
+	# print matchID
+	matchDate = i[7:len(i)]
 	matchPrefix = 'http://www.espnfc.us/gamecast/statistics/id/'
 	matchSuffix = '/statistics.html'
-	matchReportURL.append(matchPrefix + i + matchSuffix)
+	# print matchDate
+	matchReportURL.append(matchDate + "|" + matchPrefix + matchID + matchSuffix)
 
 # matchReportURL = ['http://www.espnfc.us/gamecast/statistics/id/395696/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395689/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395688/statistics.html', \
 # 'http://www.espnfc.us/gamecast/statistics/id/395693/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395695/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395690/statistics.html']
@@ -433,10 +438,12 @@ with open(outputTxt, "w") as f:
    	f.close()
 
 for i in matchReportURL:
-
-	if i == "http://www.espnfc.us/gamecast/statistics/id/395672/statistics.html":
-		i = "http://www.espnfc.us/gamecast/statistics/id/395675/statistics.html"
-	gameURL = i
+	gameURL = i[9:len(i)]
+	gameDate = i[0:8]
+	if gameURL == "http://www.espnfc.us/gamecast/statistics/id/395672/statistics.html":
+		gameURL = "http://www.espnfc.us/gamecast/statistics/id/395675/statistics.html"
+	print gameDate
+	print gameURL
 	gameHTML = urllib2.urlopen(gameURL)
 	gameSoup = BeautifulSoup(gameHTML)	
 	matchID = gameURL[44:len(gameURL)-16]
@@ -486,6 +493,7 @@ for i in matchReportURL:
 	awayStats = playerStats[1]
 	awayPlayers = awayStats.find_all("tr")   
 
+	# Need to add a Parse of the Game Date to this player output.
 	squadParse(homePlayers, 'H')
 	squadParse(awayPlayers, 'A')
 
