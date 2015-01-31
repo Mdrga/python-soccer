@@ -2,7 +2,7 @@
 '''
 Created on Oct 19, 2014
 Modified on Nov 03, 2014
-Version 0.02.c
+Version 0.02.d
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -38,7 +38,7 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.02.c'
+parseVersion = 'ESPN Premier League Match Stats v0.02.d'
 print ds + ' :: ' + ts + ' :: ' + parseVersion
 
 # Set Output Path for Windows or Mac environments
@@ -323,7 +323,7 @@ playerData = 'epl-playerstats.txt'
 outputPlayerData = os.path.join(outputMatchPath, playerData)
 with open(outputPlayerData, "w") as f:
 			f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
-			f.write('Tean|Side|Match ID|Player ID|POS|#|Name|URL|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed Player|SubName|TimeOn|Points' + '\n' )
+			f.write('Team|Side|Match ID|Player ID|POS|#|Name|URL|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed Player|SubName|TimeOn|Points' + '\n' )
 			f.close()
 
 matchURLs = ['http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395753/statistics.html']
@@ -561,7 +561,6 @@ teamURLtxt = 'teamURLs.txt'
 with open(teamURLtxt, "w") as f:
    	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
    	f.close()
-
 
 for i in teamURLs:
 	with open(teamURLtxt, "a") as f:
