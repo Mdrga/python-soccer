@@ -40,6 +40,7 @@ def downloadImage(imageURL, localFileName):
 # Program Version & System Variables
 parseVersion = 'ESPN Premier League Match Stats v0.02.d'
 print ds + ' :: ' + ts + ' :: ' + parseVersion
+print sys.version
 
 # Set Output Path for Windows or Mac environments
 os_System = platform.system()
