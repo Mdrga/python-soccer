@@ -391,12 +391,14 @@ matchReportID = []
 
 for i in matchDates:
     matchDate = i
+    print matchDate
+    print shr
     matchURL = eplMatchBaseURL + matchDate
     matchOpen = urllib2.urlopen(matchURL)
     matchSoup = BeautifulSoup(matchOpen)
     matchTXT = 'espn-scores-' + matchDate + '.txt'
     matchHTML = 'espn-scores-' + matchDate + '.html'
-    outputMatch = os.path.join(outputMatchPath, matchHTML)
+    # outputMatch = os.path.join(outputMatchPath, matchHTML)
     # outputMatchText = os.path.join(outputMatchPath, matchTXT)
     scores = matchSoup.find("div", {"class":"scores"})
     # with open(outputMatch, "w") as f:
@@ -412,6 +414,7 @@ for i in matchDates:
         matchID = i.find("div", {"class":"score full"})
         matchID = str(matchID)
         matchReportID.append(matchID[37:43] + "|" + matchDate)
+        print matchReportID
         # print updateTS()
         # print hr
         counter += 1
