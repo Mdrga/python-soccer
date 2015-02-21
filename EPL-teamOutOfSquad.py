@@ -68,23 +68,20 @@ prefixESPN = "http://www.espnfc.us"
 OutOfSquad = "http://www.fantasyfootballscout.co.uk/fantasy-football-injuries/"
 
 print hr
+
+# Create Text File for Player Injuries
 playerData = 'epl-playerinjuries.txt'
 outputPlayerData = os.path.join(outputPath, playerData)
 with open(outputPlayerData, "w") as f:
 			f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
-			f.write('Team|Player ID|POS|#|Name|URL|Status|News' + '\n' )
+			f.write('Team|PlayerName|Img|Status|ReturnDate|Reason|Detail|URL' + '\n' )
 			f.close()
 
+# Open Website and parse HTML
 OutOfSquadOpen = urllib2.urlopen(OutOfSquad)
 OutOfSquadSoup = BeautifulSoup(OutOfSquadOpen)
 oosDiv = OutOfSquadSoup.find("div", {"id":"content"})
 oosTable = oosDiv.find("table", {"class":"ffs-ib ffs-ib-full-content ffs-ib-sort"})
-
-with open(outputPlayerData, "a") as f:
-	f.write(hr + '\n')
-	f.write(oosTable.prettify())
-	f.close()
-	print outputPlayerData + ' file written successfully.'
 
 print hr
 oosDataArray = []
@@ -107,19 +104,20 @@ for i in oosTableBody:
 		playerStatus = cellThree.get_text(strip=True)
 		playerName = cellOne.get_text(strip=True)
 		playerGivenName = playerName.find("(")
-		statusDetail = cellFive.get_text(
-			)
+		statusDetail = cellFive.get_text()
+		statusDetail = statusDetail.lstrip()
 		statusURL = cellFive.find("a")
 		statusReason = cellFive.find("strong")
 		statusReason = statusReason.get_text(strip=True)
 		statusDesc = cellFive.get_text(strip=True)
 		statusDesc = statusDesc[len(statusReason):len(statusDesc)]
+		statusDesc = statusDesc.rstrip("[Source]")
 		
-		print statusReason + "|" + statusDesc
+		# print statusReason + "|" + statusDesc
 		# print statusURL
 		if statusURL is not None:
 			statusURL = statusURL["href"]
-			print statusURL
+			# print statusURL
 		else:
 			statusURL = " "
 		# statusURL = cellFive.find("a")
@@ -135,10 +133,14 @@ for i in oosTableBody:
 		else:
 			returnDate = returnDate[6:10] + "-" + returnDate[3:5] + "-" + returnDate[0:2]
 
-		output = playerName + "|" + imgSrc + "|" + teamName + "|" + playerStatus + "|" + returnDate + "|" + statusDetail + "|" + statusURL
-		# print output
+		output = playerName + "|" + imgSrc + "|" + teamName + "|" + playerStatus + "|" + returnDate + "|" + statusReason + "|" + statusDesc + "|"  + statusURL
+		with open(outputPlayerData, "a") as f:
+			f.write(output + '\n')
+			f.close()
+
+		print "Record written."
 
 		#for i in oosTableElement:
 			# print i.prettify()
-		print shr
+		# print shr
 	print hr
