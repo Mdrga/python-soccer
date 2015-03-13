@@ -324,7 +324,7 @@ playerData = 'epl-playerstats.txt'
 outputPlayerData = os.path.join(outputMatchPath, playerData)
 with open(outputPlayerData, "w") as f:
 			f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
-			f.write('Team|Side|Match ID|Player ID|POS|#|Name|URL|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed Player|SubName|TimeOn|Points' + '\n' )
+			f.write('FixtureDate|Team|Side|Match ID|Player ID|POS|#|Name|URL|Shots|Shots On Goal|Goals|Assists|Offsides|Fouls Drawn|Fouls Committed|Saves|Yellow Cards|Red Cards|Status|Subbed Player|SubName|TimeOn|Points' + '\n' )
 			f.close()
 
 matchURLs = ['http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395753/statistics.html']
@@ -394,6 +394,7 @@ for i in matchDates:
     print matchDate
     print shr
     matchURL = eplMatchBaseURL + matchDate
+    print matchURL
     matchOpen = urllib2.urlopen(matchURL)
     matchSoup = BeautifulSoup(matchOpen)
     matchTXT = 'espn-scores-' + matchDate + '.txt'

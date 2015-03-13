@@ -97,21 +97,31 @@ for i in oosTableBody:
 		cellThree = oosTableElement[2]
 		cellFour = oosTableElement[3]
 		cellFive = oosTableElement[4]
+		cellSix = oosTableElement[5]
 		returnDate = cellFour.get_text(strip=True)
 		imgSrc = cellOne.find("img")
-		imgSrc = imgSrc["src"]
+		imgSrc = "http:" + imgSrc["src"]
 		teamName = cellTwo["title"]
 		playerStatus = cellThree.get_text(strip=True)
 		playerName = cellOne.get_text(strip=True)
 		playerGivenName = playerName.find("(")
+<<<<<<< Updated upstream
 		statusDetail = cellFive.get_text()
 		statusDetail = statusDetail.lstrip()
+=======
+>>>>>>> Stashed changes
 		statusURL = cellFive.find("a")
 		statusReason = cellFive.find("strong")
 		statusReason = statusReason.get_text(strip=True)
 		statusDesc = cellFive.get_text(strip=True)
 		statusDesc = statusDesc[len(statusReason):len(statusDesc)]
+<<<<<<< Updated upstream
 		statusDesc = statusDesc.rstrip("[Source]")
+=======
+		statusDesc = statusDesc.strip('[Source]')
+		updateDate = cellSix.get_text(strip=True)
+		updateDate = updateDate[6:10] + "-" + updateDate[3:5] + "-" + updateDate[0:2]
+>>>>>>> Stashed changes
 		
 		# print statusReason + "|" + statusDesc
 		# print statusURL
@@ -125,7 +135,7 @@ for i in oosTableBody:
 
 		# Determine if Player identified just by Surname or Given Name + Surname
 		if playerGivenName > -1:
-			playerName = playerName[playerGivenName+1:len(playerName)-1] + " " + playerName[0:playerGivenName-1]
+			playerName = playerName[playerGivenName+1:len(playerName)-1] + " " + playerName[0:playerGivenName]
 		else:
 			playerName = playerName
 		if returnDate == "Unknown":
@@ -133,12 +143,17 @@ for i in oosTableBody:
 		else:
 			returnDate = returnDate[6:10] + "-" + returnDate[3:5] + "-" + returnDate[0:2]
 
+<<<<<<< Updated upstream
 		output = playerName + "|" + imgSrc + "|" + teamName + "|" + playerStatus + "|" + returnDate + "|" + statusReason + "|" + statusDesc + "|"  + statusURL
 		with open(outputPlayerData, "a") as f:
 			f.write(output + '\n')
 			f.close()
 
 		print "Record written."
+=======
+		output = updateDate + "|" + playerName + "|" + teamName + "|" + imgSrc + "|" + playerStatus + "|" + returnDate + "|" + statusReason + "|" + statusDesc + "|" + statusURL
+		print output
+>>>>>>> Stashed changes
 
 		#for i in oosTableElement:
 			# print i.prettify()
