@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jan 30, 2015
-Modified on Jan 30, 2015
+Modified on Feb 21, 2015
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
 '''
 Version Number of Script
 '''
-version = '0.01.a'
+version = '0.02.f'
 
 # Import Libraries needed for Scraping the various web pages
 from bs4 import BeautifulSoup
