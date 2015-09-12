@@ -123,53 +123,110 @@ print (hr)
 fixtureContainer = bbcFixtureSoup.find('div', class_="fixtures-table full-table-medium")
 fixtureRow = fixtureContainer.find_all('table', class_="table-stats")
 
-fixtureCount = 2
+resultsContainer = bbcResultsSoup.find('div', class_="fixtures-table full-table-medium")
+resultRow = resultsContainer.find_all('table', class_="table-stats")
 
-for i in fixtureContainer:
-	rowData = i
-	if len(rowData) == 1:
-		fixtureDate = str((rowData.string).strip())
-		if len(fixtureDate) > 1:
-			dateYear = fixtureDate[-4:]
-			dayOfWeek = fixtureDate[0:3]
-			dayOfMonth = re.findall(r'\d{1,2}', fixtureDate)
-			dayOfMonth = dayOfMonth[0]
-			month = re.findall(r'[A-Z][a-z]*', fixtureDate)
-			month = month[1]
-			printFixtureDate = str(dateYear) + ' ' + month[0:3] + ' ' + str(dayOfMonth) + ' ' + dayOfWeek
-			print (printFixtureDate)
-			print (shr)
-	if len(rowData) > 1:
-		# print (rowData)
-		tableRow = rowData.find_all('tr')
-		previewData = i.find_all('tr', class_="preview")
-		for i in previewData:
-			# Identify the information about the Home Team
-			homeTeam = i.find('span', class_="team-home teams")
-			homeTeamURL = homeTeam.a['href']
-			homeTeamName = homeTeam.a.get_text()
-			
-			# Identify the information about the Away Team
-			awayTeam = i.find('span', class_="team-away teams")
-			awayTeamURL = awayTeam.a['href']
-			awayTeamName = awayTeam.a.get_text()
-			
-			# Identify Kickoff Time and Status
-			kickoff = i.find('td', class_="kickoff")
-			kickoff = kickoff.get_text().strip()
-			status = i.find('td', class_="status")
-			status = status.get_text().strip()
-			# print (len(status))
-			# Output Home Team, Away Team, Match Date, Kickoff Time, Match Status
-			fixtureSheet.cell('A' + str(fixtureCount)).value = homeTeamName
-			fixtureSheet.cell('B' + str(fixtureCount)).value = awayTeamName
-			fixtureSheet.cell('C' + str(fixtureCount)).value = printFixtureDate
-			fixtureSheet.cell('D' + str(fixtureCount)).value = kickoff
-			fixtureSheet.cell('E' + str(fixtureCount)).value = status
+# Function to process container. Pass two variables. 
+# X = Container
+# Y = Container Type 1 = Fixtures; 2 = Results
+def processContainer(x, y):
+	container = x
+	processType = y
+	count = 2
 
-			# print (homeTeamName + ' v. ' + awayTeamName + ' ' + status + ' :: ' + kickoff)
-			# print (shr)
-			fixtureCount += 1
+	if processType == 1:
+		print ('Output for Fixtures Started...')
+		print (shr)
+	if processType == 2:
+		print ('Output for Results Started...')
+		print (shr)
+
+	for i in container:
+		rowData = i
+		if len(rowData) == 1:
+			fixtureDate = str((rowData.string).strip())
+			if len(fixtureDate) > 1:
+				dateYear = fixtureDate[-4:]
+				dayOfWeek = fixtureDate[0:3]
+				dayOfMonth = re.findall(r'\d{1,2}', fixtureDate)
+				dayOfMonth = dayOfMonth[0]
+				month = re.findall(r'[A-Z][a-z]*', fixtureDate)
+				month = month[1]
+				printFixtureDate = str(dateYear) + ' ' + month[0:3] + ' ' + str(dayOfMonth) + ' ' + dayOfWeek
+				print (printFixtureDate)
+				print (shr)
+		if processType == 1:
+			if len(rowData) > 1:
+				tableRow = rowData.find_all('tr')
+				previewData = i.find_all('tr', class_="preview")
+				for i in previewData:
+					# Identify the information about the Home Team
+					homeTeam = i.find('span', class_="team-home teams")
+					homeTeamURL = homeTeam.a['href']
+					homeTeamName = homeTeam.a.get_text()
+				
+					# Identify the information about the Away Team
+					awayTeam = i.find('span', class_="team-away teams")
+					awayTeamURL = awayTeam.a['href']
+					awayTeamName = awayTeam.a.get_text()
+			
+					# Identify Kickoff Time and Status
+					kickoff = i.find('td', class_="kickoff")
+					kickoff = kickoff.get_text().strip()
+					status = i.find('td', class_="status")
+					status = status.get_text().strip()
+					
+					# Output to Excel File
+					fixtureSheet.cell('A' + str(count)).value = homeTeamName
+					fixtureSheet.cell('B' + str(count)).value = awayTeamName
+					fixtureSheet.cell('C' + str(count)).value = printFixtureDate
+					fixtureSheet.cell('D' + str(count)).value = kickoff
+					fixtureSheet.cell('E' + str(count)).value = status
+
+					count += 1
+
+		if processType == 2:
+			if len(rowData) > 1:
+				tableRow = rowData.find_all('tr', class_="report")
+				for i in tableRow:
+					# Identify the information about the Home Team
+					homeTeam = i.find('span', class_="team-home teams")
+					homeTeamURL = homeTeam.a['href']
+					homeTeamName = homeTeam.a.get_text()
+				
+					# Identify the information about the Away Team
+					awayTeam = i.find('span', class_="team-away teams")
+					awayTeamURL = awayTeam.a['href']
+					awayTeamName = awayTeam.a.get_text()
+
+					result = i.find('span', class_="score")
+					result = result.get_text()
+					result = result.strip()
+					if len(result.strip()) <= 3:
+						homeScore = result[0]
+						awayScore = result[2]
+					else:
+						scoreLine = result.striip()
+						scoreLine.find('-')
+						print(len(scoreLine))
+						homeScore = '99'
+						awayScore = '99'
+					matchReport = i.find('a', class_='report')
+					matchReport = matchReport['href']
+
+					matchSheet.cell('A' + str(count)).value = homeTeamName
+					matchSheet.cell('B' + str(count)).value = awayTeamName
+					matchSheet.cell('C' + str(count)).value = printFixtureDate
+					matchSheet.cell('D' + str(count)).value = homeScore
+					matchSheet.cell('E' + str(count)).value = awayScore
+					matchSheet.cell('F' + str(count)).value = "http://www.bbc.co.uk" + matchReport
+
+					count += 1
 	
-workBook.save(os.path.join(localPath + ds + '.xlsx'))
+	workBook.save(os.path.join(localPath + ds + '.xlsx'))
+	print (hr)
+
+processContainer(fixtureContainer, 1)
+processContainer(resultsContainer, 2)
+
 print (hr)
