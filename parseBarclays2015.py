@@ -57,6 +57,7 @@ bbcResultsURL = 'http://www.bbc.com/sport/football/premier-league/results'
 
 # Base Path for Output
 localPath = 'D:\\ESPN-Parser\\'
+localimgPath = 'D:\\ESPN-Parser\\img\\'
 baseWkBk = 'template.xlsx'
 workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBk))
 teamSheet = workBook.get_sheet_by_name('teams')
@@ -95,6 +96,7 @@ for i in teamList:
 	teamCounter += 1
 
 workBook.save(os.path.join(localPath + ds + '.xlsx'))
+print ('Teams Saved...')
 print (hr)
 
 # Parse BBC Fixtures and Results
@@ -153,8 +155,8 @@ def processContainer(x, y):
 				month = re.findall(r'[A-Z][a-z]*', fixtureDate)
 				month = month[1]
 				printFixtureDate = str(dateYear) + ' ' + month[0:3] + ' ' + str(dayOfMonth) + ' ' + dayOfWeek
-				print (printFixtureDate)
-				print (shr)
+				#print (printFixtureDate)
+				#print (shr)
 		if processType == 1:
 			if len(rowData) > 1:
 				tableRow = rowData.find_all('tr')
@@ -213,6 +215,7 @@ def processContainer(x, y):
 						awayScore = '99'
 					matchReport = i.find('a', class_='report')
 					matchReport = matchReport['href']
+					matchID = matchReport[16:len(matchReport)]
 
 					matchSheet.cell('A' + str(count)).value = homeTeamName
 					matchSheet.cell('B' + str(count)).value = awayTeamName
@@ -220,13 +223,38 @@ def processContainer(x, y):
 					matchSheet.cell('D' + str(count)).value = homeScore
 					matchSheet.cell('E' + str(count)).value = awayScore
 					matchSheet.cell('F' + str(count)).value = "http://www.bbc.co.uk" + matchReport
+					matchSheet.cell('G' + str(count)).value = matchID
 
 					count += 1
-	
+	print ('Fixtures and Team Results completed... ')
 	workBook.save(os.path.join(localPath + ds + '.xlsx'))
 	print (hr)
 
 processContainer(fixtureContainer, 1)
 processContainer(resultsContainer, 2)
+
+# Pull URL from Match Sheet and process Player Results
+maxResultRow = matchSheet.get_highest_row()
+for row in range(2, matchSheet.get_highest_row()):
+	homeTeam = matchSheet['A' + str(row)].value
+	awayTeam = matchSheet['B' + str(row)].value
+	matchURL = matchSheet['F' + str(row)].value
+	
+	print (homeTeam + ' v. ' + awayTeam)
+	print (matchURL)
+
+	# Parse Match Results
+	matchResult = requests.get(matchURL)
+	matchResult.raise_for_status()
+	matchSoup = bs4.BeautifulSoup(matchResult.text, "html.parser")
+	matchDetails = matchSoup.find('div', class_="story-body")
+	matchHomeTeam = matchDetails.find('div', id="home-team")
+
+	# Find home team, away team and team badges:
+
+
+	print (shr)
+
+print ('Max Result Row is: ' + str(maxResultRow))
 
 print (hr)
