@@ -1,7 +1,8 @@
+#!python3
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Sep 12, 2015
+Modified on Sep 16, 2015
 Version 0.03.d
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -16,6 +17,11 @@ import webbrowser
 import os
 import openpyxl
 import sys
+import codecs
+
+# Set Character Output
+print (sys.stdout.encoding)
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -32,7 +38,7 @@ def downloadImage(imageURL, localFileName):
     response = requests.get(imageURL)
     if response.status_code == 200:
         print ('Downloading %s...' % (localFileName))
-    with open(localFileName, 'wb') as fo:
+    with open(localimgPath + localFileName, 'wb') as fo:
         for chunk in response.iter_content(4096):
             fo.write(chunk)
     return True
@@ -222,7 +228,7 @@ def processContainer(x, y):
 					matchSheet.cell('C' + str(count)).value = printFixtureDate
 					matchSheet.cell('D' + str(count)).value = homeScore
 					matchSheet.cell('E' + str(count)).value = awayScore
-					matchSheet.cell('F' + str(count)).value = "http://www.bbc.co.uk" + matchReport
+					matchSheet.cell('F' + str(count)).value = "http://www.bbc.com/sport/0/football/" + matchID
 					matchSheet.cell('G' + str(count)).value = matchID
 
 					count += 1
@@ -239,6 +245,7 @@ for row in range(2, matchSheet.get_highest_row()):
 	homeTeam = matchSheet['A' + str(row)].value
 	awayTeam = matchSheet['B' + str(row)].value
 	matchURL = matchSheet['F' + str(row)].value
+	matchID = matchSheet['G' + str(row)].value
 	
 	print (homeTeam + ' v. ' + awayTeam)
 	print (matchURL)
@@ -249,9 +256,50 @@ for row in range(2, matchSheet.get_highest_row()):
 	matchSoup = bs4.BeautifulSoup(matchResult.text, "html.parser")
 	matchDetails = matchSoup.find('div', class_="story-body")
 	matchHomeTeam = matchDetails.find('div', id="home-team")
+	matchHomeTeamBadge = matchHomeTeam.find('div', class_="team-badge")
+	matchHomeTeamBadge = matchHomeTeamBadge.find('img')
+	matchHomeTeamBadge = matchHomeTeamBadge['src']
+	matchHomeTeamScore = matchHomeTeam.find('span', class_="team-score")
+	homeTeamScore = (matchHomeTeamScore.get_text()).strip()
+	matchHomeTeamSpans = matchHomeTeam.find_all('span')
+	matchHomeTeamScorers = []
+
+	matchAwayTeam = matchDetails.find('div', id="away-team")
+	matchAwayTeamBadge = matchAwayTeam.find('div', class_="team-badge")
+	matchAwayTeamBadge = matchAwayTeamBadge.find('img')
+	matchAwayTeamBadge = matchAwayTeamBadge['src']
+
+	print (' >>>***========***<<< ')
+
+	# Download Home Team Badge
+	if (os.path.isfile(localimgPath + homeTeam + '.png')) == False:
+		downloadImage(matchHomeTeamBadge, homeTeam + '.png')
+	if (os.path.isfile(localimgPath + awayTeam + '.png')) == False:		
+		downloadImage(matchAwayTeamBadge, awayTeam + '.png')
+
+	print (matchDetails.prettify())
+	print (' >>>***========***<<< ')
+	counter = 2
+	if len(matchHomeTeamSpans) >= 3:
+		maxLen = len(matchHomeTeamSpans)
+		for i in matchHomeTeamSpans[counter:maxLen]:
+			goalScorer =  i.get_text().strip()
+			matchHomeTeamScorers.append(goalScorer)
+			# print (counter)
+			counter += 1
+	print (matchHomeTeamScorers)
+	print (' >>>***========***<<< ')
+	# print (len(matchHomeTeamSpans))
+	print (matchHomeTeamSpans)
+	print (' >>>***========***<<< ')
+	#print (matchHomeTeamBadge)
+	#print (' >>>***========***<<< ')
 
 	# Find home team, away team and team badges:
-
+	with open (os.path.join(localPath + 'data\\' + matchID + '.html'), 'wb') as fo:
+		for chunk in matchResult.iter_content(100000):
+			fo.write(chunk)
+			print ('Writing match # '+ matchID + ' results file...')
 
 	print (shr)
 
