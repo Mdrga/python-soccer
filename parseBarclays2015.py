@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Sep 16, 2015
-Version 0.03.d
+Modified on Sep 30, 2015
+Version 0.03.e
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -20,7 +20,7 @@ import sys
 import codecs
 
 # Set Character Output
-print (sys.stdout.encoding)
+print ('System Encoding:', sys.stdout.encoding)
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 # Establish the process Date & Time Stamp
@@ -47,7 +47,7 @@ hr = " >>> *** ====================================================== *** <<<"
 shr = " >>> *** ==================== *** <<<"
 
 # Program Version & System Variables
-parseVersion = 'Premier League Match & Stats Parser v0.01.a'
+parseVersion = 'Premier League Match & Stats Parser v0.03.e'
 print (ds + ' :: ' + ts + ' :: ' + parseVersion)
 print ('Python Version :: ' + sys.version)
 print (hr)
@@ -254,7 +254,16 @@ for row in range(2, matchSheet.get_highest_row()):
 	matchResult = requests.get(matchURL)
 	matchResult.raise_for_status()
 	matchSoup = bs4.BeautifulSoup(matchResult.text, "html.parser")
+	matchUpdate = matchSoup.find('div', id="article-sidebar")
+	matchTimestamp = matchUpdate.find('p', class_="page-timestamp")
+	matchTimestamp = (matchTimestamp.get_text()).strip()
+	matchLineup = matchSoup.find('div', id="line-up-wrapper")
+	matchStats = matchSoup.find('div', id="match-stats-charts")
 	matchDetails = matchSoup.find('div', class_="story-body")
+	matchReferee = matchLineup.find('div', class_="referee")
+	matchAttendance = matchLineup.find('div', class_="attendance")
+
+	# Home Team Details
 	matchHomeTeam = matchDetails.find('div', id="home-team")
 	matchHomeTeamBadge = matchHomeTeam.find('div', class_="team-badge")
 	matchHomeTeamBadge = matchHomeTeamBadge.find('img')
@@ -262,12 +271,19 @@ for row in range(2, matchSheet.get_highest_row()):
 	matchHomeTeamScore = matchHomeTeam.find('span', class_="team-score")
 	homeTeamScore = (matchHomeTeamScore.get_text()).strip()
 	matchHomeTeamSpans = matchHomeTeam.find_all('span')
+	matchHomeLineup = matchLineup.find('div', class_="home-team")
 	matchHomeTeamScorers = []
 
+	# Away Team Details
 	matchAwayTeam = matchDetails.find('div', id="away-team")
 	matchAwayTeamBadge = matchAwayTeam.find('div', class_="team-badge")
 	matchAwayTeamBadge = matchAwayTeamBadge.find('img')
 	matchAwayTeamBadge = matchAwayTeamBadge['src']
+	matchAwayLineup = matchLineup.find('div', class_="away-team")
+
+	# Update Match Sheet
+	matchSheet.cell('H' + str(row)).value = matchReferee.get_text()
+	matchSheet.cell('I' + str(row)).value = matchAttendance.get_text()
 
 	print (' >>>***========***<<< ')
 
@@ -277,7 +293,9 @@ for row in range(2, matchSheet.get_highest_row()):
 	if (os.path.isfile(localimgPath + awayTeam + '.png')) == False:		
 		downloadImage(matchAwayTeamBadge, awayTeam + '.png')
 
-	print (matchDetails.prettify())
+	#print (matchTimestamp)
+	# print (matchLineup.prettify())
+	# print (matchDetails.prettify())
 	print (' >>>***========***<<< ')
 	counter = 2
 	if len(matchHomeTeamSpans) >= 3:
@@ -303,6 +321,7 @@ for row in range(2, matchSheet.get_highest_row()):
 
 	print (shr)
 
+workBook.save(os.path.join(localPath + ds + '.xlsx'))
 print ('Max Result Row is: ' + str(maxResultRow))
 
 print (hr)
