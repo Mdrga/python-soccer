@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Sep 30, 2015
-Version 0.03.e
+Modified on Oct 13, 2015
+Version 0.03.f
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -47,7 +47,7 @@ hr = " >>> *** ====================================================== *** <<<"
 shr = " >>> *** ==================== *** <<<"
 
 # Program Version & System Variables
-parseVersion = 'Premier League Match & Stats Parser v0.03.e'
+parseVersion = 'Premier League Match & Stats Parser v0.03.f'
 print (ds + ' :: ' + ts + ' :: ' + parseVersion)
 print ('Python Version :: ' + sys.version)
 print (hr)
@@ -241,7 +241,15 @@ processContainer(resultsContainer, 2)
 
 # Pull URL from Match Sheet and process Player Results
 maxResultRow = matchSheet.get_highest_row()
-for row in range(2, matchSheet.get_highest_row()):
+
+# Parse the match results from a URL for a Side "H"ome or "A"way
+def parseResults(url, side):
+	matchURL = url
+	matchSide = side
+
+playerRow = 2
+
+for row in range(2, matchSheet.get_highest_row()+1):
 	homeTeam = matchSheet['A' + str(row)].value
 	awayTeam = matchSheet['B' + str(row)].value
 	matchURL = matchSheet['F' + str(row)].value
@@ -261,7 +269,11 @@ for row in range(2, matchSheet.get_highest_row()):
 	matchStats = matchSoup.find('div', id="match-stats-charts")
 	matchDetails = matchSoup.find('div', class_="story-body")
 	matchReferee = matchLineup.find('div', class_="referee")
+	matchReferee = matchReferee.get_text()
+	matchReferee = matchReferee[6:len(matchReferee)]
 	matchAttendance = matchLineup.find('div', class_="attendance")
+	matchAttendance = matchAttendance.get_text()
+	matchAttendance = matchAttendance[6:len(matchAttendance)-1]
 
 	# Home Team Details
 	matchHomeTeam = matchDetails.find('div', id="home-team")
@@ -272,6 +284,27 @@ for row in range(2, matchSheet.get_highest_row()):
 	homeTeamScore = (matchHomeTeamScore.get_text()).strip()
 	matchHomeTeamSpans = matchHomeTeam.find_all('span')
 	matchHomeLineup = matchLineup.find('div', class_="home-team")
+	matchHomeStarting = matchHomeLineup.find('ul', class_="player-list")
+	matchHomeSubs = matchHomeLineup.find('ul', class_="subs-list")
+	print ('>>>======<<<')
+	print (matchID)
+	matchHomeStartingLineup = matchHomeStarting.find_all('li')
+	
+	maxPlayerRow = playerSheet.get_highest_row()
+	if playerRow > 2:
+		playerRow = maxPlayerRow
+	else:
+		playerRow = maxPlayerRow +1
+
+	# Parse Team LineUps to Excel Sheet
+	for i in matchHomeStartingLineup:
+		playerSheet['A' + str(playerRow)].value = matchID
+		playerSheet['B' + str(playerRow)].value = matchURL
+		playerSheet['C' + str(playerRow)].value = homeTeam
+		playerSheet['D' + str(playerRow)].value = str(i)
+		playerRow += 1
+	print (shr)
+	print (matchHomeSubs.prettify())
 	matchHomeTeamScorers = []
 
 	# Away Team Details
@@ -280,12 +313,15 @@ for row in range(2, matchSheet.get_highest_row()):
 	matchAwayTeamBadge = matchAwayTeamBadge.find('img')
 	matchAwayTeamBadge = matchAwayTeamBadge['src']
 	matchAwayLineup = matchLineup.find('div', class_="away-team")
+	matchAwayStarting = matchAwayLineup.find('ul', class_="player-list")
+	matchAwaySubs = matchHomeLineup.find('ul', class_="subs-list")
+
 
 	# Update Match Sheet
-	matchSheet.cell('H' + str(row)).value = matchReferee.get_text()
-	matchSheet.cell('I' + str(row)).value = matchAttendance.get_text()
+	matchSheet.cell('H' + str(row)).value = matchReferee
+	matchSheet.cell('I' + str(row)).value = matchAttendance
 
-	print (' >>>***========***<<< ')
+	# print (' >>>***========***<<< ')
 
 	# Download Home Team Badge
 	if (os.path.isfile(localimgPath + homeTeam + '.png')) == False:
@@ -296,7 +332,7 @@ for row in range(2, matchSheet.get_highest_row()):
 	#print (matchTimestamp)
 	# print (matchLineup.prettify())
 	# print (matchDetails.prettify())
-	print (' >>>***========***<<< ')
+	# print (' >>>***========***<<< ')
 	counter = 2
 	if len(matchHomeTeamSpans) >= 3:
 		maxLen = len(matchHomeTeamSpans)
@@ -306,9 +342,9 @@ for row in range(2, matchSheet.get_highest_row()):
 			# print (counter)
 			counter += 1
 	print (matchHomeTeamScorers)
-	print (' >>>***========***<<< ')
+	# print (' >>>***========***<<< ')
 	# print (len(matchHomeTeamSpans))
-	print (matchHomeTeamSpans)
+	# print (matchHomeTeamSpans)
 	print (' >>>***========***<<< ')
 	#print (matchHomeTeamBadge)
 	#print (' >>>***========***<<< ')
@@ -320,6 +356,7 @@ for row in range(2, matchSheet.get_highest_row()):
 			print ('Writing match # '+ matchID + ' results file...')
 
 	print (shr)
+	workBook.save(os.path.join(localPath + ds + '.xlsx'))
 
 workBook.save(os.path.join(localPath + ds + '.xlsx'))
 print ('Max Result Row is: ' + str(maxResultRow))
