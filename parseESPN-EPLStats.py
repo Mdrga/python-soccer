@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Nov 03, 2014
+Modified on Oct 14, 2015
 Version 0.02.d
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -210,7 +210,7 @@ def squadParse(x, y, z):
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
 		      + '|' + str(playerRedCards) + '|Starter|' + 'N'+ '|' + '|' + '\n' # str(playerPoints) + 
 		# print shr
-		playerData = 'epl-playerstats.txt'
+		playerData = 'epl-playerstats-' + ds + '.txt'
 		outputPlayerData = os.path.join(outputMatchPath, playerData)
 		with open(outputPlayerData, "a") as f:
 			f.write(outputRow)
@@ -578,8 +578,11 @@ with open(teamNewstxt, "w") as f:
    	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
    	f.close()
 
+'''
+# See why this is erroring out in the Program
 for i in teamURLs:
 	for x in teamNews(i):
 		with open(teamNewstxt, "a") as f:
 			f.write(x + '\n')
 			f.close()
+'''
