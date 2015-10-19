@@ -21,7 +21,7 @@ import codecs
 
 # Set Character Output
 print ('System Encoding:', sys.stdout.encoding)
-sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -54,7 +54,7 @@ print (hr)
 
 # Define URLs for the Barclay's Premier League
 espnURL = 'http://www.espnfc.us/barclays-premier-league/23/index'
-espnFixtures = 'http://www.espnfc.us/barclays-premier-league/23/scores'
+espnFixtures = 'http://www.espnfc.us/barclays-premier-league/23/scores?date='
 injuriesURL = 'http://www.fantasyfootballscout.co.uk/fantasy-football-injuries/'
 teamNewsURL = 'http://www.fantasyfootballscout.co.uk/team-news/'
 bbcURL = 'http://www.bbc.com/sport/0/football/premier-league/'
@@ -286,9 +286,8 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	matchHomeLineup = matchLineup.find('div', class_="home-team")
 	matchHomeStarting = matchHomeLineup.find('ul', class_="player-list")
 	matchHomeSubs = matchHomeLineup.find('ul', class_="subs-list")
-	print ('>>>======<<<')
-	print (matchID)
 	matchHomeStartingLineup = matchHomeStarting.find_all('li')
+	matchHomeSubsLineup = matchHomeSubs.find_all('li')
 	
 	maxPlayerRow = playerSheet.get_highest_row()
 	if playerRow > 2:
@@ -296,16 +295,34 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	else:
 		playerRow = maxPlayerRow +1
 
+	print ('>>>======<<<')
+	print (matchID)
+	
 	# Parse Team LineUps to Excel Sheet
 	for i in matchHomeStartingLineup:
 		playerSheet['A' + str(playerRow)].value = matchID
 		playerSheet['B' + str(playerRow)].value = matchURL
 		playerSheet['C' + str(playerRow)].value = homeTeam
-		playerSheet['D' + str(playerRow)].value = str(i)
+		playerSheet['D' + str(playerRow)].value = 'Home'
+		playerSheet['E' + str(playerRow)].value = 'Starter'
+		playerSheet['F' + str(playerRow)].value = str(i.get_text())
+		print (i.get_text())
 		playerRow += 1
+	print ('>>>======<<<')
+
+	# Parse Team Lineups to Excel Sheet
+	for i in matchHomeSubsLineup:
+		playerSheet['A' + str(playerRow)].value = matchID
+		playerSheet['B' + str(playerRow)].value = matchURL
+		playerSheet['C' + str(playerRow)].value = homeTeam
+		playerSheet['D' + str(playerRow)].value = 'Home'
+		playerSheet['E' + str(playerRow)].value = 'Sub'
+		playerSheet['F' + str(playerRow)].value = str(i.get_text())
+		print (i.get_text())
+		playerRow += 1		
+
 	print (shr)
-	print (matchHomeSubs.prettify())
-	matchHomeTeamScorers = []
+	# print (matchHomeSubs.prettify())
 
 	# Away Team Details
 	matchAwayTeam = matchDetails.find('div', id="away-team")
@@ -316,6 +333,7 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	matchAwayStarting = matchAwayLineup.find('ul', class_="player-list")
 	matchAwaySubs = matchHomeLineup.find('ul', class_="subs-list")
 
+	matchHomeTeamScorers = []
 
 	# Update Match Sheet
 	matchSheet.cell('H' + str(row)).value = matchReferee
