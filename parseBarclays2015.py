@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Oct 13, 2015
-Version 0.03.f
+Modified on Nov 11, 2015
+Version 0.03.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -47,7 +47,7 @@ hr = " >>> *** ====================================================== *** <<<"
 shr = " >>> *** ==================== *** <<<"
 
 # Program Version & System Variables
-parseVersion = 'Premier League Match & Stats Parser v0.03.f'
+parseVersion = 'Premier League Match & Stats Parser v0.03.g'
 print (ds + ' :: ' + ts + ' :: ' + parseVersion)
 print ('Python Version :: ' + sys.version)
 print (hr)
@@ -91,6 +91,39 @@ teamList = teamListContainer.find_all("ul")
 teamList = teamList[1].find_all("li")
 
 teamCounter = 2
+
+# Function to return a two digit month for a literal Month (i.e., change "August" to "08").
+def returnMonth(x):
+	inputMonth = x
+	inputMonth = inputMonth[0:3]
+	outputMonth = ''
+	# print inputMonth
+	if inputMonth == 'Aug':
+		outputMonth = '08'
+	elif inputMonth == 'Sep':
+		outputMonth = '09'
+	elif inputMonth == 'Oct':
+		outputMonth = '10'
+	elif inputMonth == 'Nov':
+		outputMonth = '11'
+	elif inputMonth == 'Dec':
+		outputMonth = '12'
+	elif inputMonth == 'Jan':
+		outputMonth = '01'
+	elif inputMonth == 'Feb':
+		outputMonth = '02'
+	elif inputMonth == 'Mar':
+		outputMonth = '03'
+	elif inputMonth == 'Apr':
+		outputMonth = '04'
+	elif inputMonth == 'May':
+		outputMonth = '05'
+	elif inputMonth == 'Jun':
+		outputMonth = '06'
+	else:
+		outputMonth = '07'
+	return outputMonth
+
 
 # Parse ESPN Team List
 for i in teamList:
@@ -160,7 +193,7 @@ def processContainer(x, y):
 				dayOfMonth = dayOfMonth[0]
 				month = re.findall(r'[A-Z][a-z]*', fixtureDate)
 				month = month[1]
-				printFixtureDate = str(dateYear) + ' ' + month[0:3] + ' ' + str(dayOfMonth) + ' ' + dayOfWeek
+				printFixtureDate = str(dateYear) + '-' + returnMonth(month[0:3]) + '-' + str(dayOfMonth) # + ' ' + dayOfWeek
 				#print (printFixtureDate)
 				#print (shr)
 		if processType == 1:
@@ -188,8 +221,9 @@ def processContainer(x, y):
 					fixtureSheet.cell('A' + str(count)).value = homeTeamName
 					fixtureSheet.cell('B' + str(count)).value = awayTeamName
 					fixtureSheet.cell('C' + str(count)).value = printFixtureDate
-					fixtureSheet.cell('D' + str(count)).value = kickoff
-					fixtureSheet.cell('E' + str(count)).value = status
+					fixtureSheet.cell('D' + str(count)).value = dayOfWeek
+					fixtureSheet.cell('E' + str(count)).value = kickoff
+					fixtureSheet.cell('F' + str(count)).value = status
 
 					count += 1
 
@@ -259,21 +293,99 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	print (matchURL)
 
 	# Parse Match Results
+	# Have to build in some fault tolerance to this process. Need to be able to parse the 
+	# sections and not have the process fall over if the value is not available...
 	matchResult = requests.get(matchURL)
 	matchResult.raise_for_status()
 	matchSoup = bs4.BeautifulSoup(matchResult.text, "html.parser")
 	matchUpdate = matchSoup.find('div', id="article-sidebar")
 	matchTimestamp = matchUpdate.find('p', class_="page-timestamp")
 	matchTimestamp = (matchTimestamp.get_text()).strip()
-	matchLineup = matchSoup.find('div', id="line-up-wrapper")
 	matchStats = matchSoup.find('div', id="match-stats-charts")
 	matchDetails = matchSoup.find('div', class_="story-body")
-	matchReferee = matchLineup.find('div', class_="referee")
-	matchReferee = matchReferee.get_text()
-	matchReferee = matchReferee[6:len(matchReferee)]
-	matchAttendance = matchLineup.find('div', class_="attendance")
-	matchAttendance = matchAttendance.get_text()
-	matchAttendance = matchAttendance[6:len(matchAttendance)-1]
+	matchLineup = matchSoup.find('div', id="line-up-wrapper")
+	
+	if matchLineup == None:
+		print("Match doesn't have details")
+		print(shr)
+	else:
+		matchReferee = matchLineup.find('div', class_="referee")
+		matchReferee = matchReferee.get_text()
+		matchReferee = matchReferee[6:len(matchReferee)]
+		matchAttendance = matchLineup.find('div', class_="attendance")
+		matchAttendance = matchAttendance.get_text()
+		matchAttendance = matchAttendance[6:len(matchAttendance)-1]
+
+		# Home Team Lineup
+		matchHomeLineup = matchLineup.find('div', class_="home-team")
+		matchHomeStarting = matchHomeLineup.find('ul', class_="player-list")
+		matchHomeSubs = matchHomeLineup.find('ul', class_="subs-list")
+		matchHomeStartingLineup = matchHomeStarting.find_all('li')
+		matchHomeSubsLineup = matchHomeSubs.find_all('li')
+		maxPlayerRow = playerSheet.get_highest_row()
+		if playerRow > 2:
+			playerRow = maxPlayerRow
+		else:
+			playerRow = maxPlayerRow +1
+
+		# Away Team Lineup
+		matchAwayLineup = matchLineup.find('div', class_="away-team")
+		matchAwayStarting = matchAwayLineup.find('ul', class_="player-list")
+		matchAwaySubs = matchHomeLineup.find('ul', class_="subs-list")
+		matchAwayStartingLineup = matchAwayStarting.find_all('li')
+		matchAwaySubsLineup = matchAwaySubs.find_all('li')
+
+		# Parse Home Team LineUps to Excel Sheet
+		for i in matchHomeStartingLineup:
+			playerSheet['A' + str(playerRow)].value = matchID
+			playerSheet['B' + str(playerRow)].value = matchURL
+			playerSheet['C' + str(playerRow)].value = homeTeam
+			playerSheet['D' + str(playerRow)].value = 'Home'
+			playerSheet['E' + str(playerRow)].value = 'Starter'
+			playerSheet['F' + str(playerRow)].value = str(i.get_text())
+			print (i.get_text())
+			playerRow += 1
+
+		# Parse Away Team Lineup to Excel
+		for i in matchAwayStartingLineup:
+			playerSheet['A' + str(playerRow)].value = matchID
+			playerSheet['B' + str(playerRow)].value = matchURL
+			playerSheet['C' + str(playerRow)].value = homeTeam
+			playerSheet['D' + str(playerRow)].value = 'Away'
+			playerSheet['E' + str(playerRow)].value = 'Starter'
+			playerSheet['F' + str(playerRow)].value = str(i.get_text())
+			print (i.get_text())
+			playerRow += 1
+
+		# Parse Home Team Subs to Excel Sheet
+		for i in matchHomeSubsLineup:
+			playerSheet['A' + str(playerRow)].value = matchID
+			playerSheet['B' + str(playerRow)].value = matchURL
+			playerSheet['C' + str(playerRow)].value = homeTeam
+			playerSheet['D' + str(playerRow)].value = 'Home'
+			playerSheet['E' + str(playerRow)].value = 'Sub'
+			playerSheet['F' + str(playerRow)].value = str(i.get_text())
+			print (i.get_text())
+			playerRow += 1		
+
+		# Parse Away Team Subs to Excel Sheet
+		for i in matchAwaySubsLineup:
+			playerSheet['A' + str(playerRow)].value = matchID
+			playerSheet['B' + str(playerRow)].value = matchURL
+			playerSheet['C' + str(playerRow)].value = awayTeam
+			playerSheet['D' + str(playerRow)].value = 'Away'
+			playerSheet['E' + str(playerRow)].value = 'Sub'
+			playerSheet['F' + str(playerRow)].value = str(i.get_text())
+			print (i.get_text())
+			playerRow += 1		
+
+
+		print ('>>>======<<<')
+		matchHomeTeamScorers = []
+
+		# Update Match Sheet
+		matchSheet.cell('H' + str(row)).value = matchReferee
+		matchSheet.cell('I' + str(row)).value = matchAttendance
 
 	# Home Team Details
 	matchHomeTeam = matchDetails.find('div', id="home-team")
@@ -283,45 +395,11 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	matchHomeTeamScore = matchHomeTeam.find('span', class_="team-score")
 	homeTeamScore = (matchHomeTeamScore.get_text()).strip()
 	matchHomeTeamSpans = matchHomeTeam.find_all('span')
-	matchHomeLineup = matchLineup.find('div', class_="home-team")
-	matchHomeStarting = matchHomeLineup.find('ul', class_="player-list")
-	matchHomeSubs = matchHomeLineup.find('ul', class_="subs-list")
-	matchHomeStartingLineup = matchHomeStarting.find_all('li')
-	matchHomeSubsLineup = matchHomeSubs.find_all('li')
-	
-	maxPlayerRow = playerSheet.get_highest_row()
-	if playerRow > 2:
-		playerRow = maxPlayerRow
-	else:
-		playerRow = maxPlayerRow +1
-
+		
 	print ('>>>======<<<')
-	print (matchID)
+	# print (matchID)
 	
-	# Parse Team LineUps to Excel Sheet
-	for i in matchHomeStartingLineup:
-		playerSheet['A' + str(playerRow)].value = matchID
-		playerSheet['B' + str(playerRow)].value = matchURL
-		playerSheet['C' + str(playerRow)].value = homeTeam
-		playerSheet['D' + str(playerRow)].value = 'Home'
-		playerSheet['E' + str(playerRow)].value = 'Starter'
-		playerSheet['F' + str(playerRow)].value = str(i.get_text())
-		print (i.get_text())
-		playerRow += 1
-	print ('>>>======<<<')
-
-	# Parse Team Lineups to Excel Sheet
-	for i in matchHomeSubsLineup:
-		playerSheet['A' + str(playerRow)].value = matchID
-		playerSheet['B' + str(playerRow)].value = matchURL
-		playerSheet['C' + str(playerRow)].value = homeTeam
-		playerSheet['D' + str(playerRow)].value = 'Home'
-		playerSheet['E' + str(playerRow)].value = 'Sub'
-		playerSheet['F' + str(playerRow)].value = str(i.get_text())
-		print (i.get_text())
-		playerRow += 1		
-
-	print (shr)
+	# print (shr)
 	# print (matchHomeSubs.prettify())
 
 	# Away Team Details
@@ -329,17 +407,6 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	matchAwayTeamBadge = matchAwayTeam.find('div', class_="team-badge")
 	matchAwayTeamBadge = matchAwayTeamBadge.find('img')
 	matchAwayTeamBadge = matchAwayTeamBadge['src']
-	matchAwayLineup = matchLineup.find('div', class_="away-team")
-	matchAwayStarting = matchAwayLineup.find('ul', class_="player-list")
-	matchAwaySubs = matchHomeLineup.find('ul', class_="subs-list")
-
-	matchHomeTeamScorers = []
-
-	# Update Match Sheet
-	matchSheet.cell('H' + str(row)).value = matchReferee
-	matchSheet.cell('I' + str(row)).value = matchAttendance
-
-	# print (' >>>***========***<<< ')
 
 	# Download Home Team Badge
 	if (os.path.isfile(localimgPath + homeTeam + '.png')) == False:
@@ -367,13 +434,14 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	#print (matchHomeTeamBadge)
 	#print (' >>>***========***<<< ')
 
+	'''
 	# Find home team, away team and team badges:
 	with open (os.path.join(localPath + 'data\\' + matchID + '.html'), 'wb') as fo:
 		for chunk in matchResult.iter_content(100000):
 			fo.write(chunk)
 			print ('Writing match # '+ matchID + ' results file...')
-
-	print (shr)
+	
+	print (shr)'''
 	workBook.save(os.path.join(localPath + ds + '.xlsx'))
 
 workBook.save(os.path.join(localPath + ds + '.xlsx'))
