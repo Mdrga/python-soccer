@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Nov 11, 2015
+Modified on Nov 21, 2015
 Version 0.03.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -201,6 +201,8 @@ def processContainer(x, y):
 				tableRow = rowData.find_all('tr')
 				previewData = i.find_all('tr', class_="preview")
 				for i in previewData:
+					matchID = i['id']
+
 					# Identify the information about the Home Team
 					homeTeam = i.find('span', class_="team-home teams")
 					homeTeamURL = homeTeam.a['href']
@@ -224,6 +226,7 @@ def processContainer(x, y):
 					fixtureSheet.cell('D' + str(count)).value = dayOfWeek
 					fixtureSheet.cell('E' + str(count)).value = kickoff
 					fixtureSheet.cell('F' + str(count)).value = status
+					fixtureSheet.cell('G' + str(count)).value = matchID[14:]
 
 					count += 1
 
@@ -434,15 +437,17 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	#print (matchHomeTeamBadge)
 	#print (' >>>***========***<<< ')
 
+	
 	'''
 	# Find home team, away team and team badges:
 	with open (os.path.join(localPath + 'data\\' + matchID + '.html'), 'wb') as fo:
 		for chunk in matchResult.iter_content(100000):
 			fo.write(chunk)
 			print ('Writing match # '+ matchID + ' results file...')
-	
-	print (shr)'''
+	'''
+	print (shr)
 	workBook.save(os.path.join(localPath + ds + '.xlsx'))
+
 
 workBook.save(os.path.join(localPath + ds + '.xlsx'))
 print ('Max Result Row is: ' + str(maxResultRow))
