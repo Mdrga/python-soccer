@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Dec 14, 2015
+Modified on Oct 14, 2015
 Version 0.02.d
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
 # Import Libraries needed for Scraping the various web pages
-import bs4
-import requests
+from bs4 import BeautifulSoup
+import urllib2
 import datetime
 import requests
 import os
 import platform
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -318,7 +320,7 @@ def returnMonth(x):
 # http://www.espnfc.us/barclays-premier-league/23/scores?date=20141026
 
 print (hr)
-playerData = 'epl-playerstats' + ds + '.txt'
+playerData = 'epl-playerstats.txt'
 outputPlayerData = os.path.join(outputMatchPath, playerData)
 with open(outputPlayerData, "w") as f:
 			f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
@@ -329,17 +331,15 @@ matchURLs = ['http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
-fixturesOpen = requests.get(fixturesURL)
-fixturesOpen.raise_for_status()
-fixturesSoup = bs4.BeautifulSoup(fixturesOpen.text, "html.parser")
+fixturesOpen = urllib2.urlopen(fixturesURL)
+fixturesSoup = BeautifulSoup(fixturesOpen)
 print (updateTS() + ' Fixtures Read')
 print (shr)
 
 # URLS for Main Body of Script to get Results
 resultsURL = "http://www.bbc.com/sport/football/premier-league/results"
-resultsOpen = requests.get(resultsURL)
-resultsOpen.raise_for_status()
-resultsSoup = bs4.BeautifulSoup(resultsOpen.text, "html.parser")
+resultsOpen = urllib2.urlopen(resultsURL)
+resultsSoup = BeautifulSoup(resultsOpen)
 print (updateTS() + ' Results Read')
 print (shr)
 
@@ -394,9 +394,9 @@ for i in matchDates:
     print (matchDate)
     print (shr)
     matchURL = eplMatchBaseURL + matchDate
-    print (matchURL)
-    matchOpen = requests.get(matchURL)
-    matchSoup = bs4.BeautifulSoup(matchOpen.text, "html.parser")
+    print matchURL
+    matchOpen = urllib2.urlopen(matchURL)
+    matchSoup = BeautifulSoup(matchOpen)
     matchTXT = 'espn-scores-' + matchDate + '.txt'
     matchHTML = 'espn-scores-' + matchDate + '.html'
     # outputMatch = os.path.join(outputMatchPath, matchHTML)
@@ -449,19 +449,17 @@ for i in matchReportURL:
 		gameURL = "http://www.espnfc.us/gamecast/statistics/id/395675/statistics.html"
 	print (gameDate)
 	print (gameURL)
-	gameHTML = requests.get(gameURL)
-	gameHTML.raise_for_status()
-	gameSoup = bs4.BeautifulSoup(gameHTML.text, "html.parser")	
+	gameHTML = urllib2.urlopen(gameURL)
+	gameSoup = BeautifulSoup(gameHTML)	
 	matchID = gameURL[44:len(gameURL)-16]
 	print ("The Game URL is: " +  gameURL)
 
-	'''# Output a local copy of the FULL ESPN page to the local drive
+	# Output a local copy of the FULL ESPN page to the local drive
 	outputBase = 'ESPN-EPL-' + matchID + '.html'
 	outputBase = os.path.join(outputPath, outputBase)
 	with open(outputBase, "w") as f:
-		f.write(gameSoup.prettify())
+		f.write(gameSoup.prettify("utf-8"))
 		f.close()
-	'''
 
     # Main Container for Game Stats
 	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
@@ -519,7 +517,7 @@ def teamNews(x):
 	teamName = teamName[6:len(teamName)-10]
 	teamURL = prefixESPN + teamURL
 	teamHTML = urllib2.urlopen(teamURL)
-	teamSoup = bs4.BeautifulSoup(teamHTML, "html.parser")	
+	teamSoup = BeautifulSoup(teamHTML)	
 	recentNews = teamSoup.find("div", {"id":"feed"})
 	recentNewsItems = recentNews.find_all("div", {"class":"feed-item-content"})
 	recapOutput = []
