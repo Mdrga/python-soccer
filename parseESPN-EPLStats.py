@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Dec 15, 2015
+Modified on Dec 21, 2015
 Version 0.02.e
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -10,6 +10,7 @@ A simple Python Program to scrape the ESPN FC website for content.
 from bs4 import BeautifulSoup
 import datetime
 import requests
+import openpyxl
 import os
 import platform
 import sys
@@ -53,6 +54,10 @@ else:
     outputImgPath = 'PL-Data/imgs/'
     outputTeamPath = 'PL-Data/teams/'
     outputMatchPath = 'PL-Data/match/'
+
+# Open Excel Object for Writing Data
+baseWkBkName = 'template.xlsx'
+baseWkBk = openpyxl.load_workbook(os.path.join(win_BasePath + baseWkBkName))
 
 hr = " >>> *** ====================================================== *** <<<"
 shr = " >>> *** ==================== *** <<<"
@@ -215,6 +220,7 @@ def squadParse(x, y, z):
 		# print outputRow
 
 		starterCount += 1
+
 	while subCount < maxLength:
 		currentRow = squad[subCount]
 		# print currentRow
@@ -254,8 +260,8 @@ def squadParse(x, y, z):
 		outputRow = gameDate + '|' + teamSide +  '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
 		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + '\n' # str(playerPoints) + '\n'
-		# print outputRow
-		playerData = 'epl-playerstats.txt'
+		# print (outputRow)
+		playerData = 'epl-playerstats-' + ds + '.txt'
 		outputPlayerData = os.path.join(outputMatchPath, playerData)
 		with open(outputPlayerData, "a") as f:
 			f.write(outputRow)

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Nov 21, 2015
+Modified on Dec 21, 2015
 Version 0.03.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -63,8 +63,8 @@ bbcResultsURL = 'http://www.bbc.com/sport/football/premier-league/results'
 
 # Base Path for Output
 localPath = 'D:\\ESPN-Parser\\'
-localimgPath = 'D:\\ESPN-Parser\\img\\'
-baseWkBk = 'template.xlsx'
+localimgPath = 'D:\\ESPN-Parser\\imgs\\'
+baseWkBk = 'stats_template.xlsx'
 workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBk))
 teamSheet = workBook.get_sheet_by_name('teams')
 playerSheet = workBook.get_sheet_by_name('players')
