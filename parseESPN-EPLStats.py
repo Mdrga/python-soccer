@@ -2,7 +2,7 @@
 '''
 Created on Oct 19, 2014
 Modified on Dec 21, 2015
-Version 0.02.e
+Version 0.02.f
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -14,6 +14,7 @@ import openpyxl
 import os
 import platform
 import sys
+import mysql.connector
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -24,6 +25,12 @@ date = datetime.datetime.now().strftime("%Y%m%d")
 def updateTS():
     update = datetime.datetime.now().strftime("%H:%M:%S")
     return update
+
+# Establish MySQL Connection
+cnx = mysql.connector.connect(user='root', password='',
+								 host='127.0.0.1',
+								 database='test_python',
+								 use_pure=False)
 
 # Download Image
 def downloadImage(imageURL, localFileName):
@@ -36,13 +43,13 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.02.d'
+parseVersion = 'ESPN Premier League Match Stats v0.02.f'
 print (ds + ' :: ' + ts + ' :: ' + parseVersion)
 print (sys.version)
 
 # Set Output Path for Windows or Mac environments
 os_System = platform.system()
-win_BasePath = "D:/ESPN-Parser"
+win_BasePath = "D:/ESPN-Parser/"
 
 if os_System == "Windows":
     outputPath = win_BasePath + "/data/"
@@ -323,7 +330,7 @@ def returnMonth(x):
 # http://www.espnfc.us/barclays-premier-league/23/scores?date=20141026
 
 print (hr)
-playerData = 'epl-playerstats' + ds + '.txt'
+playerData = 'epl-playerstats-' + ds + '.txt'
 outputPlayerData = os.path.join(outputMatchPath, playerData)
 with open(outputPlayerData, "w") as f:
 			f.write(ds + ' :: ' + ts + ' :: ' + parseVersion + '\n')
@@ -585,6 +592,11 @@ teamNewstxt = 'teamNews.txt'
 with open(teamNewstxt, "w") as f:
    	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
    	f.close()
+
+# Commit and Close the Database Connection.
+cnx.commit()
+cnx.close()
+print ('MySQL Connection Closed')
 
 '''
 # See why this is erroring out in the Program

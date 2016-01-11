@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Aug 16, 2015
-Modified on Dec 21, 2015
+Modified on Jan 11, 2016
 Version 0.03.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -18,10 +18,17 @@ import os
 import openpyxl
 import sys
 import codecs
+import mysql.connector
 
 # Set Character Output
 print ('System Encoding:', sys.stdout.encoding)
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
+
+# Establish MySQL Connection
+cnx = mysql.connector.connect(user='root', password='',
+								 host='127.0.0.1',
+								 database='test_python',
+								 use_pure=False)
 
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime("%H:%M:%S")
@@ -63,7 +70,7 @@ bbcResultsURL = 'http://www.bbc.com/sport/football/premier-league/results'
 
 # Base Path for Output
 localPath = 'D:\\ESPN-Parser\\'
-localimgPath = 'D:\\ESPN-Parser\\imgs\\'
+localimgPath = 'D:\\ESPN-Parser\\img\\'
 baseWkBk = 'stats_template.xlsx'
 workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBk))
 teamSheet = workBook.get_sheet_by_name('teams')
@@ -345,8 +352,13 @@ for row in range(2, matchSheet.get_highest_row()+1):
 			playerSheet['C' + str(playerRow)].value = homeTeam
 			playerSheet['D' + str(playerRow)].value = 'Home'
 			playerSheet['E' + str(playerRow)].value = 'Starter'
-			playerSheet['F' + str(playerRow)].value = str(i.get_text())
-			print (i.get_text())
+			# playerSheet['F' + str(playerRow)].value = str(len(i.get_text())) + ' :: ' +  str(i.get_text())
+			playerName = str(i.get_text())
+			playerJersey = playerName[3:5]
+			playerName = playerName[7:]
+			playerSheet['F' + str(playerRow)].value = playerJersey
+			playerSheet['G' + str(playerRow)].value = playerName
+			print (playerJersey, '::', playerName)
 			playerRow += 1
 
 		# Parse Away Team Lineup to Excel
@@ -356,8 +368,13 @@ for row in range(2, matchSheet.get_highest_row()+1):
 			playerSheet['C' + str(playerRow)].value = homeTeam
 			playerSheet['D' + str(playerRow)].value = 'Away'
 			playerSheet['E' + str(playerRow)].value = 'Starter'
-			playerSheet['F' + str(playerRow)].value = str(i.get_text())
-			print (i.get_text())
+			playerSheet['F' + str(playerRow)].value = str(len(i.get_text())) + ' :: ' +  str(i.get_text())
+			playerName = str(i.get_text())
+			playerJersey = playerName[3:5]
+			playerName = playerName[7:]
+			playerSheet['F' + str(playerRow)].value = playerJersey
+			playerSheet['G' + str(playerRow)].value = playerName
+			print (playerJersey, '::', playerName)
 			playerRow += 1
 
 		# Parse Home Team Subs to Excel Sheet
@@ -367,8 +384,13 @@ for row in range(2, matchSheet.get_highest_row()+1):
 			playerSheet['C' + str(playerRow)].value = homeTeam
 			playerSheet['D' + str(playerRow)].value = 'Home'
 			playerSheet['E' + str(playerRow)].value = 'Sub'
-			playerSheet['F' + str(playerRow)].value = str(i.get_text())
-			print (i.get_text())
+			playerSheet['F' + str(playerRow)].value = str(len(i.get_text())) + ' :: ' +  str(i.get_text())
+			playerName = str(i.get_text())
+			playerJersey = playerName[3:5]
+			playerName = playerName[7:]
+			playerSheet['F' + str(playerRow)].value = playerJersey
+			playerSheet['G' + str(playerRow)].value = playerName
+			print (playerJersey, '::', playerName)
 			playerRow += 1		
 
 		# Parse Away Team Subs to Excel Sheet
@@ -378,8 +400,13 @@ for row in range(2, matchSheet.get_highest_row()+1):
 			playerSheet['C' + str(playerRow)].value = awayTeam
 			playerSheet['D' + str(playerRow)].value = 'Away'
 			playerSheet['E' + str(playerRow)].value = 'Sub'
-			playerSheet['F' + str(playerRow)].value = str(i.get_text())
-			print (i.get_text())
+			playerSheet['F' + str(playerRow)].value = str(len(i.get_text())) + ' :: ' +  str(i.get_text())
+			playerName = str(i.get_text())
+			playerJersey = playerName[3:5]
+			playerName = playerName[7:]
+			playerSheet['F' + str(playerRow)].value = playerJersey
+			playerSheet['G' + str(playerRow)].value = playerName
+			print (playerJersey, '::', playerName)
 			playerRow += 1		
 
 
@@ -453,3 +480,8 @@ workBook.save(os.path.join(localPath + ds + '.xlsx'))
 print ('Max Result Row is: ' + str(maxResultRow))
 
 print (hr)
+
+# Commit and Close the Database Connection.
+cnx.commit()
+cnx.close()
+print ('MySQL Connection Closed')

@@ -13,6 +13,8 @@ import os
 import openpyxl
 import zipfile
 import re
+import sys
+import mysql.connector
  
 # Establish the process Date & Time Stamp
 ts = datetime.datetime.now().strftime('%H:%M:%S %f')[:-3]
