@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Dec 21, 2015
-Version 0.02.f
+Modified on Jan 27, 2016
+Version 0.03.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -23,13 +23,13 @@ date = datetime.datetime.now().strftime("%Y%m%d")
 
 # Updates the Time Stamp
 def updateTS():
-    update = datetime.datetime.now().strftime("%H:%M:%S")
+    update = datetime.datetime.now().strftime("%H:%M:%S:%f")[:-3]
     return update
 
 # Establish MySQL Connection
 cnx = mysql.connector.connect(user='root', password='',
 								 host='127.0.0.1',
-								 database='test_python',
+								 database='fanfootball',
 								 use_pure=False)
 
 # Download Image
@@ -43,7 +43,7 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.02.f'
+parseVersion = 'ESPN Premier League Match Stats v0.03.g'
 print (ds + ' :: ' + ts + ' :: ' + parseVersion)
 print (sys.version)
 
@@ -51,9 +51,13 @@ print (sys.version)
 os_System = platform.system()
 win_BasePath = "D:/ESPN-Parser/"
 
+# Output paths based on OS
 if os_System == "Windows":
-    outputPath = win_BasePath + "/data/"
+    # outputPath = win_BasePath + "/data/"
     outputImgPath = win_BasePath + "/img/"
+    localPath = win_BasePath
+    outputPath = win_BasePath
+    localimgPath = outputImgPath
     outputTeamPath = win_BasePath + "/data/teams/"
     outputMatchPath = win_BasePath + "/data/match/"
 else:
@@ -63,9 +67,15 @@ else:
     outputMatchPath = 'PL-Data/match/'
 
 # Open Excel Object for Writing Data
-baseWkBkName = 'template.xlsx'
-baseWkBk = openpyxl.load_workbook(os.path.join(win_BasePath + baseWkBkName))
+baseWkBkName = 'detail_stats.xlsx'
+workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBkName))
+coreSheet = workBook.get_sheet_by_name('CoreData')
+teamSheet = workBook.get_sheet_by_name('teams')
+playerSheet = workBook.get_sheet_by_name('players')
+matchSheet = workBook.get_sheet_by_name('matches')
+fixtureSheet = workBook.get_sheet_by_name('fixtures')
 
+# Screen Output Dividers used for readability
 hr = " >>> *** ====================================================== *** <<<"
 shr = " >>> *** ==================== *** <<<"
 
@@ -96,6 +106,55 @@ def teamName (x, y, z):
 			returnOutput = passHTML
 	return returnOutput
 
+def returnTeam(x):
+	inputTeam = x
+	outputTeam = 0
+	if inputTeam == 'AFC Bournemouth' or inputTeam == 'Bournemouth':
+		outputTeam = 1
+	elif inputTeam == 'Arsenal':
+		outputTeam = 2
+	elif inputTeam == 'Aston Villa':
+		outputTeam = 3
+	elif inputTeam == 'Chelsea':
+		outputTeam = 4
+	elif inputTeam == 'Crystal Palace':
+		outputTeam = 5
+	elif inputTeam == 'Everton':
+		outputTeam = 6
+	elif inputTeam == 'Leicester City' or inputTeam == 'Leicester':
+		outputTeam = 7
+	elif inputTeam == 'Liverpool':
+		outputTeam = 8
+	elif inputTeam == 'Manchester City' or inputTeam == 'Man City':
+		outputTeam = 9
+	elif inputTeam == 'Manchester United' or inputTeam == 'Man Utd':
+		outputTeam = 10
+	elif inputTeam == 'Newcastle United' or inputTeam == 'Newcastle':
+		outputTeam = 11
+	elif inputTeam == 'Norwich City' or inputTeam == 'Norwich':
+		outputTeam = 12
+	elif inputTeam == 'Southampton':
+		outputTeam = 13
+	elif inputTeam == 'Stoke City' or inputTeam == 'Stoke':
+		outputTeam = 14
+	elif inputTeam == 'Sunderland': 
+		outputTeam = 15
+	elif inputTeam == 'Swansea City' or inputTeam == 'Swansea':
+		outputTeam = 16
+	elif inputTeam == 'Tottenham Hotspur' or inputTeam == 'Tottenham':
+		outputTeam = 17
+	elif inputTeam == 'Watford': 
+		outputTeam = 18
+	elif inputTeam == 'West Bromwich Albion' or inputTeam == 'West Brom':
+		outputTeam = 19
+	elif inputTeam == 'West Ham United' or inputTeam == 'West Ham':
+		outputTeam = 20
+	else:
+		outputTeam = 99
+	return outputTeam
+
+
+# Return Team Badge
 def teamBadge (x,y):
 	teamInfo = x
 	sideToOutput = y
@@ -111,6 +170,7 @@ def teamBadge (x,y):
 		downloadImage(teamBadge, outputTeamBadge)
 	return outputTeamBadge 
 
+# Return Goal Scorer
 def goalScorer(x,y):
 	teamInfo = x
 	teamSide = y
@@ -174,6 +234,65 @@ def statParse(x):
 
 	return statResult
 
+# Save Player to the Database. X must be a tuple
+def playerSaveDB(x):
+	playerStats = []
+	playerStats = x
+
+	# Content of X
+	# [dateOfMatch, returnTeam(teamSide), side, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, playerSubbed, playerSubbedName, playerTimeOn]
+
+	# Assign details from List to local Variables for Function
+	dateOfMatch = playerStats[0]
+	team = int(playerStats[1])
+	side = playerStats[2]
+	matchID = int(playerStats[3])
+	playerID = int(playerStats[4])
+	playerPOS = playerStats[5]
+	playerJersey = int(playerStats[6])
+	# Sanitize for Apostrephes
+	playerName = playerStats[7]
+	playerName = playerName.replace("'","\\'")
+	# Sanitize for Apostrephes
+	playerURL = playerStats[8]
+	playerURL = playerURL.replace("'", "\\'")
+	playerShots = int(playerStats[9])
+	playerSOG = int(playerStats[10])
+	playerGoals = int(playerStats[11])
+	playerAssists = int(playerStats[12])
+	playerOffsides = int(playerStats[13])
+	playerFoulsDrawn = int(playerStats[14])
+	playerFoulsCommitted = int(playerStats[15])
+	playerSaves = int(playerStats[16])
+	playerYellowCards = int(playerStats[17])
+	playerRedCards = int(playerStats[18])
+	rosterStatus = playerStats[19]
+	playerSubbed = playerStats[20]
+	playerSubbedName = playerStats[21]
+	playerSubbedName = playerSubbedName.replace("'", "\\'")
+	playerTimeOn = str(playerStats[22])
+	playerTimeOn = playerTimeOn.replace("\\"," ")
+
+	cursor = cnx.cursor()
+	sqlCheck = ("SELECT ps_matchdate, ps_team, ps_teamSide, ps_matchID, ps_playerID FROM stg_player_stats WHERE ps_matchdate = '%s' AND ps_team = %d AND ps_teamSide = '%s' AND ps_matchID = %s and ps_playerID = %s" % (dateOfMatch, returnTeam(team), side, int(matchID), int(playerID)))
+	# print ('The SQL Query is:', sqlCheck)
+	# print ('Variables are:', dateOfMatch, str(returnTeam(team)), side, matchID, playerID)
+	cursor.execute(sqlCheck)
+	results = cursor.fetchone()
+	cursor.close()
+
+	if results == None:
+		cursor = cnx.cursor()
+		sqlInsert = ("INSERT INTO stg_player_stats (ps_matchdate, ps_team, ps_teamSide, ps_matchID, ps_playerID, ps_playerPOS, ps_jerseyNo, ps_playerName, ps_playerURL, ps_Shots, ps_ShotsOnGoal, ps_Goals, ps_Assists, ps_Offsides, ps_FoulsDrawn, ps_FoulsCommitted, ps_Saves, ps_YellowCards, ps_RedCards, ps_rosterStatus, ps_Subbed, ps_SubbedName, ps_TimeOn) VALUES ('%s', %d, '%s', %d, %d, '%s', %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s')" % (dateOfMatch, team, side, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, playerSubbed, playerSubbedName, playerTimeOn))
+		# print (sqlInsert)
+		cursor.execute(sqlInsert)
+		cnx.commit()
+		print ('Results Row written for %s' % playerName)
+
+	else:
+		print ('Record exists for: %s' % playerName)
+	cnx.commit()
+
 # Parses out the Squad based upon the parameters given.
 def squadParse(x, y, z):
 	# Receive a table and parse out the player stats
@@ -215,9 +334,11 @@ def squadParse(x, y, z):
 		playerSaves = statParse(playerData[10].get_text(strip=True))
 		playerYellowCards = statParse(playerData[11].get_text(strip=True))
 		playerRedCards = statParse(playerData[12].get_text(strip=True))
+		rosterStatus = 'Starter'
+		dateOfMatch = (gameDate[0:4]+'-'+gameDate[4:6]+'-'+gameDate[6:8])
 		outputRow = gameDate + '|' + teamSide + '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
-		      + '|' + str(playerRedCards) + '|Starter|' + 'N'+ '|' + '|' + '\n' # str(playerPoints) + 
+		      + '|' + str(playerRedCards) + '|'+ rosterStatus + '|' + 'N'+ '|' + '|' + '\n' # str(playerPoints) + 
 		# print shr
 		playerData = 'epl-playerstats-' + ds + '.txt'
 		outputPlayerData = os.path.join(outputMatchPath, playerData)
@@ -225,6 +346,8 @@ def squadParse(x, y, z):
 			f.write(outputRow)
 			f.close()
 		# print outputRow
+		playerRow = [dateOfMatch, returnTeam(teamSide), side, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, 'N', '', 0]
+		playerSaveDB(playerRow)
 
 		starterCount += 1
 
@@ -260,19 +383,25 @@ def squadParse(x, y, z):
 		playerSaves = statParse(playerData[10].get_text(strip=True))
 		playerYellowCards = statParse(playerData[11].get_text(strip=True))
 		playerRedCards = statParse(playerData[12].get_text(strip=True))
+		dateOfMatch = (gameDate[0:4]+'-'+gameDate[4:6]+'-'+gameDate[6:8])
+		rosterStatus = 'Bench'
 		if playerSubbed != None:
 			playerSubbed = 'Y'
 		else:
 			playerSubbed = 'N'
+		dateOfMatch = (gameDate[0:4]+'-'+gameDate[4:6]+'-'+gameDate[6:8])
 		outputRow = gameDate + '|' + teamSide +  '|' + side + '|' + matchID + '|' + playerID + '|' + playerPOS + '|' + playerJersey + '|' + playerName + '|' + '"' + playerURL + '"' + '|' + str(playerShots) + '|' + str(playerSOG) + '|' +  str(playerGoals) \
 		      + '|' + str(playerAssists) + '|' + str(playerOffsides) + '|' + str(playerFoulsDrawn) + '|' + str(playerFoulsCommitted) + '|' + str(playerSaves) + '|' + str(playerYellowCards) \
-		      + '|' + str(playerRedCards) + '|Bench|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + '\n' # str(playerPoints) + '\n'
+		      + '|' + str(playerRedCards) + '|'+ rosterStatus + '|' + playerSubbed + '|' + playerSubbedName + '|' + playerTimeOn + '\n' # str(playerPoints) + '\n'
 		# print (outputRow)
 		playerData = 'epl-playerstats-' + ds + '.txt'
 		outputPlayerData = os.path.join(outputMatchPath, playerData)
 		with open(outputPlayerData, "a") as f:
 			f.write(outputRow)
 			f.close()
+		
+		playerRow = [dateOfMatch, returnTeam(teamSide), side, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, playerSubbed, playerSubbedName, playerTimeOn]
+		playerSaveDB(playerRow)
 
 # Function to receive a Text Date (i.e., Saturday 16th August 2014) and return 2014-08-16
 def textDate(x):
@@ -520,8 +649,8 @@ for i in matchReportURL:
 	print (gameSoup.title.get_text() )
 	# print gameURL 
 	countDown += 1
-	print ("Games left to parse = " + str(countArray - countDown))
-	print ("Games that have been parsed = " + str(countDown) )
+	print ("Games left to parse = %d " % (countArray - countDown))
+	print ("Games that have been parsed = %d" % (countDown) )
 	print (ds + " :: " + updateTS())
 	print (hr)
 

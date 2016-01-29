@@ -37,7 +37,7 @@ date = datetime.datetime.now().strftime("%Y%m%d")
 
 # Updates the Time Stamp
 def updateTS():
-    update = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    update = datetime.datetime.now().strftime("%H:%M:%S:%f")[:-3]
     return update
 
 # Download Image

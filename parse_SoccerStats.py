@@ -39,10 +39,12 @@ baseWkBk = '\\detail_stats.xlsx'
 workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBk))
 wkBkSheets = workBook.get_sheet_names()
 playerSheet = workBook.get_sheet_by_name('CoreData')
-fixtureSheet = workBook.get_sheet_by_name('Matches')
+fixtureSheet = workBook.get_sheet_by_name('matches')
+savedSheet = workBook.get_sheet_by_name('players')
 statSheet = workBook.get_sheet_by_name('Sheet1')
 logSheet = workBook.get_sheet_by_name('Sheet2')
-print (wkBkSheets)
+
+print ('Current Worksheets within file:', wkBkSheets)
 
 # Change Base Working Directory to basePath
 os.chdir(localPath)
@@ -108,8 +110,10 @@ def returnTeam(x):
 		outputTeam = 18
 	elif inputTeam == 'West Bromwich Albion' or inputTeam == 'West Brom':
 		outputTeam = 19
-	else:
+	elif inputTeam == 'West Ham United' or inputTeam == 'West Ham':
 		outputTeam = 20
+	else:
+		outputTeam = 99
 	return outputTeam
 
 # Set the range from which to work with when parsing the Excel Stats
@@ -118,6 +122,7 @@ while rowCount <= playerHighestRow:
 	fixtureID = playerSheet['D' + str(rowCount)].value
 	playerTeam = playerSheet['B' + str(rowCount)].value
 	playerID = playerSheet['E' + str(rowCount)].value
+	playerJersey = playerSheet['G' + str(rowCount)].value
 	playerStatus = playerSheet['T' + str(rowCount)].value
 	playerPOS = playerSheet['F' + str(rowCount)].value
 	shots = playerSheet['J' + str(rowCount)].value
@@ -132,6 +137,17 @@ while rowCount <= playerHighestRow:
 	redCards = playerSheet['S' + str(rowCount)].value
 	rowValue = [fixtureID, playerTeam, playerID]
 	statValues= [shots, shotsOnGoal, goals, assists, offSides, foulsDrawn, foulsCommitted, saves, yellowCards, redCards]
+
+	# Save Players to Players Worksheet
+	savedSheet['A' + str(rowCount)] = returnTeam(playerTeam)
+	savedSheet['B' + str(rowCount)] = playerID
+	savedSheet['C' + str(rowCount)] = playerPOS
+	savedSheet['D' + str(rowCount)] = playerJersey
+	savedSheet['E' + str(rowCount)] = playerSheet['H' + str(rowCount)].value
+	savedSheet['F' + str(rowCount)] = playerSheet['I' + str(rowCount)].value
+	savedSheet['G' + str(rowCount)] = 'imgURL'
+	print ("Row %d of %d written." % (rowCount, playerHighestRow))
+
 	# print ('Match ID: ', fixtureID, ' :: playerTeam :', playerTeam, ' :: playerID: ', playerID)
 	count = 0
 	while count < len(statValues):
