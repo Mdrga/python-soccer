@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Jan 27, 2016
+Modified on Feb 08, 2016
 Version 0.03.g
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -274,11 +274,14 @@ def playerSaveDB(x):
 	playerTimeOn = playerTimeOn.replace("\\"," ")
 
 	cursor = cnx.cursor()
-	sqlCheck = ("SELECT ps_matchdate, ps_team, ps_teamSide, ps_matchID, ps_playerID FROM stg_player_stats WHERE ps_matchdate = '%s' AND ps_team = %d AND ps_teamSide = '%s' AND ps_matchID = %s and ps_playerID = %s" % (dateOfMatch, returnTeam(team), side, int(matchID), int(playerID)))
+	sqlCheck = ("SELECT ps_matchdate, ps_team, ps_teamSide, ps_matchID, ps_playerID FROM stg_player_stats WHERE ps_matchdate = '%s' AND ps_team = %d AND ps_teamSide = '%s' AND ps_matchID = %s and ps_playerID = %s" % (dateOfMatch, team, side, int(matchID), int(playerID)))
 	# print ('The SQL Query is:', sqlCheck)
 	# print ('Variables are:', dateOfMatch, str(returnTeam(team)), side, matchID, playerID)
 	cursor.execute(sqlCheck)
 	results = cursor.fetchone()
+
+	# print (results)
+	# print (dateOfMatch)
 	cursor.close()
 
 	if results == None:
@@ -287,10 +290,10 @@ def playerSaveDB(x):
 		# print (sqlInsert)
 		cursor.execute(sqlInsert)
 		cnx.commit()
-		print ('Results Row written for %s' % playerName)
+		# print ('Results Row written for %s' % playerName)
 
-	else:
-		print ('Record exists for: %s' % playerName)
+	# else:
+		# print ('Record exists for: %s' % playerName)
 	cnx.commit()
 
 # Parses out the Squad based upon the parameters given.
@@ -538,8 +541,8 @@ for i in matchDates:
     print (matchURL)
     matchOpen = requests.get(matchURL)
     matchSoup = BeautifulSoup(matchOpen.text, "html.parser")
-    matchTXT = 'espn-scores-' + matchDate + '.txt'
-    matchHTML = 'espn-scores-' + matchDate + '.html'
+    # matchTXT = 'espn-scores-' + matchDate + '.txt'
+    # matchHTML = 'espn-scores-' + matchDate + '.html'
     # outputMatch = os.path.join(outputMatchPath, matchHTML)
     # outputMatchText = os.path.join(outputMatchPath, matchTXT)
     scores = matchSoup.find("div", {"class":"scores"})
@@ -556,10 +559,11 @@ for i in matchDates:
         matchID = i.find("div", {"class":"score full"})
         matchID = str(matchID)
         matchReportID.append(matchID[37:43] + "|" + matchDate)
-        print (matchReportID)
+        # print (matchReportID)
         # print updateTS()
         # print hr
         counter += 1
+	
 
 print (hr)
 
@@ -584,31 +588,36 @@ with open(outputTxt, "w") as f:
    	f.close()
 
 for i in matchReportURL:
+	print (shr)
 	gameURL = i[9:len(i)]
 	gameDate = i[0:8]
 	if gameURL == "http://www.espnfc.us/gamecast/statistics/id/395672/statistics.html":
 		gameURL = "http://www.espnfc.us/gamecast/statistics/id/395675/statistics.html"
-	print (gameDate)
+	gameYear = gameDate[0:4]
+	gameMonth = gameDate[4:6]
+	gameDay = gameDate[6:8]
+	print (gameYear + '-' + gameMonth + '-' + gameDay)
 	print (gameURL)
 	gameHTML = requests.get(gameURL)
 	gameHTML.raise_for_status()
 	gameSoup = BeautifulSoup(gameHTML.text, "html.parser")	
 	matchID = gameURL[44:len(gameURL)-16]
 	print ("The Game URL is: " +  gameURL)
-
-	'''# Output a local copy of the FULL ESPN page to the local drive
-	outputBase = 'ESPN-EPL-' + matchID + '.html'
-	outputBase = os.path.join(outputPath, outputBase)
-	with open(outputBase, "w") as f:
-		f.write(gameSoup.prettify("utf-8"))
-		f.close()
-	'''
+	print ("The Match ID is:", matchID, type(matchID))
 
     # Main Container for Game Stats
 	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
-
-	# <section class="match final gamecast-match" id="matchcenter-395758">
 	gameMatch = gameHeader.find("section", {"class":"match final gamecast-match"})
+	matchDetails = gameMatch.find("div", {"class":"match-details"})
+	stadium = matchDetails.find("p", {"class":"floatright upperCase"})
+	stadium = stadium.get_text(strip=True)
+	stadium = stadium.replace("'", "\\'")
+	attendance = gameHeader.find("div", {"class":"matchup"})
+	attendance = attendance.find("p", {"class":"floatleft size-6 normal light"})
+	attendance = attendance.get_text(strip=True)
+	print (stadium, attendance)
+	print (shr)
+
 	reportAwayTeam = gameMatch.find("div", {"class":"team home"})
 	getURLAwayTeam = reportAwayTeam.find("a")
 	teamURLs.append(getURLAwayTeam["href"])
@@ -649,9 +658,24 @@ for i in matchReportURL:
 	print (gameSoup.title.get_text() )
 	# print gameURL 
 	countDown += 1
+	print (shr)
 	print ("Games left to parse = %d " % (countArray - countDown))
 	print ("Games that have been parsed = %d" % (countDown) )
 	print (ds + " :: " + updateTS())
+
+	# Check SQL DB for existence of Record
+	sqlCheck = ("SELECT matchID FROM stg_match_details WHERE matchID = %d" % int(matchID))
+	cursor = cnx.cursor()
+	cursor.execute(sqlCheck)
+	results = cursor.fetchone()
+
+	if results == None:
+		sqlInsert = ("INSERT INTO stg_match_details (matchID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PLAYED', stadium, int(attendance[12:]), gameURL))
+		print (sqlInsert)
+		cursor.execute(sqlInsert)
+		cnx.commit()
+		print ("Row added for Match ID:", matchID)
+	cursor.close()
 	print (hr)
 
 def teamNews(x):

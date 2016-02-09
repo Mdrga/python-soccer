@@ -209,6 +209,7 @@ def processContainer(x, y):
 				previewData = i.find_all('tr', class_="preview")
 				for i in previewData:
 					matchID = i['id']
+					print (i)
 
 					# Identify the information about the Home Team
 					homeTeam = i.find('span', class_="team-home teams")
@@ -220,11 +221,19 @@ def processContainer(x, y):
 					awayTeamURL = awayTeam.a['href']
 					awayTeamName = awayTeam.a.get_text()
 			
+					# Identify if Match was Postponed
 					# Identify Kickoff Time and Status
-					kickoff = i.find('td', class_="kickoff")
-					kickoff = kickoff.get_text().strip()
-					status = i.find('td', class_="status")
-					status = status.get_text().strip()
+					matchDetails = i.find("td", class_="match-details")
+					postponed = matchDetails.find('abbr', title="Postponed")
+					if postponed == None:
+						print ('Not Postponed', homeTeamName, 'v.', awayTeamName)
+						kickoff = i.find('td', class_="kickoff")
+						kickoff = kickoff.get_text().strip()
+						status = i.find('td', class_="status")
+						status = status.get_text().strip()
+					else:
+						kickoff = 'Postponed'
+						status = 'Postponed'
 					
 					# Output to Excel File
 					fixtureSheet.cell('A' + str(count)).value = homeTeamName
@@ -234,6 +243,8 @@ def processContainer(x, y):
 					fixtureSheet.cell('E' + str(count)).value = kickoff
 					fixtureSheet.cell('F' + str(count)).value = status
 					fixtureSheet.cell('G' + str(count)).value = matchID[14:]
+
+					print(shr)
 
 					count += 1
 
@@ -310,11 +321,14 @@ for row in range(2, matchSheet.get_highest_row()+1):
 	matchSoup = bs4.BeautifulSoup(matchResult.text, "html.parser")
 	matchUpdate = matchSoup.find('div', id="article-sidebar")
 	matchTimestamp = matchUpdate.find('p', class_="page-timestamp")
-	matchTimestamp = (matchTimestamp.get_text()).strip()
 	matchStats = matchSoup.find('div', id="match-stats-charts")
 	matchDetails = matchSoup.find('div', class_="story-body")
 	matchLineup = matchSoup.find('div', id="line-up-wrapper")
 	
+	if matchTimestamp == None:
+		print (matchSoup)
+		print (shr)
+
 	if matchLineup == None:
 		print("Match doesn't have details")
 		print(shr)
