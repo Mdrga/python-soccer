@@ -30,6 +30,7 @@ import mysql.connector
                                 regarding BPL Players.
     2016-01Jan-17    RWN        Working to verify that only unique records are created to the DB.
     2016-01Jan-24    RWM        Working to add an Added TS to the table.
+    2016-04Apr-19    RWM        Update the Table ID being used by the website for Injuries
 '''
 
 # Set Character Output
@@ -49,7 +50,7 @@ date = datetime.datetime.now().strftime("%Y%m%d")
 
 # Updates the Time Stamp
 def updateTS():
-    update = datetime.datetime.now().strftime("%H:%M:%S:%f")[:-3]
+    update = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return update
 
 # Download Image
@@ -154,7 +155,7 @@ def returnTeam(x):
         outputTeam = 99
     return outputTeam
 
-newsUpdate = injurySoup.find("table", class_="ffs-ib ffs-ib-full-content ffs-ib-sort")
+newsUpdate = injurySoup.find("table", class_="ffs-ib respond ffs-ib-full-content ffs-ib-sort")
 newsRows = newsUpdate.find_all("tr")
 
 for i in newsRows:

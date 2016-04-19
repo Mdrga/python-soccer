@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Feb 08, 2016
-Version 0.03.g
+Modified on Mar 14, 2016
+Version 0.03.h
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -43,7 +43,7 @@ def downloadImage(imageURL, localFileName):
     return True
 
 # Program Version & System Variables
-parseVersion = 'ESPN Premier League Match Stats v0.03.g'
+parseVersion = 'ESPN Premier League Match Stats v0.03.h'
 print (ds + ' :: ' + ts + ' :: ' + parseVersion)
 print (sys.version)
 
@@ -607,7 +607,14 @@ for i in matchReportURL:
 
     # Main Container for Game Stats
 	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
-	gameMatch = gameHeader.find("section", {"class":"match final gamecast-match"})
+	gameMatch = gameHeader.find("section", {"class":"match live gamecast-match"})
+	if gameMatch == None:
+		gameMatch = gameHeader.find("section", {"class":"match final gamecast-match"})
+	if gameMatch == None:
+		gameStatus = ""
+	else: 
+		gameStatus = gameMatch.find("p", {"class": "time"})
+		gameStatus = gameStatus.get_text(strip=True)
 	matchDetails = gameMatch.find("div", {"class":"match-details"})
 	stadium = matchDetails.find("p", {"class":"floatright upperCase"})
 	stadium = stadium.get_text(strip=True)
@@ -615,9 +622,9 @@ for i in matchReportURL:
 	attendance = gameHeader.find("div", {"class":"matchup"})
 	attendance = attendance.find("p", {"class":"floatleft size-6 normal light"})
 	attendance = attendance.get_text(strip=True)
-	print (stadium, attendance)
-	print (shr)
-
+	print (stadium, attendance, gameStatus)
+	
+	# Finds Results for team
 	reportAwayTeam = gameMatch.find("div", {"class":"team home"})
 	getURLAwayTeam = reportAwayTeam.find("a")
 	teamURLs.append(getURLAwayTeam["href"])
@@ -631,28 +638,29 @@ for i in matchReportURL:
 	awayURL = prefixESPN + teamName(reportAwayTeam, 'U', 'H')
 	awayBadge = teamBadge(reportAwayTeam, 'A')
 
-	# Finds Match Info from Results Page
-	# ESPN Changed their Match Stat Page Format 
-	# This portion is deprecated as of 2014-Nov-03
-	matchSummary = gameHeader.find("section", {"class":"mod-container gc-stat-list"})
-	#matchSummary = gameHeader.find("div", {"class":"tab-cont matchstats"})
-	matchStats = matchSummary.find_all("ul")
+	if gameStatus != 'Postponed':
+		# Finds Match Info from Results Page
+		# ESPN Changed their Match Stat Page Format 
+		# This portion is deprecated as of 2014-Nov-03
+		matchSummary = gameHeader.find("section", {"class":"mod-container gc-stat-list"})
+		#matchSummary = gameHeader.find("div", {"class":"tab-cont matchstats"})
+		matchStats = matchSummary.find_all("ul")
 	
-	# Counter to Iterate through Game Roster and Stats
-	rsCounter = 0
+		# Counter to Iterate through Game Roster and Stats
+		rsCounter = 0
+	
+		#Finds Player Info from Results Page
+		playerSummary = gameHeader.find("div", {"class":"span-12 column"})
 
-	#Finds Player Info from Results Page
-	playerSummary = gameHeader.find("div", {"class":"span-12 column"})
+		playerStats = playerSummary.find_all("table")
+		homeStats = playerStats[0]
+		homePlayers = homeStats.find_all("tr")
+		awayStats = playerStats[1]
+		awayPlayers = awayStats.find_all("tr")   
 
-	playerStats = playerSummary.find_all("table")
-	homeStats = playerStats[0]
-	homePlayers = homeStats.find_all("tr")
-	awayStats = playerStats[1]
-	awayPlayers = awayStats.find_all("tr")   
-
-	# Need to add a Parse of the Game Date to this player output.
-	squadParse(homePlayers, 'H', gameDate)
-	squadParse(awayPlayers, 'A', gameDate)
+		# Need to add a Parse of the Game Date to this player output.
+		squadParse(homePlayers, 'H', gameDate)
+		squadParse(awayPlayers, 'A', gameDate)
 
 	# Identifies the Match ID
 	print (gameSoup.title.get_text() )
@@ -669,12 +677,24 @@ for i in matchReportURL:
 	cursor.execute(sqlCheck)
 	results = cursor.fetchone()
 
-	if results == None:
+
+
+	# If Game was Played and Has Not Been Added...
+	if results == None and gameStatus != 'Postponed':
+		gameScore = gameMatch
 		sqlInsert = ("INSERT INTO stg_match_details (matchID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PLAYED', stadium, int(attendance[12:]), gameURL))
-		print (sqlInsert)
+		print ('PLAYED')
 		cursor.execute(sqlInsert)
 		cnx.commit()
 		print ("Row added for Match ID:", matchID)
+	elif results == None and gameStatus == 'Postponed':
+		sqlInsert = ("INSERT INTO stg_match_details (matchID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PSTPND', stadium, 0, gameURL))
+		print ('PSTPND')
+		cursor.execute(sqlInsert)
+		cnx.commit()
+		print ("Row added for Match ID:", matchID)
+	else:
+		print ("Game Previously Added!")
 	cursor.close()
 	print (hr)
 
