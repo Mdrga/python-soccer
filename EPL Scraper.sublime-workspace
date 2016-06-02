@@ -523,7 +523,15 @@
 			"file": "parseESPN-EPLStats.py",
 			"settings":
 			{
-				"buffer_size": 29159,
+				"buffer_size": 29511,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "parseInjuries.py",
+			"settings":
+			{
+				"buffer_size": 8997,
 				"line_ending": "Windows"
 			}
 		},
@@ -532,14 +540,6 @@
 			"settings":
 			{
 				"buffer_size": 17336,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "parseInjuries.py",
-			"settings":
-			{
-				"buffer_size": 8898,
 				"line_ending": "Windows"
 			}
 		},
@@ -616,6 +616,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseRumors.py",
 		"/D/SteamLibrary/steamapps/common/Factorio/config-path.cfg",
 		"/C/Users/Rainier/Documents/GitHub/python-work/parseNames.py",
 		"/D/filescan.py",
@@ -742,12 +743,11 @@
 		"/C/02-Work/python/WorldCup-MatchDetails.html",
 		"/C/02-Work/python/MatchDetails-output.txt",
 		"/C/02-Work/python/MatchDetails.txt",
-		"/C/02-Work/python/Update.txt",
-		"/C/02-Work/python/WorlCup-MatchResults.txt"
+		"/C/02-Work/python/Update.txt"
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -761,6 +761,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"print",
+			"player_stats",
 			"flot-chart",
 			"flot-dashboard",
 			"orders",
@@ -859,15 +861,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 29159,
+						"buffer_size": 29511,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								23139,
-								23139
+								76,
+								76
 							]
 						],
 						"settings":
@@ -877,7 +879,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 11406.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -885,6 +887,37 @@
 				},
 				{
 					"buffer": 1,
+					"file": "parseInjuries.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8997,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								37,
+								37
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "parseBarclays2015.py",
 					"semi_transient": false,
 					"settings":
@@ -909,38 +942,7 @@
 						"translation.y": 4667.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "parseInjuries.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8898,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2809,
-								2809
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2613.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -969,7 +971,7 @@
 						"translation.y": 1980.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1038,7 +1040,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 579.0
+		"height": 444.0
 	},
 	"output.find_results":
 	{

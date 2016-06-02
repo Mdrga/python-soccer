@@ -50,6 +50,8 @@ print (sys.version)
 # Set Output Path for Windows or Mac environments
 os_System = platform.system()
 win_BasePath = "D:/ESPN-Parser/"
+seasonID = 1
+leagueID = 1
 
 # Output paths based on OS
 if os_System == "Windows":
@@ -106,6 +108,8 @@ def teamName (x, y, z):
 			returnOutput = passHTML
 	return returnOutput
 
+# Will Need to Update with new season update and promotions / relegations...
+# Current as of 2015/16
 def returnTeam(x):
 	inputTeam = x
 	outputTeam = 0
@@ -286,7 +290,7 @@ def playerSaveDB(x):
 
 	if results == None:
 		cursor = cnx.cursor()
-		sqlInsert = ("INSERT INTO stg_player_stats (ps_matchdate, ps_team, ps_teamSide, ps_matchID, ps_playerID, ps_playerPOS, ps_jerseyNo, ps_playerName, ps_playerURL, ps_Shots, ps_ShotsOnGoal, ps_Goals, ps_Assists, ps_Offsides, ps_FoulsDrawn, ps_FoulsCommitted, ps_Saves, ps_YellowCards, ps_RedCards, ps_rosterStatus, ps_Subbed, ps_SubbedName, ps_TimeOn) VALUES ('%s', %d, '%s', %d, %d, '%s', %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s')" % (dateOfMatch, team, side, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, playerSubbed, playerSubbedName, playerTimeOn))
+		sqlInsert = ("INSERT INTO stg_player_stats (ps_matchdate, ps_team, ps_teamSide, ps_seasonID, ps_leagueID, ps_matchID, ps_playerID, ps_playerPOS, ps_jerseyNo, ps_playerName, ps_playerURL, ps_Shots, ps_ShotsOnGoal, ps_Goals, ps_Assists, ps_Offsides, ps_FoulsDrawn, ps_FoulsCommitted, ps_Saves, ps_YellowCards, ps_RedCards, ps_rosterStatus, ps_Subbed, ps_SubbedName, ps_TimeOn) VALUES ('%s', %d, '%s', %d, %d, %d, %d, '%s', %d, '%s', '%s', %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, '%s', '%s', '%s', '%s')" % (dateOfMatch, team, side, seasonID, leagueID, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, playerSubbed, playerSubbedName, playerTimeOn))
 		# print (sqlInsert)
 		cursor.execute(sqlInsert)
 		cnx.commit()
@@ -622,6 +626,9 @@ for i in matchReportURL:
 	attendance = gameHeader.find("div", {"class":"matchup"})
 	attendance = attendance.find("p", {"class":"floatleft size-6 normal light"})
 	attendance = attendance.get_text(strip=True)
+	print (attendance)
+	if attendance == '':
+		attendance = 'Attendance: 0'
 	print (stadium, attendance, gameStatus)
 	
 	# Finds Results for team
@@ -637,8 +644,11 @@ for i in matchReportURL:
 	awaySide = teamName(reportAwayTeam, 'N', 'A')
 	awayURL = prefixESPN + teamName(reportAwayTeam, 'U', 'H')
 	awayBadge = teamBadge(reportAwayTeam, 'A')
+	# print (len(gameStatus))
 
-	if gameStatus != 'Postponed':
+	if (gameStatus == 'Abandoned'):
+		print ('Game was ABANDNONED!!')
+	elif (gameStatus != 'Postponed'):
 		# Finds Match Info from Results Page
 		# ESPN Changed their Match Stat Page Format 
 		# This portion is deprecated as of 2014-Nov-03
