@@ -50,7 +50,7 @@ print (sys.version)
 # Set Output Path for Windows or Mac environments
 os_System = platform.system()
 win_BasePath = "D:/ESPN-Parser/"
-seasonID = 1
+seasonID = 2
 leagueID = 1
 
 # Output paths based on OS
@@ -153,6 +153,12 @@ def returnTeam(x):
 		outputTeam = 19
 	elif inputTeam == 'West Ham United' or inputTeam == 'West Ham':
 		outputTeam = 20
+	elif inputTeam == 'Burnley':
+		outputTeam = 24
+	elif inputTeam == 'Hull' or inputTeam == 'Hull City':
+		outputTeam = 25
+	elif inputTeam == 'Middlesbrough':
+		outputTeam = 27
 	else:
 		outputTeam = 99
 	return outputTeam
@@ -630,6 +636,8 @@ for i in matchReportURL:
 	if attendance == '':
 		attendance = 'Attendance: 0'
 	print (stadium, attendance, gameStatus)
+	gameScore = gameSoup.find("div", {"class":"competitors sm-score"})
+	print (gameScore)
 	
 	# Finds Results for team
 	reportAwayTeam = gameMatch.find("div", {"class":"team home"})
@@ -687,18 +695,16 @@ for i in matchReportURL:
 	cursor.execute(sqlCheck)
 	results = cursor.fetchone()
 
-
-
 	# If Game was Played and Has Not Been Added...
 	if results == None and gameStatus != 'Postponed':
 		gameScore = gameMatch
-		sqlInsert = ("INSERT INTO stg_match_details (matchID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PLAYED', stadium, int(attendance[12:]), gameURL))
+		sqlInsert = ("INSERT INTO stg_match_details (matchID, seasonID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), seasonID, int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PLAYED', stadium, int(attendance[12:]), gameURL))
 		print ('PLAYED')
 		cursor.execute(sqlInsert)
 		cnx.commit()
 		print ("Row added for Match ID:", matchID)
 	elif results == None and gameStatus == 'Postponed':
-		sqlInsert = ("INSERT INTO stg_match_details (matchID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PSTPND', stadium, 0, gameURL))
+		sqlInsert = ("INSERT INTO stg_match_details (matchID, seasonID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), seasonID, int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PSTPND', stadium, 0, gameURL))
 		print ('PSTPND')
 		cursor.execute(sqlInsert)
 		cnx.commit()

@@ -108,6 +108,8 @@ def downloadImage(imageURL, localFileName):
             fo.write(chunk)
     return True
 
+# Will Need to Update with new season update and promotions / relegations...
+# Current as of 2015/16
 def returnTeam(x):
     inputTeam = x
     outputTeam = 0
@@ -151,6 +153,12 @@ def returnTeam(x):
         outputTeam = 19
     elif inputTeam == 'West Ham United' or inputTeam == 'West Ham':
         outputTeam = 20
+    elif inputTeam == 'Burnley':
+        outputTeam = 24
+    elif inputTeam == 'Hull' or inputTeam == 'Hull City':
+        outputTeam = 25
+    elif inputTeam == 'Middlesbrough':
+        outputTeam = 27
     else:
         outputTeam = 99
     return outputTeam
