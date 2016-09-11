@@ -177,4 +177,4 @@ count = 0
 
 while count < maxLen:
     parseFixtures(leagueDct['url'][count])
-    count += 1
+    count += 1a

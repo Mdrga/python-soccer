@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Mar 14, 2016
-Version 0.03.h
+Modified on Sep 11, 2016
+Version 0.03.ha
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -384,7 +384,12 @@ def squadParse(x, y, z):
 		playerURL = playerData[2].find("a")
 		playerURL =  playerURL["href"]
 		playerStartID = playerURL.find("r/")
+		#print (playerURL)
+		#if playerURL[] == "-":
+		#	print ("Hyphen")
 		playerID = playerURL[8:(len(playerURL)-len(playerName)-1)]
+		if "/" in playerID:
+			playerID = playerID[0:len(playerID)-1]
 		playerSubbed = playerData[2].find("div", {"class":"soccer-icons soccer-icons-subinout"})
 		playerShots = statParse(playerData[3].get_text(strip=True))
 		playerSOG = statParse(playerData[4].get_text(strip=True))
@@ -614,12 +619,25 @@ for i in matchReportURL:
 	matchID = gameURL[44:len(gameURL)-16]
 	print ("The Game URL is: " +  gameURL)
 	print ("The Match ID is:", matchID, type(matchID))
+	print (">>> =================== <<<")
 
     # Main Container for Game Stats
 	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
 	gameMatch = gameHeader.find("section", {"class":"match live gamecast-match"})
+	homeGoals = 0
+	awayGoals = 0
 	if gameMatch == None:
 		gameMatch = gameHeader.find("section", {"class":"match final gamecast-match"})
+		findGameScore = gameSoup.find("div", {"class":"score-time"})
+		findGameScore = findGameScore.find("p", {"class":"score"})
+		findGameScore = findGameScore.get_text(strip=True)
+		dash = " - "
+		findDash = findGameScore.find(dash)
+		lenGameScore = len(findGameScore)
+		homeGoals = findGameScore[0:findDash]
+		awayGoals = findGameScore[findDash+3:lenGameScore]
+		print (str(homeGoals), "::", str(awayGoals))
+		print (findGameScore)
 	if gameMatch == None:
 		gameStatus = ""
 	else: 
@@ -698,7 +716,7 @@ for i in matchReportURL:
 	# If Game was Played and Has Not Been Added...
 	if results == None and gameStatus != 'Postponed':
 		gameScore = gameMatch
-		sqlInsert = ("INSERT INTO stg_match_details (matchID, seasonID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), seasonID, int(returnTeam(homeSide)), int(returnTeam(awaySide)), 0, 0, 'PLAYED', stadium, int(attendance[12:]), gameURL))
+		sqlInsert = ("INSERT INTO stg_match_details (matchID, seasonID, homeSide, awaySide, homeScore, awayScore, parseStatus, stadium, attendance, matchURL) VALUES (%d, %d, %d, %d, %d, %d, '%s', '%s', %d, '%s')" % (int(matchID), seasonID, int(returnTeam(homeSide)), int(returnTeam(awaySide)), int(homeGoals), int(awayGoals), 'PLAYED', stadium, int(attendance[12:]), gameURL))
 		print ('PLAYED')
 		cursor.execute(sqlInsert)
 		cnx.commit()

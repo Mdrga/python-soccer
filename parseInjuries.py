@@ -75,6 +75,7 @@ print (hr)
 # Define URLs for the Barclay's Premier League
 injuriesURL = 'http://www.fantasyfootballscout.co.uk/fantasy-football-injuries/'
 teamNewsURL = 'http://www.fantasyfootballscout.co.uk/team-news/'
+seasonID = 2
 
 # Base Path for Output
 localPath = 'D:\\ESPN-Parser\\'
@@ -202,6 +203,10 @@ for i in newsRows:
             playerStatus = i.get_text()
         if counter == 3:
             returnDate = i.get_text()
+            if len(returnDate) == 10:
+                returnDate = returnDate[6:] + '-'  + returnDate[3:5] + '-' + returnDate[0:2]
+                print (len(returnDate))
+                print (returnDate)
         if counter == 4:
             playerNews = i.get_text()
             playerNews = re.sub('   ', '', playerNews.lstrip())
@@ -222,7 +227,7 @@ for i in newsRows:
     results = cursor.fetchone()
 
     if results == None:
-        cursor.execute("INSERT INTO stg_player_news (player_firstname, player_name, player_team, player_status, player_returndate, player_news, player_newsURL, player_updatedate, player_rowadded) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)", (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated, updateTS()))
+        cursor.execute("INSERT INTO stg_player_news (player_firstname, player_name, player_team, player_status, player_returndate, player_news, player_newsURL, player_updatedate, player_rowadded, player_news_status, seasonID) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated, updateTS(), '1', seasonID))
         cnx.commit()
         print ('Row added for %s and he is %s .' % (playerName, playerStatus))
     else:
