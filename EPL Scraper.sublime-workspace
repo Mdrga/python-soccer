@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"s",
+				"squad"
+			],
+			[
+				"player",
+				"playerPOS"
+			],
+			[
 				"return",
 				"returnDate"
 			],
@@ -166,10 +174,6 @@
 			[
 				"fixtu",
 				"fixturesOpen"
-			],
-			[
-				"player",
-				"playerStatus"
 			],
 			[
 				"playe",
@@ -460,10 +464,6 @@
 				"j"
 			],
 			[
-				"s",
-				"seasonData"
-			],
-			[
 				"weath",
 				"weatherResult"
 			],
@@ -523,7 +523,7 @@
 			"file": "parseBBC-Leagues.py",
 			"settings":
 			{
-				"buffer_size": 6072,
+				"buffer_size": 6091,
 				"line_ending": "Windows"
 			}
 		},
@@ -540,7 +540,7 @@
 			"file": "parseESPN-EPLStats.py",
 			"settings":
 			{
-				"buffer_size": 30344,
+				"buffer_size": 30608,
 				"line_ending": "Windows"
 			}
 		},
@@ -548,7 +548,7 @@
 			"file": "parseInjuries.py",
 			"settings":
 			{
-				"buffer_size": 9572,
+				"buffer_size": 9574,
 				"line_ending": "Windows"
 			}
 		},
@@ -878,15 +878,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6072,
+						"buffer_size": 6091,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5055,
-								5055
+								5884,
+								5884
 							]
 						],
 						"settings":
@@ -898,10 +898,10 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2515.0,
+						"translation.y": 1212.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -932,7 +932,7 @@
 						"translation.y": 1558.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -941,15 +941,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 30344,
+						"buffer_size": 30608,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								27786,
-								27786
+								11221,
+								11221
 							]
 						],
 						"settings":
@@ -959,7 +959,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 552.0,
+						"translation.y": 5965.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -971,15 +971,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9572,
+						"buffer_size": 9574,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8930,
-								8930
+								1838,
+								1838
 							]
 						],
 						"settings":
@@ -990,10 +990,10 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3720.0,
+						"translation.y": 156.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1038,8 +1038,8 @@
 						"selection":
 						[
 							[
-								280,
-								280
+								2265,
+								2265
 							]
 						],
 						"settings":
@@ -1048,10 +1048,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1980.0,
+						"translation.y": 2250.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1081,7 +1081,7 @@
 						"translation.y": 471.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1120,7 +1120,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 386.0
+		"height": 488.0
 	},
 	"output.find_results":
 	{

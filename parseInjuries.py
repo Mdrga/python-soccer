@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jan 15, 2016
-Modified on Jan 24, 2016
-Version 0.03.g
+Modified on Sep 22, 2016
+Version 0.03.ga
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
 '''
@@ -15,7 +15,7 @@ import time
 import requests
 import webbrowser
 import os
-import openpyxl
+# import openpyxl
 import sys
 import codecs
 import mysql.connector
@@ -31,6 +31,7 @@ import mysql.connector
     2016-01Jan-17    RWN        Working to verify that only unique records are created to the DB.
     2016-01Jan-24    RWM        Working to add an Added TS to the table.
     2016-04Apr-19    RWM        Update the Table ID being used by the website for Injuries
+    2016-09Sep-22    RWM        Deprecate the Excel usage in the module
 '''
 
 # Set Character Output
@@ -80,13 +81,13 @@ seasonID = 2
 # Base Path for Output
 localPath = 'D:\\ESPN-Parser\\'
 localimgPath = 'D:\\ESPN-Parser\\img\\players\\'
-baseWkBk = 'stats_template.xlsx'
-workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBk))
-teamSheet = workBook.get_sheet_by_name('teams')
-playerSheet = workBook.get_sheet_by_name('players')
-matchSheet = workBook.get_sheet_by_name('matches')
-fixtureSheet = workBook.get_sheet_by_name('fixtures')
-newsSheet = workBook.get_sheet_by_name('news')
+# baseWkBk = 'stats_template.xlsx'
+# workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBk))
+# teamSheet = workBook.get_sheet_by_name('teams')
+# playerSheet = workBook.get_sheet_by_name('players')
+# matchSheet = workBook.get_sheet_by_name('matches')
+# fixtureSheet = workBook.get_sheet_by_name('fixtures')
+# newsSheet = workBook.get_sheet_by_name('news')
 
 # Create BS4 Object from Injuries Web Page
 injuryRes = requests.get(injuriesURL)
@@ -223,7 +224,7 @@ for i in newsRows:
 
     # Determine if record exists. If it does insert into Table
     cursor = cnx.cursor()
-    cursor.execute("SELECT player_firstname, player_name, player_team, player_updatedate FROM stg_player_news WHERE player_firstname = %s AND player_name = %s AND player_team = %s", (playerFirstName, playerName, playerTeam))
+    cursor.execute("SELECT player_firstname, player_name, player_team, player_news_status FROM stg_player_news WHERE player_firstname = %s AND player_name = %s AND player_team = %s ", (playerFirstName, playerName, playerTeam))
     results = cursor.fetchone()
 
     if results == None:

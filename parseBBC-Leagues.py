@@ -165,6 +165,7 @@ def parseFixtures(leagueLink):
 
         # Print Output for Testing
         print (blockContent)
+        print (shr)
         print (leagueParse)
         print (shr)
     else:
@@ -177,4 +178,4 @@ count = 0
 
 while count < maxLen:
     parseFixtures(leagueDct['url'][count])
-    count += 1a
+    count += 1

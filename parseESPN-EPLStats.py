@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Oct 19, 2014
-Modified on Sep 11, 2016
-Version 0.03.ha
+Modified on Sep 22, 2016
+Version 0.03.hb
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
+=================================================================================================
+*** 2016-09-22  RWM   Updated the code to remove Excel file references and Excel library
 '''
 # Import Libraries needed for Scraping the various web pages
 from bs4 import BeautifulSoup
 import datetime
 import requests
-import openpyxl
+# import openpyxl
 import os
 import platform
 import sys
@@ -68,14 +70,15 @@ else:
     outputTeamPath = 'PL-Data/teams/'
     outputMatchPath = 'PL-Data/match/'
 
+# 2016-09-22 Deprecated Code for the creation of stats into an Excel Spreadsheet.
 # Open Excel Object for Writing Data
-baseWkBkName = 'detail_stats.xlsx'
-workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBkName))
-coreSheet = workBook.get_sheet_by_name('CoreData')
-teamSheet = workBook.get_sheet_by_name('teams')
-playerSheet = workBook.get_sheet_by_name('players')
-matchSheet = workBook.get_sheet_by_name('matches')
-fixtureSheet = workBook.get_sheet_by_name('fixtures')
+# baseWkBkName = 'detail_stats.xlsx'
+# workBook = openpyxl.load_workbook(os.path.join(localPath + baseWkBkName))
+# coreSheet = workBook.get_sheet_by_name('CoreData')
+# teamSheet = workBook.get_sheet_by_name('teams')
+# playerSheet = workBook.get_sheet_by_name('players')
+# matchSheet = workBook.get_sheet_by_name('matches')
+# fixtureSheet = workBook.get_sheet_by_name('fixtures')
 
 # Screen Output Dividers used for readability
 hr = " >>> *** ====================================================== *** <<<"
@@ -314,8 +317,11 @@ def squadParse(x, y, z):
 	teamSide = y
 	gameDate = z
 	maxLength = len(squad)
+	# print (len(squad))
 	starterCount = 2
 	subCount = 16
+	if len(squad) == 24:
+		subCount = 17
 	if teamSide == 'A':
 		teamSide = awaySide
 		side = 'Away'
@@ -327,14 +333,13 @@ def squadParse(x, y, z):
 		currentRow = squad[starterCount]
 		playerData = currentRow.find_all("td")
 		playerPOS = playerData[0].get_text()
+		# print (playerPOS)
 		playerJersey = playerData[1].get_text()
 		playerName = playerData[2].get_text(strip=True)
-
 		playerURL = playerData[2].find("a")
 		playerURL = playerURL["href"]
 		playerStartID = playerURL.find("r/")
 		playerID = playerURL[8:(len(playerURL)-len(playerName)-1)]
-	
 		playerShots = statParse(playerData[3].get_text(strip=True))
 		playerSOG = statParse(playerData[4].get_text(strip=True))
 		playerGoals = statParse(playerData[5].get_text(strip=True))
@@ -366,12 +371,13 @@ def squadParse(x, y, z):
 
 	while subCount < maxLength:
 		currentRow = squad[subCount]
-		# print currentRow
+		# print (currentRow)
 		subCount += 1
 		playerData = currentRow.find_all("td")
 		playerPOS = playerData[0].get_text()
 		playerJersey = playerData[1].get_text()
 		playerName = playerData[2].get_text(strip=True)
+		# print (playerName, playerPOS)
 		playerAttrs = playerData[2]
 		playerAttrs = playerAttrs.div
 		if playerAttrs != None:
@@ -420,6 +426,7 @@ def squadParse(x, y, z):
 		
 		playerRow = [dateOfMatch, returnTeam(teamSide), side, matchID, playerID, playerPOS, playerJersey, playerName, playerURL, playerShots, playerSOG, playerGoals, playerAssists, playerOffsides, playerFoulsDrawn, playerFoulsCommitted, playerSaves, playerYellowCards, playerRedCards, rosterStatus, playerSubbed, playerSubbedName, playerTimeOn]
 		playerSaveDB(playerRow)
+		# print (shr)
 
 # Function to receive a Text Date (i.e., Saturday 16th August 2014) and return 2014-08-16
 def textDate(x):
@@ -636,8 +643,9 @@ for i in matchReportURL:
 		lenGameScore = len(findGameScore)
 		homeGoals = findGameScore[0:findDash]
 		awayGoals = findGameScore[findDash+3:lenGameScore]
-		print (str(homeGoals), "::", str(awayGoals))
-		print (findGameScore)
+		# Debug to find the value of Home & Away Goals
+		# print (str(homeGoals), "::", str(awayGoals))
+		# print (findGameScore)
 	if gameMatch == None:
 		gameStatus = ""
 	else: 
