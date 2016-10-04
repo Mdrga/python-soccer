@@ -528,19 +528,11 @@
 			}
 		},
 		{
-			"file": "sample.html",
-			"settings":
-			{
-				"buffer_size": 48492,
-				"line_ending": "Windows",
-				"name": "http://www.bbc.com/sport/football/scottish/fixture"
-			}
-		},
-		{
 			"file": "parseESPN-EPLStats.py",
 			"settings":
 			{
-				"buffer_size": 30608,
+				"buffer_size": 30979,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -548,7 +540,15 @@
 			"file": "parseInjuries.py",
 			"settings":
 			{
-				"buffer_size": 9574,
+				"buffer_size": 9663,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "parseStats.py",
+			"settings":
+			{
+				"buffer_size": 3756,
 				"line_ending": "Windows"
 			}
 		},
@@ -557,22 +557,6 @@
 			"settings":
 			{
 				"buffer_size": 17336,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "parse_SoccerStats.py",
-			"settings":
-			{
-				"buffer_size": 6458,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Rainier/Documents/GitHub/PyTraveller/pyTraveller_NewEdition.py",
-			"settings":
-			{
-				"buffer_size": 1722,
 				"line_ending": "Windows"
 			}
 		}
@@ -633,6 +617,10 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/parse_SoccerStats.py",
+		"/D/Google/Work/AFAS/Enhancements/Automate Manual Processes/WorkOrderLineItemReport_Hourly.sql",
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/sample.html",
+		"/C/Users/Rainier/Documents/GitHub/PyTraveller/pyTraveller_NewEdition.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseBBC-EPLMatch.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseRumors.py",
 		"/D/SteamLibrary/steamapps/common/Factorio/config-path.cfg",
@@ -648,7 +636,6 @@
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseBarclays2015.py",
 		"/D/ESPN-Parser/data/match/epl-playerstats2015-12-15.txt",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseESPN-EPLStats.py",
-		"/C/Users/Rainier/Documents/GitHub/python-soccer/parse_SoccerStats.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/match/epl-playerstats-2015-12-14.txt",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/teamNews.txt",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/filescan.py",
@@ -757,10 +744,7 @@
 		"/C/02-Work/python/WorldCup-Update.txt",
 		"/C/02-Work/python/WorldCup_results.html",
 		"/C/02-Work/python/WorlCup-MatchResults.html",
-		"/C/02-Work/python/WorldCup-MatchDetails.html",
-		"/C/02-Work/python/MatchDetails-output.txt",
-		"/C/02-Work/python/MatchDetails.txt",
-		"/C/02-Work/python/Update.txt"
+		"/C/02-Work/python/WorldCup-MatchDetails.html"
 	],
 	"find":
 	{
@@ -869,7 +853,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -898,58 +882,27 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1212.0,
+						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "sample.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 48492,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								48492,
-								48492
-							]
-						],
-						"settings":
-						{
-							"auto_name": "http://www.bbc.com/sport/football/scottish/fixture",
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1558.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "parseESPN-EPLStats.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 30608,
+						"buffer_size": 30979,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								11221,
-								11221
+								8958,
+								8958
 							]
 						],
 						"settings":
@@ -959,27 +912,27 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5965.0,
+						"translation.y": 4888.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "parseInjuries.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9574,
+						"buffer_size": 9663,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1838,
-								1838
+								6761,
+								6761
 							]
 						],
 						"settings":
@@ -990,10 +943,40 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 156.0,
+						"translation.y": 3168.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "parseStats.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3756,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1009,79 +992,21 @@
 						"selection":
 						[
 							[
-								730,
-								730
+								1048,
+								1048
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"translate_tabs_to_spaces": false,
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 990.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "parse_SoccerStats.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6458,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2265,
-								2265
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2250.0,
+						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/C/Users/Rainier/Documents/GitHub/PyTraveller/pyTraveller_NewEdition.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1722,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1722,
-								1722
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 471.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1120,7 +1045,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 488.0
+		"height": 289.0
 	},
 	"output.find_results":
 	{

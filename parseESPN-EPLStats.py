@@ -661,7 +661,7 @@ for i in matchReportURL:
 	print (attendance)
 	if attendance == '':
 		attendance = 'Attendance: 0'
-	print (stadium, attendance, gameStatus)
+	print (stadium, attendance, 'In Attendance :: Game Status',  gameStatus)
 	gameScore = gameSoup.find("div", {"class":"competitors sm-score"})
 	print (gameScore)
 	
