@@ -2,8 +2,8 @@
 
 '''
 Created on Jul 23, 2014
-Modified on Aug 2$3, 2014
-Version 0.13.i
+Modified on Feb 15, 2014
+Version 0.13.j
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
@@ -22,6 +22,9 @@ sys.setdefaultencoding('utf-8')
 ts = datetime.datetime.now().strftime("%H:%M:%S")
 ds = datetime.datetime.now().strftime("%Y-%m-%d")
 parseVersion = 'Premier League 2014 - v0.13.j'
+
+hr = " >>> *** ====================================================== *** <<<"
+shr = " >>> *** ==================== *** <<<"
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
@@ -233,6 +236,8 @@ while counter < len(resultsDate):
 	# print matchesDate
 	counter += 1 
 
+print hr
+
 counter = 0
 while counter < len(matchDate):
 # Line below is used for Unit Testing of Code
@@ -246,6 +251,17 @@ while counter < len(matchDate):
 	fixtureReport = fixtureBlock.find_all("tr", {"class":"report"})
 	fixtureLive = fixtureBlock.find_all("tr", {"class":"live"})
 	fixturePreview = fixtureBlock.find_all("tr", {"class":"preview"})
+	for i in fixtureLive:
+		print "LIVE MATCH"
+		print i
+		print shr
+
+	print hr
+	for i in fixturePreview:
+		print "PREVIEW MATCH"
+		print i
+		print shr
+
 	# Parse out the components of the Fixture. Create a single line to parse the data out
 	# Matches that have Completed
 	for i in fixtureReport:
@@ -300,24 +316,25 @@ while counter < len(matchDate):
 	# Matches To Be Played
 	for i in fixturePreview:
 		matchID = i.get("id")
-		matchID = matchID[10:len(matchID)]
-		matchKickoff = i.find("td", {"class":"kickoff"})
-		matchKickoff = matchKickoff.get_text(strip=True)
-		matchStatus = i.find("td", {"class":"status"})
-		matchStatus = matchStatus.get_text(strip=True)
-		if len(matchStatus) > 0:
-		    matchStatus = matchStatus[0:7]
-		homeName = returnTeam(i, 'H', 'N') 
-		homeURL = returnTeam(i, 'H', 'H')
-		awayName = returnTeam(i, 'A', 'N') 
-		awayURL = returnTeam(i, 'A', 'H')
-		teamURLs.append(homeURL)
-		teamURLs.append(awayURL)
+		if matchID != "match-row-EFBO755565":
+			matchID = matchID[10:len(matchID)]
+			matchKickoff = i.find("td", {"class":"kickoff"})
+			matchKickoff = matchKickoff.get_text(strip=True)
+			matchStatus = i.find("td", {"class":"status"})
+			matchStatus = matchStatus.get_text(strip=True)
+			if len(matchStatus) > 0:
+			    matchStatus = matchStatus[0:7]
+			homeName = returnTeam(i, 'H', 'N') 
+			homeURL = returnTeam(i, 'H', 'H')
+			awayName = returnTeam(i, 'A', 'N') 
+			awayURL = returnTeam(i, 'A', 'H')
+			teamURLs.append(homeURL)
+			teamURLs.append(awayURL)
 		# print fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL
 		# print fixtureDate + ' ' + matchStatus + ' ' + homeName + ' v. ' + awayName
-		with open(outputTxt, "a") as f:
-			f.write(fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '||' + '\n')
-			f.close()
+			with open(outputTxt, "a") as f:
+				f.write(fixtureDate + "|" + matchKickoff + ' GMT' + '|' + matchID + '|' + matchStatus + '|' + homeName + '|' + awayName + '|' + homeURL + '|' + awayURL + '||' + '\n')
+				f.close()
 	counter +=1
 print "Input Determined..."
 
@@ -402,7 +419,6 @@ outputLast = os.path.join(outputTeamPath, outputLast)
 resultsOutput = resultURLs
 teamURL = teamURLs[0]
 # print teamURL
-
 resultDetail = resultsOutput.find("/")
 lenResult = resultDetail
 resultMatch = resultsOutput[lenResult+1:len(resultsOutput)]
@@ -411,13 +427,11 @@ resultDetail = prefix + resultsOutput[0:resultDetail]
 '''
 matchResults = urllib2.urlopen(resultDetail)
 matchSoup = BeautifulSoup(matchResults)
-
 outputMatchResult = resultMatch + '.html'
 outputMatchResult = os.path.join(outputMatchPath, outputMatchResult)
 resultMainDiv = matchSoup.find("div", {"id":"content-wrapper"})
 outputMainDiv = resultMatch + '-maindiv.html'
 outputMainDiv = os.path.join(outputMatchPath, outputMainDiv)
-
 with open(outputMatchResult, "w") as f:
     f.write(ds + ' :: ' + ts + ' :: Match Result File :: ' + parseVersion + '\n' + '\n')
     f.write(matchSoup.prettify())
@@ -426,7 +440,6 @@ with open(outputMainDiv, "w") as f:
     f.write(ds + ' :: ' + ts + ' :: Match Div Results File :: ' + parseVersion + '\n' + '\n')
     f.write(resultMainDiv.prettify())
     f.close()
-
 # Download of an Image via Requests Library.
 def downloadImage(imageURL, localFileName):
     response = requests.get(imageURL)
@@ -436,19 +449,13 @@ def downloadImage(imageURL, localFileName):
         for chunk in response.iter_content(4096):
             fo.write(chunk)
     return True
-
 print localTeamFile
-
-
     # Download Badge from Site
     homeBadgeURL = homeTeamBadge["src"]
     homeBadgeFile = homeBadgeURL[64:len(homeBadgeURL)]
     homeBadge = os.path.join(outputPath, homeBadgeFile)
     downloadImage(homeBadgeURL, homeBadge)
-
 # print matchSoup.prettify()
-
-
 # Comment out to work on Team Details Parsing
 with open(outputNext, "w") as f:
 	f.write(ds + ' :: ' + ts + ' :: Next Match File :: ' + parseVersion + '\n' + '\n')
@@ -456,7 +463,6 @@ with open(outputNext, "w") as f:
 with open(outputLast, "w") as f:
 	f.write(ds + ' :: ' + ts + ' :: Last Match File :: ' + parseVersion + '\n' + '\n')
 	f.close()
-
 for i in teamURLs:
 	with open(outputNext, "a") as f:
 		f.write(teamParse(i,'N') + '\n')

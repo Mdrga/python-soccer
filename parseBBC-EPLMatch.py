@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jun 16, 2014
-Modified on Sep 04, 2014
-Version 0.13.j
+Modified on Feb 15, 2014
+Version 0.13.k
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the BBC Sports website for content.
 '''
