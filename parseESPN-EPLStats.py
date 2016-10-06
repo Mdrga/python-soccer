@@ -29,7 +29,7 @@ def updateTS():
     return update
 
 # Establish MySQL Connection
-cnx = mysql.connector.connect(user='root', password='',
+cnx = mysql.connector.connect(user='root', password='password',
 								 host='127.0.0.1',
 								 database='fanfootball',
 								 use_pure=False)

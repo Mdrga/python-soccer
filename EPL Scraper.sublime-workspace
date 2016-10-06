@@ -4,12 +4,16 @@
 		"selected_items":
 		[
 			[
-				"s",
-				"squad"
+				"player",
+				"playerCnx"
 			],
 			[
-				"player",
-				"playerPOS"
+				"stat",
+				"statUpdate"
+			],
+			[
+				"s",
+				"squad"
 			],
 			[
 				"return",
@@ -510,10 +514,6 @@
 			[
 				"Ut",
 				"UtilityCo"
-			],
-			[
-				"U",
-				"UtilityCo"
 			]
 		]
 	},
@@ -545,18 +545,13 @@
 			}
 		},
 		{
+			"contents": "#!python3\n# -*- coding: utf-8 -*-\n'''\nCreated on Sep 22, 2016\nModified on Oct 04, 2016\nVersion 0.03.ga\n@author: rainier.madruga@gmail.com\nA simple Python Program to scrape the ESPN FC website for content.\n'''\n# Import Libraries needed for Scraping the various web pages\nimport bs4 \nimport re\nimport datetime\nimport time\nimport requests\nimport webbrowser\nimport os\nimport sys\nimport codecs\nimport mysql.connector\n\n'''\n### =========================================================================================== ###\n### Change & Revision Log                                                                       ###\n### Date             Dev        Change Description                                              ###\n### =========================================================================================== ###\n    2016-09Sep-22    RWM        Initial Draft to parse out stats from the staged stats line\n    2016-10Oct-04    RWM        Added queries to begin looking for the existence of the Stat Row\n                                for the player in the table Player_Statistics\n\n'''\n\n# Set Character Output\nprint ('System Encoding:', sys.stdout.encoding)\nsys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())\n\n# Establish MySQL Connection\ncnx = mysql.connector.connect(user='root', password='',\n\t\t\t\t\t\t\t\t host='127.0.0.1',\n\t\t\t\t\t\t\t\t database='fanfootball',\n\t\t\t\t\t\t\t\t use_pure=False)\n\nplayerCnx = mysql.connector.connect(user='root', password='',\n                                 host='127.0.0.1',\n                                 database='fanfootball',\n                                 use_pure=False)\n\n# Establish the process Date & Time Stamp\nts = datetime.datetime.now().strftime(\"%H:%M:%S\")\nds = datetime.datetime.now().strftime(\"%Y-%m-%d\")\ndate = datetime.datetime.now().strftime(\"%Y%m%d\")\n\n# Updates the Time Stamp\ndef updateTS():\n    update = datetime.datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n    return update\n\n# Download Image\ndef downloadImage(imageURL, localFileName):\n    response = requests.get(imageURL)\n    if response.status_code == 200:\n        print ('Downloading %s...' % (localFileName))\n    with open(localimgPath + localFileName, 'wb') as fo:\n        for chunk in response.iter_content(4096):\n            fo.write(chunk)\n    return True\n\nhr = \" >>> *** ======================================================================= *** <<<\"\nshr = \" >>> *** ==================== *** <<<\"\n\n# Program Version & System Variables\nparseVersion = 'Premier League Stats Parser v0.03.ga'\nprint (ds + ' :: ' + ts + ' :: ' + parseVersion)\nprint ('Python Version :: ' + sys.version)\nprint (hr)\n\nseasonID = 2\n\ncursor = cnx.cursor()\ncursor.execute(\"SELECT ps_seasonID, ps_team, ps_matchID, ps_playerID, ps_Shots, ps_ShotsOnGoal, ps_Goals, ps_Assists, ps_Offsides, ps_FoulsDrawn, ps_FoulsCommitted, ps_Saves, ps_YellowCards, ps_RedCards FROM fanfootball.stg_player_stats WHERE ps_seasonID = 2\")\n\n# Function to Update Player Yow\ndef statUpdate(row):\n    # print (row)\n    # Parse out the Stat Rows from the Staging Table\n    statSeasonID = row[0]\n    statTeamID = row[1]\n    statMatchID = row[2]\n    statPlayerID = row[3]\n    \n    # Stats Quantities\n    statShots = row[4]\n    statSOG = row[5]\n    statGoals = row[6]\n    statAssist = row[7]\n    statOffside = row[8]\n    statFoulDrawn = row[9]\n    statFoulCommit = row[10]\n    statSaves = row[11]\n    statYellowC = row[12]\n    statRedC = row[13]\n\n    chkStat = 1\n\n    # Create a counter per Row to help assign the Stat Category ID per Staging Row...\n    while chkStat <= 10:\n        sql = (\"SELECT seasonID, teamID, matchID, playerID, stat_category_ID FROM fanfootball.player_statistics WHERE seasonID = %s AND teamID = %s AND matchID = %s and playerID = %s and stat_category_ID = %s\" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat))\n        insert = (\"INSERT INTO fanfootball.player_statistics VALUES (%s, %s, %s, %s, %s, %s)\" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat, row[chkStat+3]))\n\n        statUpdate = playerCnx.cursor()\n        try:\n            statUpdate.execute(insert)\n            playerCnx.commit()\n            print ('Row written succesfully...')\n        except:\n            playerCnx.rollback()\n        \n        chkStat += 1\n    # print ('Done')\n\n# Begin Parsing out the Rows needed to be added to the Player Stats Table\nfor row in cursor:\n    statUpdate(row)\n    # print (hr)\n\ncnx.close()",
 			"file": "parseStats.py",
+			"file_size": 4528,
+			"file_write_time": 131200843082442235,
 			"settings":
 			{
-				"buffer_size": 3756,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "parseBarclays2015.py",
-			"settings":
-			{
-				"buffer_size": 17336,
+				"buffer_size": 4405,
 				"line_ending": "Windows"
 			}
 		}
@@ -617,6 +612,8 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseStats.py",
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseBarclays2015.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parse_SoccerStats.py",
 		"/D/Google/Work/AFAS/Enhancements/Automate Manual Processes/WorkOrderLineItemReport_Hourly.sql",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/sample.html",
@@ -633,7 +630,6 @@
 		"/D/ESPN-Parser/data/match/epl-playerstats-2015-12-29.txt",
 		"/D/Google/CollegeTextPriceFinder/index.html",
 		"/D/ESPN-Parser/data/match/epl-playerstats-2015-12-15.txt",
-		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseBarclays2015.py",
 		"/D/ESPN-Parser/data/match/epl-playerstats2015-12-15.txt",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseESPN-EPLStats.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/PL-Data/match/epl-playerstats-2015-12-14.txt",
@@ -743,8 +739,7 @@
 		"/C/02-Work/python/parseBBC.py",
 		"/C/02-Work/python/WorldCup-Update.txt",
 		"/C/02-Work/python/WorldCup_results.html",
-		"/C/02-Work/python/WorlCup-MatchResults.html",
-		"/C/02-Work/python/WorldCup-MatchDetails.html"
+		"/C/02-Work/python/WorlCup-MatchResults.html"
 	],
 	"find":
 	{
@@ -912,7 +907,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4888.0,
+						"translation.y": 5721.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -943,7 +938,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3168.0,
+						"translation.y": 2898.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -955,15 +950,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3756,
+						"buffer_size": 4405,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								4161,
+								4161
 							]
 						],
 						"settings":
@@ -973,40 +968,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2078.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "parseBarclays2015.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17336,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1048,
-								1048
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"translate_tabs_to_spaces": false,
-							"word_wrap": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 450.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1045,7 +1010,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 289.0
+		"height": 442.0
 	},
 	"output.find_results":
 	{

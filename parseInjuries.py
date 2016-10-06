@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
 Created on Jan 15, 2016
-Modified on Sep 22, 2016
+Modified on Oct 06, 2016
 Version 0.03.ga
 @author: rainier.madruga@gmail.com
 A simple Python Program to scrape the ESPN FC website for content.
@@ -32,6 +32,7 @@ import mysql.connector
     2016-01Jan-24    RWM        Working to add an Added TS to the table.
     2016-04Apr-19    RWM        Update the Table ID being used by the website for Injuries
     2016-09Sep-22    RWM        Deprecate the Excel usage in the module
+    2016-10Oct-06    RWM        Cleaned up the Dates for updateDate, and returnDate
 '''
 
 # Set Character Output
@@ -39,7 +40,7 @@ print ('System Encoding:', sys.stdout.encoding)
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
 
 # Establish MySQL Connection
-cnx = mysql.connector.connect(user='root', password='',
+cnx = mysql.connector.connect(user='root', password='password',
 								 host='127.0.0.1',
 								 database='fanfootball',
 								 use_pure=False)
@@ -206,8 +207,8 @@ for i in newsRows:
             returnDate = i.get_text()
             if len(returnDate) == 10:
                 returnDate = returnDate[6:] + '-'  + returnDate[3:5] + '-' + returnDate[0:2]
-                print (len(returnDate))
-                print (returnDate)
+                # print (len(returnDate))
+                # print (returnDate)
         if counter == 4:
             playerNews = i.get_text()
             playerNews = re.sub('   ', '', playerNews.lstrip())
@@ -219,6 +220,9 @@ for i in newsRows:
                 newsURL = ''
         if counter == 5:
             newsUpdated = i.get_text()
+            newsUpdated = newsUpdated[6:] + '-' + newsUpdated[3:5] + '-' + newsUpdated[0:2]
+            # print (newsUpdated)
+
         counter += 1
     print (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated)
 

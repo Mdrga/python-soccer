@@ -35,12 +35,12 @@ print ('System Encoding:', sys.stdout.encoding)
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())
 
 # Establish MySQL Connection
-cnx = mysql.connector.connect(user='root', password='',
+cnx = mysql.connector.connect(user='root', password='password',
 								 host='127.0.0.1',
 								 database='fanfootball',
 								 use_pure=False)
 
-playerCnx = mysql.connector.connect(user='root', password='',
+playerCnx = mysql.connector.connect(user='root', password='password',
                                  host='127.0.0.1',
                                  database='fanfootball',
                                  use_pure=False)
@@ -104,7 +104,7 @@ def statUpdate(row):
 
     # Create a counter per Row to help assign the Stat Category ID per Staging Row...
     while chkStat <= 10:
-        sql = ("SELECT seasonID, teamID, matchID, playerID, stat_category_ID FROM fanfootball.player_statistics WHERE seasonID = %s AND teamID = %s AND matchID = %s and playerID = %s and stat_category_ID = %s" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat))
+        sql = ("SELECT seasonID, teamID, matchID, playerID, statCategoryID FROM fanfootball.player_statistics WHERE seasonID = %s AND teamID = %s AND matchID = %s and playerID = %s and statCategoryID = %s" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat))
         insert = ("INSERT INTO fanfootball.player_statistics VALUES (%s, %s, %s, %s, %s, %s)" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat, row[chkStat+3]))
 
         statUpdate = playerCnx.cursor()
@@ -121,6 +121,6 @@ def statUpdate(row):
 # Begin Parsing out the Rows needed to be added to the Player Stats Table
 for row in cursor:
     statUpdate(row)
-    print (hr)
+    # print (hr)
 
 cnx.close()
