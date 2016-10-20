@@ -28,11 +28,17 @@ def updateTS():
     update = datetime.datetime.now().strftime("%H:%M:%S:%f")[:-3]
     return update
 
-# Establish MySQL Connection
+# Establish MySQL Connection for General Use
 cnx = mysql.connector.connect(user='root', password='password',
 								 host='127.0.0.1',
 								 database='fanfootball',
 								 use_pure=False)
+
+#Establish MySQL Connection for Fixture Use
+fixtureCnx = mysql.connector.connect(user='root', password='password',
+                                 host='127.0.0.1',
+                                 database='fanfootball',
+                                 use_pure=False)
 
 # Download Image
 def downloadImage(imageURL, localFileName):
@@ -484,6 +490,7 @@ def returnMonth(x):
 # http://www.espnfc.us/barclays-premier-league/23/scores?date=20141026
 
 print (hr)
+'''
 playerData = 'epl-playerstats-' + ds + '.txt'
 outputPlayerData = os.path.join(outputMatchPath, playerData)
 with open(outputPlayerData, "w") as f:
@@ -492,6 +499,7 @@ with open(outputPlayerData, "w") as f:
 			f.close()
 
 matchURLs = ['http://www.espnfc.us/gamecast/statistics/id/395758/statistics.html', 'http://www.espnfc.us/gamecast/statistics/id/395753/statistics.html']
+'''
 
 # URLs for Main Body of Script to work through
 fixturesURL = "http://www.bbc.com/sport/football/premier-league/fixtures"
@@ -528,6 +536,9 @@ fixturesTable = fixturesSoup.find("div", {"class":"stats-body"})
 matchesResults = resultsDiv.find_all("table")
 resultsDate = resultsDiv.find_all("h2", {"class":"table-header"})
 
+# Output Fixtures to the SQL Table HERE
+# print (fixturesTable)
+
 matchDates = []
 teamURLs = []
 counter = 0
@@ -539,9 +550,10 @@ while counter < len(resultsDate):
 	matchesDate = matchesDate.get_text(strip=True)
 	# print matchesDate
 	matchesDate = textDate(matchesDate)
-	# print matchesDate
 	matchDates.append(matchesDate)
 	counter += 1
+
+print (matchDates)
 
 '''
 while counter < len(matchDate):
@@ -555,12 +567,15 @@ eplMatchBaseURL = "http://www.espnfc.us/barclays-premier-league/23/scores?date="
 matchReportURL = []
 matchReportID = []
 
+# Creating a Function around the output of the Match Fixtures
+def matchOutput(matchRow, outputType):
+	# Define the input types. MatchRow = Incoming MatchDates. OutputType = (F)ixtures or (R)esults
+	inputMatchRow = matchRow
+	inputOutput = outputType
+	
 for i in matchDates:
     matchDate = i
-    print (matchDate)
-    print (shr)
     matchURL = eplMatchBaseURL + matchDate
-    print (matchURL)
     matchOpen = requests.get(matchURL)
     matchSoup = BeautifulSoup(matchOpen.text, "html.parser")
     # matchTXT = 'espn-scores-' + matchDate + '.txt'
@@ -575,6 +590,23 @@ for i in matchDates:
     counter = 0
     # print "Number of Matches is: " + str(len(scores))    
     boxScore = scores.find_all("div", {"class":"score-box"})
+    
+    # Print out the details for the SQL Insert and Update to the tables
+    # print (shr)
+    # print (matchURL, matchDate, len(boxScore))
+    sqlMatchDate = matchDate[0:4] + '-' + matchDate[4:6] + '-' + matchDate[6:]
+    numMatches = len(boxScore)
+    sql = ("SELECT seasonID, leagueID, fixtureDate FROM fanfootball.fixtures WHERE seasonID = %s AND leagueID = %s AND fixtureDate = %s" % (seasonID, leagueID, sqlMatchDate))
+    insert = ("INSERT INTO fanfootball.fixtures VALUES (%s, %s, '%s', %s, '%s')" % (seasonID, leagueID, sqlMatchDate, numMatches, matchURL))
+    # print (insert)
+
+    fixtureCursor = fixtureCnx.cursor()
+    try:
+    	fixtureCursor.execute(insert)
+    	fixtureCnx.commit()
+    except:
+    	fixtureCnx.rollback()
+    
     for i in boxScore:
         # print shr
         # print i
@@ -681,7 +713,7 @@ for i in matchReportURL:
 	# print (len(gameStatus))
 
 	if (gameStatus == 'Abandoned'):
-		print ('Game was ABANDNONED!!')
+		print ('Game was ABANDONED!!')
 	elif (gameStatus != 'Postponed'):
 		# Finds Match Info from Results Page
 		# ESPN Changed their Match Stat Page Format 
@@ -791,6 +823,7 @@ def teamNews(x):
 	print (hr )
 	return recapOutput
 
+'''
 teamURLs = sorted(set(teamURLs))
 teamURLtxt = 'teamURLs.txt'
 with open(teamURLtxt, "w") as f:
@@ -807,8 +840,12 @@ teamNewstxt = 'teamNews.txt'
 with open(teamNewstxt, "w") as f:
    	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
    	f.close()
+'''
 
 # Commit and Close the Database Connection.
+fixtureCnx.commit()
+fixtureCnx.close()
+
 cnx.commit()
 cnx.close()
 print ('MySQL Connection Closed')

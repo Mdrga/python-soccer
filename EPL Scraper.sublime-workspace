@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"outp",
+				"outputType"
+			],
+			[
+				"sql",
+				"sqlMatchDate"
+			],
+			[
+				"mat",
+				"matchDate"
+			],
+			[
+				"fi",
+				"fixtureCnx"
+			],
+			[
+				"news",
+				"newsUpdated"
+			],
+			[
 				"player",
 				"playerCnx"
 			],
@@ -152,10 +172,6 @@
 				"baseURL"
 			],
 			[
-				"news",
-				"newsBody"
-			],
-			[
 				"Mat",
 				"matchTimestamp"
 			],
@@ -212,10 +228,6 @@
 				"returnTeam"
 			],
 			[
-				"fi",
-				"fixtureSheet"
-			],
-			[
 				"in",
 				"inputTeam"
 			],
@@ -238,10 +250,6 @@
 			[
 				"matchH",
 				"matchHomeStartingLineup"
-			],
-			[
-				"mat",
-				"matchAttendance"
 			],
 			[
 				"m",
@@ -506,14 +514,6 @@
 			[
 				"Utilit",
 				"UtilityCo"
-			],
-			[
-				"Util",
-				"UtilityCo"
-			],
-			[
-				"Ut",
-				"UtilityCo"
 			]
 		]
 	},
@@ -523,7 +523,8 @@
 			"file": "parseBBC-Leagues.py",
 			"settings":
 			{
-				"buffer_size": 6091,
+				"buffer_size": 6099,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -531,7 +532,7 @@
 			"file": "parseESPN-EPLStats.py",
 			"settings":
 			{
-				"buffer_size": 30979,
+				"buffer_size": 32332,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -540,18 +541,35 @@
 			"file": "parseInjuries.py",
 			"settings":
 			{
-				"buffer_size": 9663,
+				"buffer_size": 9886,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "#!python3\n# -*- coding: utf-8 -*-\n'''\nCreated on Sep 22, 2016\nModified on Oct 04, 2016\nVersion 0.03.ga\n@author: rainier.madruga@gmail.com\nA simple Python Program to scrape the ESPN FC website for content.\n'''\n# Import Libraries needed for Scraping the various web pages\nimport bs4 \nimport re\nimport datetime\nimport time\nimport requests\nimport webbrowser\nimport os\nimport sys\nimport codecs\nimport mysql.connector\n\n'''\n### =========================================================================================== ###\n### Change & Revision Log                                                                       ###\n### Date             Dev        Change Description                                              ###\n### =========================================================================================== ###\n    2016-09Sep-22    RWM        Initial Draft to parse out stats from the staged stats line\n    2016-10Oct-04    RWM        Added queries to begin looking for the existence of the Stat Row\n                                for the player in the table Player_Statistics\n\n'''\n\n# Set Character Output\nprint ('System Encoding:', sys.stdout.encoding)\nsys.stdout = codecs.getwriter('utf-8')(sys.stdout.detach())\n\n# Establish MySQL Connection\ncnx = mysql.connector.connect(user='root', password='',\n\t\t\t\t\t\t\t\t host='127.0.0.1',\n\t\t\t\t\t\t\t\t database='fanfootball',\n\t\t\t\t\t\t\t\t use_pure=False)\n\nplayerCnx = mysql.connector.connect(user='root', password='',\n                                 host='127.0.0.1',\n                                 database='fanfootball',\n                                 use_pure=False)\n\n# Establish the process Date & Time Stamp\nts = datetime.datetime.now().strftime(\"%H:%M:%S\")\nds = datetime.datetime.now().strftime(\"%Y-%m-%d\")\ndate = datetime.datetime.now().strftime(\"%Y%m%d\")\n\n# Updates the Time Stamp\ndef updateTS():\n    update = datetime.datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n    return update\n\n# Download Image\ndef downloadImage(imageURL, localFileName):\n    response = requests.get(imageURL)\n    if response.status_code == 200:\n        print ('Downloading %s...' % (localFileName))\n    with open(localimgPath + localFileName, 'wb') as fo:\n        for chunk in response.iter_content(4096):\n            fo.write(chunk)\n    return True\n\nhr = \" >>> *** ======================================================================= *** <<<\"\nshr = \" >>> *** ==================== *** <<<\"\n\n# Program Version & System Variables\nparseVersion = 'Premier League Stats Parser v0.03.ga'\nprint (ds + ' :: ' + ts + ' :: ' + parseVersion)\nprint ('Python Version :: ' + sys.version)\nprint (hr)\n\nseasonID = 2\n\ncursor = cnx.cursor()\ncursor.execute(\"SELECT ps_seasonID, ps_team, ps_matchID, ps_playerID, ps_Shots, ps_ShotsOnGoal, ps_Goals, ps_Assists, ps_Offsides, ps_FoulsDrawn, ps_FoulsCommitted, ps_Saves, ps_YellowCards, ps_RedCards FROM fanfootball.stg_player_stats WHERE ps_seasonID = 2\")\n\n# Function to Update Player Yow\ndef statUpdate(row):\n    # print (row)\n    # Parse out the Stat Rows from the Staging Table\n    statSeasonID = row[0]\n    statTeamID = row[1]\n    statMatchID = row[2]\n    statPlayerID = row[3]\n    \n    # Stats Quantities\n    statShots = row[4]\n    statSOG = row[5]\n    statGoals = row[6]\n    statAssist = row[7]\n    statOffside = row[8]\n    statFoulDrawn = row[9]\n    statFoulCommit = row[10]\n    statSaves = row[11]\n    statYellowC = row[12]\n    statRedC = row[13]\n\n    chkStat = 1\n\n    # Create a counter per Row to help assign the Stat Category ID per Staging Row...\n    while chkStat <= 10:\n        sql = (\"SELECT seasonID, teamID, matchID, playerID, stat_category_ID FROM fanfootball.player_statistics WHERE seasonID = %s AND teamID = %s AND matchID = %s and playerID = %s and stat_category_ID = %s\" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat))\n        insert = (\"INSERT INTO fanfootball.player_statistics VALUES (%s, %s, %s, %s, %s, %s)\" % (statSeasonID, statTeamID, statMatchID, statPlayerID, chkStat, row[chkStat+3]))\n\n        statUpdate = playerCnx.cursor()\n        try:\n            statUpdate.execute(insert)\n            playerCnx.commit()\n            print ('Row written succesfully...')\n        except:\n            playerCnx.rollback()\n        \n        chkStat += 1\n    # print ('Done')\n\n# Begin Parsing out the Rows needed to be added to the Player Stats Table\nfor row in cursor:\n    statUpdate(row)\n    # print (hr)\n\ncnx.close()",
-			"file": "parseStats.py",
-			"file_size": 4528,
-			"file_write_time": 131200843082442235,
+			"file": "commonly-used.sql",
 			"settings":
 			{
-				"buffer_size": 4405,
+				"buffer_size": 1008,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "SELECT distinct md.seasonID, md.homeSide, md.stadi"
+			}
+		},
+		{
+			"file": "parseStats.py",
+			"settings":
+			{
+				"buffer_size": 4417,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/Dropbox/Shadow Warriors/index.html",
+			"settings":
+			{
+				"buffer_size": 2383,
 				"line_ending": "Windows"
 			}
 		}
@@ -612,6 +630,8 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/Dump20161006-2.sql",
+		"/C/Users/Rainier/Documents/dumps/Dump20161006-2.sql",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseStats.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseBarclays2015.py",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parse_SoccerStats.py",
@@ -737,9 +757,7 @@
 		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Update.txt",
 		"/C/02-Work/python/parsingLessons.py",
 		"/C/02-Work/python/parseBBC.py",
-		"/C/02-Work/python/WorldCup-Update.txt",
-		"/C/02-Work/python/WorldCup_results.html",
-		"/C/02-Work/python/WorlCup-MatchResults.html"
+		"/C/02-Work/python/WorldCup-Update.txt"
 	],
 	"find":
 	{
@@ -848,7 +866,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -857,15 +875,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6091,
+						"buffer_size": 6099,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5884,
-								5884
+								1630,
+								1630
 							]
 						],
 						"settings":
@@ -877,10 +895,10 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 91.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -889,15 +907,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 30979,
+						"buffer_size": 32332,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8958,
-								8958
+								22895,
+								22895
 							]
 						],
 						"settings":
@@ -907,7 +925,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5721.0,
+						"translation.y": 10768.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -919,15 +937,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9663,
+						"buffer_size": 9886,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6761,
-								6761
+								1496,
+								1496
 							]
 						],
 						"settings":
@@ -938,7 +956,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2898.0,
+						"translation.y": 47.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -946,32 +964,90 @@
 				},
 				{
 					"buffer": 3,
-					"file": "parseStats.py",
+					"file": "commonly-used.sql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4405,
+						"buffer_size": 1008,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4161,
-								4161
+								1008,
+								1008
+							]
+						],
+						"settings":
+						{
+							"auto_name": "SELECT distinct md.seasonID, md.homeSide, md.stadi",
+							"syntax": "Packages/SQL/SQL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 143.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "parseStats.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1521,
+								1521
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2078.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/Dropbox/Shadow Warriors/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2383,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1010,7 +1086,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 442.0
+		"height": 409.0
 	},
 	"output.find_results":
 	{
