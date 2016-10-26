@@ -630,6 +630,7 @@
 	},
 	"file_history":
 	[
+		"/D/Web Design/FanFootballOrg/FanFootballOrg/.gitignore",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/Dump20161006-2.sql",
 		"/C/Users/Rainier/Documents/dumps/Dump20161006-2.sql",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/parseStats.py",
@@ -756,8 +757,7 @@
 		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Base.html",
 		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Update.txt",
 		"/C/02-Work/python/parsingLessons.py",
-		"/C/02-Work/python/parseBBC.py",
-		"/C/02-Work/python/WorldCup-Update.txt"
+		"/C/02-Work/python/parseBBC.py"
 	],
 	"find":
 	{
@@ -866,7 +866,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -925,10 +925,10 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 10768.0,
+						"translation.y": 526.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -959,7 +959,7 @@
 						"translation.y": 47.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1019,7 +1019,7 @@
 						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{

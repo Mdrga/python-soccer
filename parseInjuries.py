@@ -172,6 +172,7 @@ newsRows = newsUpdate.find_all("tr")
 for i in newsRows:
     newsDetail = i.find_all("td")
     playerImage = i.find("img")
+    playerImageID = ''
     counter = 0
     playerFirstName = ''
     playerName = ''
@@ -224,21 +225,6 @@ for i in newsRows:
             # print (newsUpdated)
 
         counter += 1
-    print (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated)
-
-    # Determine if record exists. If it does insert into Table
-    cursor = cnx.cursor()
-    cursor.execute("SELECT player_firstname, player_name, player_team, player_news_status FROM stg_player_news WHERE player_firstname = %s AND player_name = %s AND player_team = %s ", (playerFirstName, playerName, playerTeam))
-    results = cursor.fetchone()
-
-    if results == None:
-        cursor.execute("INSERT INTO stg_player_news (player_firstname, player_name, player_team, player_status, player_returndate, player_news, player_newsURL, player_updatedate, player_rowadded, player_news_status, seasonID) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated, updateTS(), '1', seasonID))
-        cnx.commit()
-        print ('Row added for %s and he is %s .' % (playerName, playerStatus))
-    else:
-        print ('Row exists for %s and he is %s.' % (playerName, playerStatus))
-            
-        # print (counter)
     if playerImage is not None:
         playerImage = playerImage["src"]
         imgFileName = playerImage[playerImage.rfind('/') + 1:]
@@ -246,8 +232,26 @@ for i in newsRows:
         # print (imgFileName)
         fileCheck = os.path.join(localimgPath, imgFileName)
         # print (fileCheck)
+        playerImageID = imgFileName
         if os.path.isfile(fileCheck) == False:
             downloadImage(playerImage, imgFileName)
+    else:
+        playerImageID = "blank.jpg"
+    print (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated, updateTS(), '1', seasonID, playerImageID)
+
+    # Determine if record exists. If it does insert into Table
+    cursor = cnx.cursor()
+    cursor.execute("SELECT player_firstname, player_name, player_team, player_news_status FROM stg_player_news WHERE player_firstname = %s AND player_name = %s AND player_team = %s ", (playerFirstName, playerName, playerTeam))
+    results = cursor.fetchone()
+
+    if results == None:
+        cursor.execute("INSERT INTO stg_player_news (player_firstname, player_name, player_team, player_status, player_returndate, player_news, player_newsURL, player_updatedate, player_rowadded, player_news_status, seasonID, player_imgID) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (playerFirstName, playerName, playerTeam, playerStatus, returnDate, playerNews, newsURL, newsUpdated, updateTS(), '1', seasonID, playerImageID))
+        cnx.commit()
+        print ('Row added for %s and he is %s .' % (playerName, playerStatus))
+    else:
+        print ('Row exists for %s and he is %s.' % (playerName, playerStatus))
+            
+        # print (counter)
     print (hr)
     # for i in newsDetail:
         # print (i)

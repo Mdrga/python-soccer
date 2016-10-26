@@ -34,3 +34,7 @@ info.py
 *.png
 >>>>>>> FETCH_HEAD
 filescan.py
+
+# Project Specific Directories & Files to Ignore
+.sublime-project
+.sublime-workspace
