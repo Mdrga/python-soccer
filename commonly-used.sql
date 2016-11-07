@@ -35,3 +35,12 @@ SELECT DISTINCT
     ps.ps_seasonID
 FROM fanfootball.stg_player_stats as ps
 WHERE ps.ps_seasonID = 2
+
+DELETE from fanfootball.stg_player_news
+WHERE 
+	player_returndate >= '2016-10-27';
+    
+select seasonID, player_firstName, player_name, count(*)
+from fanfootball.stg_player_news
+group by seasonID, player_firstName, player_name
+having count(*) > 1;

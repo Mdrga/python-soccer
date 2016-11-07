@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"playerI",
+				"playerImageID"
+			],
+			[
+				"player",
+				"playerImage"
+			],
+			[
+				"pla",
+				"playerImage"
+			],
+			[
 				"outp",
 				"outputType"
 			],
@@ -22,10 +34,6 @@
 			[
 				"news",
 				"newsUpdated"
-			],
-			[
-				"player",
-				"playerCnx"
 			],
 			[
 				"stat",
@@ -174,10 +182,6 @@
 			[
 				"Mat",
 				"matchTimestamp"
-			],
-			[
-				"pla",
-				"playerJersey"
 			],
 			[
 				"play",
@@ -510,10 +514,6 @@
 			[
 				"c",
 				"coType"
-			],
-			[
-				"Utilit",
-				"UtilityCo"
 			]
 		]
 	},
@@ -532,7 +532,7 @@
 			"file": "parseESPN-EPLStats.py",
 			"settings":
 			{
-				"buffer_size": 32332,
+				"buffer_size": 32338,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -541,7 +541,7 @@
 			"file": "parseInjuries.py",
 			"settings":
 			{
-				"buffer_size": 9886,
+				"buffer_size": 10066,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -550,7 +550,7 @@
 			"file": "commonly-used.sql",
 			"settings":
 			{
-				"buffer_size": 1008,
+				"buffer_size": 1257,
 				"encoding": "UTF-8",
 				"line_ending": "Windows",
 				"name": "SELECT distinct md.seasonID, md.homeSide, md.stadi"
@@ -569,7 +569,7 @@
 			"file": "/D/Dropbox/Shadow Warriors/index.html",
 			"settings":
 			{
-				"buffer_size": 2383,
+				"buffer_size": 2443,
 				"line_ending": "Windows"
 			}
 		}
@@ -630,6 +630,7 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Rainier/Documents/GitHub/python-soccer/.gitignore",
 		"/D/Web Design/FanFootballOrg/FanFootballOrg/.gitignore",
 		"/C/Users/Rainier/Documents/GitHub/python-soccer/Dump20161006-2.sql",
 		"/C/Users/Rainier/Documents/dumps/Dump20161006-2.sql",
@@ -756,8 +757,7 @@
 		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Results.html",
 		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Base.html",
 		"//cead.prd/data/USERS/MIA0/CA08DA/USRDATA/Documents/GitHub/python-learning/WorldCup-Update.txt",
-		"/C/02-Work/python/parsingLessons.py",
-		"/C/02-Work/python/parseBBC.py"
+		"/C/02-Work/python/parsingLessons.py"
 	],
 	"find":
 	{
@@ -895,10 +895,10 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 91.0,
+						"translation.y": 901.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -907,15 +907,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 32332,
+						"buffer_size": 32338,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								22895,
-								22895
+								24894,
+								24894
 							]
 						],
 						"settings":
@@ -925,7 +925,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 526.0,
+						"translation.y": 12078.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -937,15 +937,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9886,
+						"buffer_size": 10066,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1496,
-								1496
+								2005,
+								2005
 							]
 						],
 						"settings":
@@ -956,7 +956,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 47.0,
+						"translation.y": 29.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -968,15 +968,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1008,
+						"buffer_size": 1257,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1008,
-								1008
+								1257,
+								1257
 							]
 						],
 						"settings":
@@ -985,10 +985,10 @@
 							"syntax": "Packages/SQL/SQL.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 143.0,
+						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1016,7 +1016,7 @@
 							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 270.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1028,7 +1028,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2383,
+						"buffer_size": 2443,
 						"regions":
 						{
 						},

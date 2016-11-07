@@ -636,10 +636,10 @@ for i in matchReportID:
 countArray = len(matchReportURL)
 countDown = 0
 
-outputTxt = 'teamNews.txt'
-with open(outputTxt, "w") as f:
-   	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
-   	f.close()
+# outputTxt = 'teamNews.txt'
+# with open(outputTxt, "w") as f:
+#   	f.write(ds + " :: " + updateTS() + " :: " + parseVersion + '\n' )
+#   	f.close()
 
 for i in matchReportURL:
 	print (shr)
@@ -652,13 +652,13 @@ for i in matchReportURL:
 	gameDay = gameDate[6:8]
 	print (gameYear + '-' + gameMonth + '-' + gameDay)
 	print (gameURL)
+	print ("The Game URL is: " +  gameURL)
+	print ("The Match ID is:", matchID, type(matchID))
+	print (">>> =================== <<<")
 	gameHTML = requests.get(gameURL)
 	gameHTML.raise_for_status()
 	gameSoup = BeautifulSoup(gameHTML.text, "html.parser")	
 	matchID = gameURL[44:len(gameURL)-16]
-	print ("The Game URL is: " +  gameURL)
-	print ("The Match ID is:", matchID, type(matchID))
-	print (">>> =================== <<<")
 
     # Main Container for Game Stats
 	gameHeader = gameSoup.find("div", {"class":"container clearfix"})
